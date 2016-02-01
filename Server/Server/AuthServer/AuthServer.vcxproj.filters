@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ServerFile">
+      <UniqueIdentifier>{fb5d334d-29e3-4616-881b-37073c7eb557}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header">
+      <UniqueIdentifier>{defc29f0-9696-42c2-a673-ad7d60b58996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source">
+      <UniqueIdentifier>{2334729e-0c6c-4b90-a8e3-2a1660f75cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Server">
+      <UniqueIdentifier>{bc4e51d5-8580-4053-9921-7b86013a9f8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Client">
+      <UniqueIdentifier>{107e3e42-94d6-4a57-99cd-4e7e04cc5882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Packets">
+      <UniqueIdentifier>{d7611cf9-924a-4613-ac5a-0211be2bd51f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Server">
+      <UniqueIdentifier>{a780af8c-9569-47e7-af18-b30d469fbdea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Client">
+      <UniqueIdentifier>{9833ccef-f87a-4a7a-a8ad-3ba105d454e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Packets">
+      <UniqueIdentifier>{758ce923-d888-4232-9203-32762b8e10d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Packets\Login">
+      <UniqueIdentifier>{23b77e1f-c5d0-475f-ab92-f15b0ab5151d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Packets\Login">
+      <UniqueIdentifier>{22c77817-f499-4aaf-ab36-4659a753a1c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Packets\Friend">
+      <UniqueIdentifier>{1f36f8eb-2798-4755-ae6d-6e154e8d8954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Packets\Character">
+      <UniqueIdentifier>{95507c59-a793-4834-8c79-5d738b868a70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Packets\Game">
+      <UniqueIdentifier>{22f29caa-4de2-42c5-9f8b-f26d4f409455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Packets\Friend">
+      <UniqueIdentifier>{431e40f2-943d-46f6-b457-5f165848d5fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Packets\Game">
+      <UniqueIdentifier>{f5f490bb-389b-4f55-965f-04267515624d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Packets\Character">
+      <UniqueIdentifier>{f813ed09-01d3-49d7-a732-d14a46f8ad3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Game">
+      <UniqueIdentifier>{b88c1e83-2a84-4deb-82df-57d4dc5c635a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Game">
+      <UniqueIdentifier>{fbd9331d-aaba-4169-979a-8336dd8a6264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Game\Groupe">
+      <UniqueIdentifier>{76da5816-04f2-4a6b-858f-81f54e147c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Game\Groupe">
+      <UniqueIdentifier>{0be4058e-0f17-4a43-9096-908d73b86262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Packets\Game\Groupe">
+      <UniqueIdentifier>{e29567f3-f603-4592-b895-3123fa8483a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Packets\Game\Groupe">
+      <UniqueIdentifier>{99ff067d-24c8-4e13-bd6c-7a2c2f580727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Game\Session">
+      <UniqueIdentifier>{c5a17ee7-c545-48d4-ab14-af315657834a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Game\Session">
+      <UniqueIdentifier>{9cc2af74-b24a-4314-9026-2d7db3903aa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Game\Map">
+      <UniqueIdentifier>{5b1bf20d-6a43-40a0-95df-dc7981b5d2e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Game\Map">
+      <UniqueIdentifier>{c3f42cc6-ecae-424f-8ff5-953e8664bf30}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Server\AuthServer.h">
+      <Filter>ServerFile\Header\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Server\main.h">
+      <Filter>ServerFile\Header\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Login\NtlPacketAU.h">
+      <Filter>ServerFile\Header\Packets\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Login\NtlPacketUA.h">
+      <Filter>ServerFile\Header\Packets\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>ServerFile\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Client\Client.h">
+      <Filter>ServerFile\Header\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Friend\NtlPacketUF.h">
+      <Filter>ServerFile\Header\Packets\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Friend\NtlPacketFU.h">
+      <Filter>ServerFile\Header\Packets\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\AllPackets.h">
+      <Filter>ServerFile\Header\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Groupe\Groupe.h">
+      <Filter>ServerFile\Header\Game\Groupe</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Game\Groupe\PacketUGR.h">
+      <Filter>ServerFile\Header\Packets\Game\Groupe</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Game\Groupe\PacketGRU.h">
+      <Filter>ServerFile\Header\Packets\Game\Groupe</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Session\Session.h">
+      <Filter>ServerFile\Header\Game\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Map\Map.h">
+      <Filter>ServerFile\Header\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Game\PacketUG.h">
+      <Filter>ServerFile\Header\Packets\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Game\PacketGU.h">
+      <Filter>ServerFile\Header\Packets\Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Server\AuthServer.cpp">
+      <Filter>ServerFile\Source\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Server\main.cpp">
+      <Filter>ServerFile\Source\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Login\NtlPacketAU.cpp">
+      <Filter>ServerFile\Source\Packets\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Login\NtlPacketUA.cpp">
+      <Filter>ServerFile\Source\Packets\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Login\PacketAuthServer.cpp">
+      <Filter>ServerFile\Source\Packets\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ServerFile\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Client\Client.cpp">
+      <Filter>ServerFile\Source\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Login\ParseLoginPacket.cpp">
+      <Filter>ServerFile\Source\Packets\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Friend\NtlPacketUF.cpp">
+      <Filter>ServerFile\Source\Packets\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Friend\NtlPacketFU.cpp">
+      <Filter>ServerFile\Source\Packets\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Friend\PacketFriendServer.cpp">
+      <Filter>ServerFile\Source\Packets\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Friend\ParseFriendPacket.cpp">
+      <Filter>ServerFile\Source\Packets\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Groupe\Groupe.cpp">
+      <Filter>ServerFile\Source\Game\Groupe</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\Groupe\NtlPacketGRU.cpp">
+      <Filter>ServerFile\Source\Packets\Game\Groupe</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\Groupe\NtlPacketUGR.cpp">
+      <Filter>ServerFile\Source\Packets\Game\Groupe</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\Groupe\PacketGroupeServer.cpp">
+      <Filter>ServerFile\Source\Packets\Game\Groupe</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\Groupe\ParseGroupePacket.cpp">
+      <Filter>ServerFile\Source\Packets\Game\Groupe</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Session\Session.cpp">
+      <Filter>ServerFile\Source\Game\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Map\Map.cpp">
+      <Filter>ServerFile\Source\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\NtlPacketGU.cpp">
+      <Filter>ServerFile\Source\Packets\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\NtlPacketUG.cpp">
+      <Filter>ServerFile\Source\Packets\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\PacketGameServer.cpp">
+      <Filter>ServerFile\Source\Packets\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\ParseGamePacket.cpp">
+      <Filter>ServerFile\Source\Packets\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

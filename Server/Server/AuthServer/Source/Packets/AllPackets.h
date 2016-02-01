@@ -1,0 +1,8 @@
+#include "Login\NtlPacketAU.h"
+#include "Login\NtlPacketUA.h"
+#include "Friend\NtlPacketFU.h"
+#include "Friend\NtlPacketUF.h"
+#include "Game\Groupe\PacketGRU.h"
+#include "Game\Groupe\PacketUGR.h"
+#include "Game\PacketUG.h"
+#include "Game\PacketGU.h"

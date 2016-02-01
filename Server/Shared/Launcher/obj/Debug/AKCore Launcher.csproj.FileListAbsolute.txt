@@ -1,0 +1,9 @@
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\bin\Debug\AKCore Launcher.exe.config
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\bin\Debug\AKCore Launcher.exe
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\bin\Debug\AKCore Launcher.pdb
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\obj\Debug\AKCore Launcher.csprojResolveAssemblyReference.cache
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\obj\Debug\AKCore_Launcher.Form1.resources
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\obj\Debug\AKCore_Launcher.Properties.Resources.resources
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\obj\Debug\AKCore Launcher.csproj.GenerateResource.Cache
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\obj\Debug\AKCore Launcher.exe
+D:\Unreal Projects\HackSlash\ServerSource\akcore\Shared\Launcher\obj\Debug\AKCore Launcher.pdb
