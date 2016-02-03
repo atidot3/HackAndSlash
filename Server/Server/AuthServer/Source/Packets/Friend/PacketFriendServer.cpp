@@ -33,10 +33,10 @@ void	CClientSession::SendFriendList()
 			strcpy(res->friends[i].name, name.c_str());
 			res->totalFriend++;
 			res->friends[i].online = false;
-			if (app->FindUser(name.c_str()) == true)
+			if (app->GetCharacterManager()->FindUser(name.c_str()) == true)
 			{
 				res->friends[i].online = true;
-				CClientSession *other = app->GetPlayerByName(name.c_str());
+				CClientSession *other = app->GetCharacterManager()->GetPlayerByName(name.c_str());
 				if (other != NULL)
 				{
 					if (other->me != NULL)
@@ -49,11 +49,13 @@ void	CClientSession::SendFriendList()
 		}
 	}
 	packet.SetPacketLen(sizeof(sFU_FRIENDLIST_RES));
-	SendPacket(&packet, 500);
+	SendPacket(&packet);
 	app->db->closeStatm();
 }
 void	CClientSession::SendFriendLogin(CAuthServer * app, bool online)
 {
+	if (me == NULL)
+		return;
 	CNtlPacket packet(sizeof(sFU_FRIEND_NOTIFICATION_RES));
 	sFU_FRIEND_NOTIFICATION_RES * res = (sFU_FRIEND_NOTIFICATION_RES *)packet.GetPacketData();
 
@@ -77,10 +79,10 @@ void	CClientSession::SendFriendLogin(CAuthServer * app, bool online)
 			if (app->db->fetch() == true)
 			{
 				std::string name = app->db->getString("friend");
-				CClientSession * plr = app->GetPlayerByName(name.c_str());
+				CClientSession * plr = app->GetCharacterManager()->GetPlayerByName(name.c_str());
 				if (plr != NULL)
 				{
-					app->SendToPlayerIfExist(name.c_str(), &packet);
+					app->GetCharacterManager()->SendToPlayerIfExist(name.c_str(), &packet);
 					if (online == true)
 						plr->SendFriendList();
 				}
@@ -92,7 +94,7 @@ void	CClientSession::SendFriendLogin(CAuthServer * app, bool online)
 void	CClientSession::SendFriendToAddToGroupeRequest(CNtlPacket *pPacket, CAuthServer * app)
 {
 	sUF_GROUP_FRIEND_REQ * req = (sUF_GROUP_FRIEND_REQ *)pPacket->GetPacketData();
-	CClientSession *other = app->GetPlayerByAccount(req->friendAccountID);
+	CClientSession *other = app->GetCharacterManager()->GetPlayerByAccount(req->friendAccountID);
 	if (other != NULL)
 	{
 		bool caninvite = false;
@@ -124,7 +126,7 @@ void	CClientSession::SendFriendToAddToGroupeRequest(CNtlPacket *pPacket, CAuthSe
 void	CClientSession::SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app)//SOMEONE RESPONCE FOR THE GROUPE REQUEST
 {
 	sUF_GROUP_FRIEND_AWSER_REQ * req = (sUF_GROUP_FRIEND_AWSER_REQ *)pPacket->GetPacketData();
-	CClientSession *other = app->GetPlayerByAccount(req->friendAccountID);
+	CClientSession *other = app->GetCharacterManager()->GetPlayerByAccount(req->friendAccountID);
 
 	if (other == NULL)
 	{
@@ -138,7 +140,7 @@ void	CClientSession::SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app)//S
 			other->me->setIPendingInvitation(false);
 			me->setIPendingInvitation(false);
 			me->setIsGrouped(true);
-			other->me->getPlayer()->getGroup()->AddMember(me->getPlayer());
+			other->me->getGroup()->AddMember(me);
 		}
 		else if (other->me->getIsGrouped() == false) // not grouped at all create new party
 		{
@@ -147,10 +149,10 @@ void	CClientSession::SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app)//S
 			other->me->setIPendingInvitation(false);
 			me->setIPendingInvitation(false);
 			me->setIsGrouped(true);
-			other->me->getPlayer()->setGroup(new Group());
-			other->me->getPlayer()->getGroup()->Create(other->me->getPlayer());
-			other->me->getPlayer()->getGroup()->AddMember(me->getPlayer());
-			me->getPlayer()->getGroup()->setSession(NULL);
+			other->me->setGroup(new Group());
+			other->me->getGroup()->Create(other->me);
+			other->me->getGroup()->AddMember(me);
+			me->getGroup()->setSession(NULL);
 		}
 	}
 	else

@@ -19,7 +19,7 @@ public:
 	~Map();
 	bool			AddPlayerToMap(Player* player, bool initPlayer = true);
 	void			RemovePlayerFromMap(Player*, bool);
-	void			Update(int);
+	void			Update(DWORD);
 	bool			HavePlayers();
 	void			SendToPlayers(CNtlPacket *pPacket);
 	void			UpdateDifficulty(Difficulty dif);

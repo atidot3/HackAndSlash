@@ -80,3 +80,176 @@
 [2016-01-31 20:2:55:861] Connected to database server.
 [2016-01-31 21:11:55:445] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
 [2016-01-31 21:11:55:548] Connected to database server.
+[2016-02-02 10:14:36:375] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 10:14:36:528] Connected to database server.
+[2016-02-02 10:19:52:367] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 10:19:52:484] Connected to database server.
+[2016-02-02 10:26:6:769] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 10:26:6:864] Connected to database server.
+[2016-02-02 10:27:55:761] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 10:27:55:868] Connected to database server.
+[2016-02-02 10:38:42:521] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 10:38:42:633] Connected to database server.
+[2016-02-02 10:58:12:554] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 10:58:12:654] Connected to database server.
+[2016-02-02 11:4:16:103] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 11:4:16:226] Connected to database server.
+[2016-02-02 11:5:15:598] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 11:5:15:699] Connected to database server.
+[2016-02-02 11:6:16:146] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 11:6:16:269] Connected to database server.
+[2016-02-02 16:7:26:871] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 16:7:26:992] Connected to database server.
+[2016-02-02 16:20:55:281] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 16:20:55:373] Connected to database server.
+[2016-02-02 16:24:19:159] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 16:24:19:274] Connected to database server.
+[2016-02-02 16:57:41:402] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 16:57:41:542] Connected to database server.
+[2016-02-02 17:1:27:832] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:1:27:934] Connected to database server.
+[2016-02-02 17:22:50:106] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:22:50:229] Connected to database server.
+[2016-02-02 17:28:44:579] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:28:44:711] Connected to database server.
+[2016-02-02 17:33:57:589] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:33:57:683] Connected to database server.
+[2016-02-02 17:35:54:553] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:35:54:670] Connected to database server.
+[2016-02-02 17:38:42:488] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:38:42:606] Connected to database server.
+[2016-02-02 17:54:5:243] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:54:5:358] Connected to database server.
+[2016-02-02 17:55:59:635] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:55:59:753] Connected to database server.
+[2016-02-02 17:58:37:112] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 17:58:37:204] Connected to database server.
+[2016-02-02 18:0:32:722] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:0:32:840] Connected to database server.
+[2016-02-02 18:2:24:45] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:2:24:163] Connected to database server.
+[2016-02-02 18:6:5:484] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:6:5:589] Connected to database server.
+[2016-02-02 18:16:40:335] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:16:40:428] Connected to database server.
+[2016-02-02 18:19:42:353] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:19:42:475] Connected to database server.
+[2016-02-02 18:23:12:914] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:23:13:34] Connected to database server.
+[2016-02-02 18:36:27:319] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:36:27:434] Connected to database server.
+[2016-02-02 18:44:17:280] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:44:17:398] Connected to database server.
+[2016-02-02 18:52:42:203] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:52:42:325] Connected to database server.
+[2016-02-02 18:58:57:423] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 18:58:57:548] Connected to database server.
+[2016-02-02 19:4:38:83] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 19:4:38:204] Connected to database server.
+[2016-02-02 19:29:10:966] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 19:29:11:81] Connected to database server.
+[2016-02-02 19:53:46:657] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 19:53:46:773] Connected to database server.
+[2016-02-02 19:55:15:236] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 19:55:15:356] Connected to database server.
+[2016-02-02 19:57:55:735] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 19:57:55:857] Connected to database server.
+[2016-02-02 19:59:38:960] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 19:59:39:78] Connected to database server.
+[2016-02-02 20:3:21:923] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:3:22:44] Connected to database server.
+[2016-02-02 20:3:36:389] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:3:36:506] Connected to database server.
+[2016-02-02 20:5:49:729] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:5:49:901] Connected to database server.
+[2016-02-02 20:8:42:747] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:8:42:836] Connected to database server.
+[2016-02-02 20:12:13:301] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:12:13:425] Connected to database server.
+[2016-02-02 20:15:27:381] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:15:27:503] Connected to database server.
+[2016-02-02 20:18:3:912] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:18:4:27] Connected to database server.
+[2016-02-02 20:21:48:924] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:21:49:41] Connected to database server.
+[2016-02-02 20:23:19:677] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:23:19:801] Connected to database server.
+[2016-02-02 20:26:14:765] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:26:14:874] Connected to database server.
+[2016-02-02 20:35:24:16] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 20:35:24:138] Connected to database server.
+[2016-02-02 21:41:5:715] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 21:41:7:42] Connected to database server.
+[2016-02-02 21:42:32:964] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 21:42:34:96] Connected to database server.
+[2016-02-02 21:42:56:828] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 21:42:57:104] Connected to database server.
+[2016-02-02 21:43:18:950] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 21:43:19:74] Connected to database server.
+[2016-02-02 22:52:47:985] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 22:52:48:100] Connected to database server.
+[2016-02-02 22:54:42:707] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 22:54:42:827] Connected to database server.
+[2016-02-02 22:56:31:202] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 22:56:31:332] Connected to database server.
+[2016-02-02 22:56:53:472] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 22:56:53:599] Connected to database server.
+[2016-02-02 22:58:9:824] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 22:58:9:954] Connected to database server.
+[2016-02-02 23:20:58:725] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:20:58:850] Connected to database server.
+[2016-02-02 23:21:34:522] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:21:34:653] Connected to database server.
+[2016-02-02 23:28:28:530] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:28:28:659] Connected to database server.
+[2016-02-02 23:35:6:553] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:35:6:681] Connected to database server.
+[2016-02-02 23:37:48:559] CClientSession Destructor Called
+[2016-02-02 23:37:51:560] CClientSession Destructor Called
+[2016-02-02 23:37:51:560] CClientSession Destructor Called
+[2016-02-02 23:38:12:561] CClientSession Destructor Called
+[2016-02-02 23:44:34:389] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:44:34:521] Connected to database server.
+[2016-02-02 23:44:58:290] CClientSession Destructor Called
+[2016-02-02 23:45:52:81] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:45:52:211] Connected to database server.
+[2016-02-02 23:46:30:985] CClientSession Destructor Called
+[2016-02-02 23:48:43:993] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:48:44:113] Connected to database server.
+[2016-02-02 23:49:10:880] CClientSession Destructor Called
+[2016-02-02 23:51:48:740] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:51:48:870] Connected to database server.
+[2016-02-02 23:53:14:658] CClientSession Destructor Called
+[2016-02-02 23:53:38:660] CClientSession Destructor Called
+[2016-02-02 23:53:48:660] CClientSession Destructor Called
+[2016-02-02 23:54:18:225] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-02 23:54:18:348] Connected to database server.
+[2016-02-02 23:55:55:120] CClientSession Destructor Called
+[2016-02-02 23:56:1:121] CClientSession Destructor Called
+[2016-02-02 23:56:6:121] CClientSession Destructor Called
+[2016-02-03 9:29:28:19] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-03 9:29:28:157] Connected to database server.
+[2016-02-03 9:32:23:901] CClientSession Destructor Called
+[2016-02-03 9:33:48:324] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-03 9:33:48:435] Connected to database server.
+[2016-02-03 9:34:19:205] CClientSession Destructor Called
+[2016-02-03 9:36:19:641] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-03 9:36:19:773] Connected to database server.
+[2016-02-03 9:37:49:548] CClientSession Destructor Called
+[2016-02-03 9:47:37:670] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-03 9:47:37:790] Connected to database server.
+[2016-02-03 9:55:12:901] CClientSession Destructor Called
+[2016-02-03 16:4:51:44] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-03 16:4:52:241] Connected to database server.
+[2016-02-03 16:5:21:47] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-03 16:5:21:177] Connected to database server.
+[2016-02-03 16:5:41:946] CClientSession Destructor Called
+[2016-02-03 16:6:47:949] CClientSession Destructor Called
+[2016-02-03 16:20:20:997] CClientSession Destructor Called
+[2016-02-03 16:21:38:9] CClientSession Destructor Called
+[2016-02-03 16:28:50:36] CClientSession Destructor Called
+[2016-02-03 16:39:22:72] CClientSession Destructor Called
+[2016-02-03 16:42:11:82] CClientSession Destructor Called
+[2016-02-03 17:8:45:788] AcceptorThread [192.168.1.36:12345] Type[0] Precreate ReserveAccept Success : Current[101]
+[2016-02-03 17:8:46:41] Connected to database server.
+[2016-02-03 17:9:38:647] CClientSession Destructor Called

@@ -43,12 +43,18 @@ class Session;
 class Player
 {
 public:
-	Player(){ disconnected = true; }
+	Player()
+	{ 
+		disconnected = true;
+		life = 100;
+		level = 1;
+		classe = 0;
+	}
 	~Player(){}
+	int			getClass(){ return classe; }
+	void		setClass(int _class){ classe = _class; }
 	void		setDisconnected(bool di){ disconnected = di; }
 	bool		getDisconnedted(){ return disconnected; }
-	void		setGroup(Group *grp){ group = grp; }
-	Group		*getGroup(){ return group; }
 	void		setLife(int amnt){ life = amnt; }
 	int			getLife(){ return life; }
 	void		setLevel(int lvl){ level = lvl; }
@@ -57,13 +63,14 @@ public:
 	Client		*getClient(){ return cl; }
 	void		setLocation(NtlVector _location){ location = _location; }
 	NtlVector	getLocation(){ return location; }
+	void		update(DWORD diff){}
 private:
 	bool		disconnected;
-	Group		*group;
 	int			level;
 	int			life;
 	Client		*cl;
 	NtlVector	location;
+	int			classe;
 };
 
 class Group
@@ -74,12 +81,10 @@ public:
 		int			guid;
 		std::string name;
 		int			_class;
-		int			group;
-		int			flags;
-		int			roles;
-		bool        readyChecked;
+		int			level;
+		int			life;
 		bool		disconnected;
-		Player		*me;
+		Client		*me;
 	};
 	typedef std::list<MemberSlot> MemberSlotList;
 	typedef MemberSlotList::const_iterator member_citerator;
@@ -89,13 +94,14 @@ public:
 	Group();
 	~Group();
 	// group manipulation methods
-	bool				Create(Player* leader);
-	bool				AddMember(Player* player);
-	bool				RemoveMember(Player* player);
-	void				ChangeLeader(Player* player);
+	bool				Create(Client* leader);
+	bool				AddMember(Client* player);
+	bool				RemoveMember(Client* player);
+	void				ChangeLeader(Client* player);
 	void				Disband(bool hideDestroy = false);
 	int					GetMembersCount() { return int(m_memberSlots.size()); }
 	void				RefreshAllGroup();
+	void				UpdatePlayerOnline(Client *plr);
 	// Update
 	void				Update(int diff);
 	// properties accessories

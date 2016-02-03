@@ -9,6 +9,7 @@
 class CClientSession;
 class Player;
 class Session;
+class Group;
 
 enum ClientStatut
 {
@@ -22,6 +23,8 @@ public:
 	Client();
 	Client(char *_AccountName, int _AccountID);
 	~Client();
+	void			setGroup(Group *grp){ group = grp; }
+	Group			*getGroup(){ return group; }
 	std::string		getAccountName(){ return AccountName; }
 	int				getAccountID(){ return accountID; }
 	bool			getIsGrouped(){ return isGrouped; }
@@ -43,6 +46,7 @@ public:
 	DWORD			lastPing;
 private:
 	//DATA
+	Group			*group;
 	CClientSession	*session;
 	Session			*gameSession;
 	// ACCOUNT

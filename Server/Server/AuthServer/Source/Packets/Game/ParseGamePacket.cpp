@@ -41,7 +41,7 @@ int CClientSession::ParseGamePacket(CNtlPacket * pPacket)
 		case UG_MENU_LOADED_REQ:
 		{
 			SendMapList();
-			app->UpdateFriendList();
+			app->GetCharacterManager()->UpdateFriendList();
 			RefreshMyGroupHUD();
 		}
 		break;

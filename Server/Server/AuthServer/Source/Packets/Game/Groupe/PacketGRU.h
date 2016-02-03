@@ -16,6 +16,7 @@ enum eOPCODE_GRU
 	
 	GRU_REFRESH_GROUPE_RES,
 	GRU_DISBAND_GROUPE_RES,
+	GRU_PLAYER_KICK_RES,
 
 	GRU_OPCODE_DUMMY,
 	GRU_OPCODE_END = GRU_OPCODE_DUMMY - 1
@@ -48,7 +49,10 @@ BEGIN_PROTOCOL(GRU_REFRESH_GROUPE_RES) // SEND ALL GROUPE LIST
 	AU_FRIEND_GROUP	groupePlayers[5];
 END_PROTOCOL()
 //------------------------------------------------------------------
-BEGIN_PROTOCOL(GRU_DISBAND_GROUPE_RES) // SEND ALL GROUPE LIST
+BEGIN_PROTOCOL(GRU_DISBAND_GROUPE_RES)
+END_PROTOCOL()
+//------------------------------------------------------------------
+BEGIN_PROTOCOL(GRU_PLAYER_KICK_RES)
 END_PROTOCOL()
 //------------------------------------------------------------------
 #pragma pack()

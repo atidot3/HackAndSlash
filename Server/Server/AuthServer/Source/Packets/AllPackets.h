@@ -6,3 +6,5 @@
 #include "Game\Groupe\PacketUGR.h"
 #include "Game\PacketUG.h"
 #include "Game\PacketGU.h"
+#include "Game\Chat\NtlPacketCHU.h"
+#include "Game\Chat\NtlPacketUCH.h"

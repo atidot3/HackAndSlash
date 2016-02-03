@@ -34,11 +34,9 @@ bool CClientSession::SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app)
 			res->wResultCode = AUTH_SUCCESS;
 			this->me = new Client(user, res->accountId);
 			this->me->setSession(this);
-			app->AddUser(me->getAccountName().c_str(), this);
-			this->me->setPlayer(new Player());
-			this->me->getPlayer()->setClient(this->me);
+			me->setGroup(NULL);
+			app->GetCharacterManager()->AddUser(me->getAccountName().c_str(), this);
 			me->setMoney(app->db->getInt("money"));
-			me->getPlayer()->setGroup(NULL);
 			me->setGameSession(NULL);
 			me->setStatut(ClientStatut::MENU);
 			theReturn = true;
@@ -51,12 +49,14 @@ bool CClientSession::SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app)
 				res->wResultCode = AUTH_USER_BLOCK;
 			else
 				res->wResultCode  = AUTH_USER_NOT_FOUND;
+			theReturn = false;
 		}
 	}
 	else
 	{
 		res->wResultCode = AUTH_USER_NOT_FOUND;
 		me = NULL;
+		theReturn = false;
 	}
 	packet.SetPacketLen(sizeof(sAU_LOGIN_RES));
 	int rc = SendPacket(&packet);
@@ -72,9 +72,9 @@ void CClientSession::RefreshMyGroupHUD()
 	{
 		if (me->getIsGrouped() == true)
 		{
-			if (me->getPlayer()->getGroup() != NULL)
+			if (me->getGroup() != NULL)
 			{
-				me->getPlayer()->getGroup()->RefreshAllGroup();
+				me->getGroup()->RefreshAllGroup();
 			}
 		}
 	}
@@ -89,24 +89,27 @@ void CClientSession::SendLoginDcReq(CNtlPacket * pPacket)
 	{
 		if (me->getIsGrouped() == true)
 		{
-			if (me->getPlayer()->getGroup() != NULL)
+			if (me->getGroup() != NULL)
 			{
-				if (me->getPlayer()->getGroup()->GetMembersCount() <= 1)
+				if (me->getGroup()->GetMembersCount() <= 1)
 				{
-					if (me->getGameSession() != NULL)
+					if (me->getGameSession())
 					{
 						me->getGameSession()->PreDestruct();
-						delete me->getGameSession();
+						Session* sess = me->getGameSession();
+						SAFE_DELETE(sess);
+						Group* grp = me->getGroup();
+						SAFE_DELETE(grp);
 					}
-					delete me->getPlayer()->getGroup();
 				}
 				else
 				{
 					if (me->getGameSession() != NULL)
 					{
+						me->getGameSession()->RemovePlayer(me);
 						me->getGameSession()->RemovePlayerFromMap(me->getPlayer(), true);
 					}
-					me->getPlayer()->getGroup()->RemoveMember(me->getPlayer());
+					me->getGroup()->RemoveMember(me);
 				}
 			}
 		}
@@ -115,11 +118,12 @@ void CClientSession::SendLoginDcReq(CNtlPacket * pPacket)
 			if (me->getGameSession() != NULL)
 			{
 				me->getGameSession()->PreDestruct();
-				delete me->getGameSession();
+				Session* sess = me->getGameSession();
+				SAFE_DELETE(sess);
 			}
 		}
-		app->RemoveUser(me->getAccountName().c_str());
-		delete me;
+		app->GetCharacterManager()->RemoveUser(me->getAccountName().c_str());
+		SAFE_DELETE(me);
 	}
 	this->Disconnect(true);
 }

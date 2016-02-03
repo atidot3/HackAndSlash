@@ -85,6 +85,18 @@
     <Filter Include="ServerFile\Source\Game\Map">
       <UniqueIdentifier>{c3f42cc6-ecae-424f-8ff5-953e8664bf30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ServerFile\Source\CharacterManager">
+      <UniqueIdentifier>{4bd2df78-659c-4ee0-b249-60a48ca8b2c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\CharacterManager">
+      <UniqueIdentifier>{8349f380-a91c-4412-a741-100239a80e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Source\Packets\Game\Chat">
+      <UniqueIdentifier>{0dd6bce3-9da0-4f96-a9eb-5533d81d6251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerFile\Header\Packets\Game\Chat">
+      <UniqueIdentifier>{168871cd-8cf3-43ba-a277-f3ef3d59171d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Server\AuthServer.h">
@@ -134,6 +146,18 @@
     </ClInclude>
     <ClInclude Include="Source\Packets\Game\PacketGU.h">
       <Filter>ServerFile\Header\Packets\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharacterManager\CharacterManager.h">
+      <Filter>ServerFile\Header\CharacterManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Client\CClientSession.h">
+      <Filter>ServerFile\Header\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Game\Chat\NtlPacketUCH.h">
+      <Filter>ServerFile\Header\Packets\Game\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Packets\Game\Chat\NtlPacketCHU.h">
+      <Filter>ServerFile\Header\Packets\Game\Chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +229,24 @@
     </ClCompile>
     <ClCompile Include="Source\Packets\Game\ParseGamePacket.cpp">
       <Filter>ServerFile\Source\Packets\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharacterManager\CharacterManager.cpp">
+      <Filter>ServerFile\Source\CharacterManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Client\CClientSession.cpp">
+      <Filter>ServerFile\Source\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\Chat\NtlPacketCHU.cpp">
+      <Filter>ServerFile\Source\Packets\Game\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\Chat\NtlPacketUCH.cpp">
+      <Filter>ServerFile\Source\Packets\Game\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\Chat\PacketChatServer.cpp">
+      <Filter>ServerFile\Source\Packets\Game\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Packets\Game\Chat\ParseChatPacket.cpp">
+      <Filter>ServerFile\Source\Packets\Game\Chat</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

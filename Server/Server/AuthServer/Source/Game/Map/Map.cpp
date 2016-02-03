@@ -78,6 +78,8 @@ void Map::createDeleteMembersPacket(Player *plr)
 }
 void Map::RemovePlayerFromMap(Player* player, bool remove)
 {
+	if (player == NULL)
+		return;
 	lock();
 	std::list<Player*>::iterator	it;
 	it = m_memberLists.begin();
@@ -101,7 +103,7 @@ void Map::RemovePlayerFromMap(Player* player, bool remove)
 		createDeleteMembersPacket(plr);
 	}
 }
-void Map::Update(int t_diff)
+void Map::Update(DWORD t_diff)
 {
 	
 }

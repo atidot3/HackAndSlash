@@ -39,7 +39,7 @@
 
 // memory safe delete
 #if !defined(SAFE_DELETE)
-	#define SAFE_DELETE(p)			if(p) { delete p; p = 0; }
+	#define SAFE_DELETE(p)			if(p) { delete p; p = NULL; }
 #endif
 #define SAFE_DELETE_ARRAY(p)	if(p) { delete[] p; p = 0; }
 #define SAFE_FREE(p)			if(p) { free(p); p = 0; }

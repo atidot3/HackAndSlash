@@ -41,6 +41,8 @@ void CClientSession::SendMapList()
 }
 void CClientSession::SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app)
 {
+	me->setPlayer(new Player());
+	me->getPlayer()->setClient(me);
 	/*
 	*
 	*
@@ -57,7 +59,6 @@ void CClientSession::SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app)
 	app->db->prepare("SELECT * FROM maps where id = ?");
 	app->db->setInt(1, req->mapID);
 	app->db->execute();
-
 	if (app->db->rowsCount() != 0)
 	{
 		app->db->fetch();
@@ -65,27 +66,27 @@ void CClientSession::SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app)
 		{
 			if (me->getIsLead() == true)
 			{
-				if (me->getPlayer()->getGroup()->getSession() == NULL)
+				if (me->getGroup()->getSession() == NULL)
 				{
 					sess = new Session();
-					me->getPlayer()->getGroup()->setSession(sess);
-					me->getPlayer()->getGroup()->getSession()->AddPlayerToSession(me);
+					me->getGroup()->setSession(sess);
+					me->getGroup()->getSession()->AddPlayerToSession(me);
 					sess->UpdateDifficulty(req->difficu);
 					res->wResultCode = GAME_SUCCESS;
 				}
 				else
 				{
-					sess = me->getPlayer()->getGroup()->getSession();
-					me->getPlayer()->getGroup()->getSession()->AddPlayerToSession(me);
+					sess = me->getGroup()->getSession();
+					me->getGroup()->getSession()->AddPlayerToSession(me);
 					res->wResultCode = GAME_SUCCESS;
 				}
 			}
 			else
 			{
-				sess = me->getPlayer()->getGroup()->getSession();
+				sess = me->getGroup()->getSession();
 				if (sess != NULL)
 				{
-					me->getPlayer()->getGroup()->getSession()->AddPlayerToSession(me);
+					me->getGroup()->getSession()->AddPlayerToSession(me);
 					res->wResultCode = GAME_SUCCESS;
 				}
 				else
@@ -94,18 +95,12 @@ void CClientSession::SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app)
 		}
 		else
 		{
-			if (me->getGameSession() == NULL)
-			{
-				sess = new Session();
-				sess->AddPlayerToSession(me);
-				res->wResultCode = GAME_SUCCESS;
-			}
-			else
-			{
-				sess = me->getGameSession();
-				sess->AddPlayerToSession(me);
-				res->wResultCode = GAME_SUCCESS;
-			}
+			Session* tmp = me->getGameSession();
+			if (tmp)
+				SAFE_DELETE(tmp);
+			sess = new Session();
+			sess->AddPlayerToSession(me);
+			res->wResultCode = GAME_SUCCESS;
 		}
 		//sess->AddPlayerToMap(req->mapID, me->getPlayer()); // SET AFTER ON GAME ENTER DONE
 		strcpy(res->mapName, app->db->getString("Name").c_str());
@@ -113,6 +108,9 @@ void CClientSession::SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app)
 	}
 	else
 	{
+		Player* tmp = me->getPlayer();
+		SAFE_DELETE(tmp);
+		me->setPlayer(0);
 		me->setStatut(ClientStatut::MENU);
 		res->wResultCode = GAME_FAIL;
 		std::cout << "false" << std::endl;
@@ -131,6 +129,9 @@ void CClientSession::SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer *
 		me->setStatut(ClientStatut::GAME);
 		me->getPlayer()->setLocation(req->postion);
 		// need to fill players class with models etc
+		if (me->getIsGrouped() == true)
+			me->getGroup()->UpdatePlayerOnline(me);
+		//
 		me->getGameSession()->AddPlayerToMap(req->mapID, me->getPlayer());
 	}
 }
@@ -138,6 +139,8 @@ void CClientSession::SendCharacterMoveOnMap(CNtlPacket *pPacket, CAuthServer * a
 {
 	sGU_PARTY_MEMBER_MOVE * req = (sGU_PARTY_MEMBER_MOVE *)pPacket->GetPacketData();
 	
+	if (me->getPlayer() == NULL)
+		return;
 	me->getPlayer()->setLocation(req->location);
 	if (me->getIsGrouped() == true)
 	{
@@ -154,22 +157,31 @@ void CClientSession::SendBackToMenu(CNtlPacket *pPacket, CAuthServer * app)
 		me->setStatut(ClientStatut::MENU);
 		if (me->getIsGrouped() == true)
 		{
-			if (me->getPlayer()->getGroup() != NULL)
+			if (me->getGroup() != NULL)
 			{
-				if (me->getPlayer()->getGroup()->GetMembersCount() <= 1)
+				if (me->getGroup()->GetMembersCount() <= 1)
 				{
 					if (me->getGameSession() != NULL)
 					{
 						me->getGameSession()->PreDestruct();
-						delete me->getPlayer()->getGroup();
-						delete me->getGameSession();
-						me->getPlayer()->setGroup(NULL);
+						Group* grp = me->getGroup();
+						SAFE_DELETE(grp);
+						Session* tmp = me->getGameSession();
+						SAFE_DELETE(tmp);
+						me->setGroup(NULL);
 						me->setGameSession(NULL);
+						Player *plr = me->getPlayer();
+						SAFE_DELETE(plr);
+						me->setPlayer(NULL);
 					}
 				}
 				else
 				{
-					me->getGameSession()->RemovePlayerFromMap(me->getPlayer(), true);
+					Player *plr = me->getPlayer();
+					me->getGameSession()->RemovePlayerFromMap(plr, true);
+					SAFE_DELETE(plr);
+					me->setPlayer(NULL);
+					me->getGroup()->UpdatePlayerOnline(me);
 				}
 			}
 		}
@@ -178,8 +190,12 @@ void CClientSession::SendBackToMenu(CNtlPacket *pPacket, CAuthServer * app)
 			if (me->getGameSession() != NULL)
 			{
 				me->getGameSession()->PreDestruct();
-				delete me->getGameSession();
+				Session* tmp = me->getGameSession();
+				SAFE_DELETE(tmp);
 				me->setGameSession(NULL);
+				Player *plr = me->getPlayer();
+				SAFE_DELETE(plr);
+				me->setPlayer(NULL);
 			}
 		}
 	}

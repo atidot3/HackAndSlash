@@ -23,7 +23,7 @@ int CClientSession::ParseAuthPacket(CNtlPacket * pPacket)
 			if (CClientSession::SendCharLogInReq(pPacket, app) == true)
 			{
 				SendMapList();
-				app->UpdateFriendList();
+				app->GetCharacterManager()->UpdateFriendList();
 				sock = g_pApp->GetNetwork()->FindSocket(this->GetHandle());
 				SendPopupMessage("Welcome onto the server, have fun by all the team :)");
 				SendFriendLogin(app, true);

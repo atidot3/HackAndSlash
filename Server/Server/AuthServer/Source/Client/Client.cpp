@@ -4,6 +4,7 @@ Client::Client()
 {
 	player = NULL;
 	gameSession = NULL;
+	group = NULL;
 }
 Client::Client(char *_AccountName, int _AccountID)
 {
@@ -14,8 +15,12 @@ Client::Client(char *_AccountName, int _AccountID)
 	isLead = false;
 	statut = ClientStatut::MENU;
 	lastPing = ::GetTickCount();
+	player = NULL;
+	gameSession = NULL;
+	group = NULL;
 }
 Client::~Client()
 {
-	delete player;
+	if (player != 0 && player && player != NULL)
+		SAFE_DELETE(player);
 }

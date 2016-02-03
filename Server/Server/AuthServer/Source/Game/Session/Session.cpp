@@ -14,11 +14,14 @@ Session::~Session()
 {
 	runnable = false;
 	std::cout << "destructor" << endl;
-	for each (Map* map in m_mapList)
+	if (m_mapList.size() > 0 && m_mapList.size() < 100)
 	{
-		delete map;
+		for each (Map* map in m_mapList)
+		{
+			delete map;
+		}
+		m_mapList.clear();
 	}
-	m_mapList.clear();
 	std::cout << "end" << endl;
 }
 bool Session::AddPlayerToSession(Client* client)
@@ -53,6 +56,25 @@ void Session::RemovePlayerFromSession()
 {
 	lock();
 	m_memberLists.clear();
+	unlock();
+}
+void Session::RemovePlayer(Client* _cl)
+{
+	lock();
+	bool founded = false;
+	for each (Client* cl in m_memberLists)
+	{
+		if (cl->getAccountID() == _cl->getAccountID())
+		{
+			founded = true;
+			break;
+		}
+	}
+	if (founded == true)
+	{
+		RemovePlayerFromMap(_cl->getPlayer(), true);
+		m_memberLists.remove(_cl);
+	}
 	unlock();
 }
 void Session::CreateMap(int mapID)
@@ -157,13 +179,11 @@ void Session::PreDestruct()
 }
 DWORD Session::PreUpdate(Session *sess)
 {
-	int diff = 0;
 	while (sess->runnable == true)
 	{
-		update(diff);
-		diff++;
+		update(::GetTickCount());
 		//std::cout << "looping update: " << diff <<  endl;
-		std::this_thread::sleep_for(chrono::microseconds(10));
+		Sleep(1);
 	}
 	return 0;
 }
@@ -175,9 +195,29 @@ void Session::update(int diff)
 		runnable = false;
 	}
 	UpdateMap(diff);
+	UpdatePlayer(diff);
 }
-void Session::UpdateMap(int diff)
+void Session::UpdatePlayer(DWORD diff)
 {
+	lock();
+	for each (Client* plr in m_memberLists)
+	{
+		if (plr)
+		{
+			if (plr->getStatut() == ClientStatut::GAME)
+			{
+				if (plr->getPlayer() != NULL)
+				{
+					plr->getPlayer()->update(diff);
+				}
+			}
+		}
+	}
+	unlock();
+}
+void Session::UpdateMap(DWORD diff)
+{
+	lock();
 	for each (Map* map in m_mapList)
 	{
 		if (map != NULL)
@@ -185,6 +225,7 @@ void Session::UpdateMap(int diff)
 			map->Update(diff);
 		}
 	}
+	unlock();
 }
 Map *Session::isMapExist(int mapID)
 {

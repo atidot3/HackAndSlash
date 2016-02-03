@@ -4,11 +4,10 @@ Group::Group() : m_dungeonDifficulty(DIFFICULTY_NORMAL)
 {
 	sess = NULL;
 }
-
 Group::~Group()
 {
 }
-bool Group::Create(Player* leader)
+bool Group::Create(Client* leader)
 {
 	m_dungeonDifficulty = DIFFICULTY_NORMAL;
 
@@ -23,53 +22,88 @@ void Group::RefreshAllGroup()
 	int i = 0;
 	for (member_witerator witr = m_memberSlots.begin(); witr != m_memberSlots.end(); ++witr)
 	{
-		res->groupePlayers[i].accountID = witr->me->getClient()->getAccountID();
+		res->groupePlayers[i].accountID = witr->me->getAccountID();
 		res->groupePlayers[i].charID = res->groupePlayers[i].accountID; // TEMP VALUE
-		res->groupePlayers[i].classe = witr->_class;
-		res->groupePlayers[i].leader = witr->me->getClient()->getIsLead();
-		res->groupePlayers[i].level = witr->me->getLevel();
-		res->groupePlayers[i].life = witr->me->getLife();
-		res->groupePlayers[i].disconnected = witr->disconnected;
-		strcpy(res->groupePlayers[i].name, witr->me->getClient()->getAccountName().c_str());
+		res->groupePlayers[i].leader = witr->me->getIsLead();
+		strcpy(res->groupePlayers[i].name, witr->me->getAccountName().c_str());
+		if (witr->me->getPlayer() != NULL)
+		{
+			res->groupePlayers[i].disconnected = witr->disconnected;
+			res->groupePlayers[i].classe = witr->_class;
+			res->groupePlayers[i].level = witr->level;
+			res->groupePlayers[i].life = witr->life;
+		}
+		else
+		{
+			res->groupePlayers[i].disconnected = true;
+			res->groupePlayers[i].classe = 0;
+			res->groupePlayers[i].level = 0;
+			res->groupePlayers[i].life = 0;
+		}
 		i++;
 	}
 	packet.SetPacketLen(sizeof(sGRU_REFRESH_GROUPE_RES));
 	SendAll(&packet);
 }
-bool Group::AddMember(Player* player)
+void Group::UpdatePlayerOnline(Client *cl)
+{
+	if (cl->getPlayer())
+	{
+		for (member_witerator witr = m_memberSlots.begin(); witr != m_memberSlots.end(); ++witr)
+		{
+			if (witr->guid == cl->getAccountID())
+			{
+				witr->disconnected = false;
+				witr->level = cl->getPlayer()->getLevel();
+				witr->life = cl->getPlayer()->getLife();
+				witr->_class = cl->getPlayer()->getClass();
+			}
+		}
+	}
+	else
+	{
+		for (member_witerator witr = m_memberSlots.begin(); witr != m_memberSlots.end(); ++witr)
+		{
+			if (witr->guid == cl->getAccountID())
+			{
+				witr->disconnected = true;
+				witr->level = 0;
+				witr->life = 0;
+				witr->_class = 0;
+			}
+		}
+	}
+	RefreshAllGroup();
+}
+bool Group::AddMember(Client* client)
 {
 	if (GetMembersCount() < MAX_GROUP_SIZE)	// If the leader can't be added to a new group because it appears full, something is clearly wrong.
 	{
-		if (player->getDisconnedted() == true)
-		{
-			MemberSlot member;
-			member.guid = player->getClient()->getAccountID();
-			member.name = "";
-			member._class = 0;
-			member.group = 0;
-			member.flags = 0;
-			member.roles = 0;
-			member.readyChecked = false;
-			member.disconnected = player->getDisconnedted();
-			member.me = player;
-			m_memberSlots.push_back(member);
-		}
-		player->setGroup(this);
+		MemberSlot member;
+		member.guid = client->getAccountID();
+		member.name = "";
+		member._class = 0;
+		member.level = 0;
+		member.life = 0;
+		member.disconnected = true;
+		member.me = client;
+		m_memberSlots.push_back(member);
+		client->setGroup(this);
 		RefreshAllGroup();
 		return true;
 	}
 	return false;
 }
-bool Group::RemoveMember(Player* player)
+bool Group::RemoveMember(Client* client)
 {
 	// remove member and change leader (if need) only if strong more 2 members _before_ member remove (BG/BF allow 1 member group)
-	if (GetMembersCount() > 2 && player->getClient()->getIsLead() == true) // IF TOTAL PLAYER > 2 CHANGE LEAD
+	if (GetMembersCount() > 2 && client->getIsLead() == true) // IF TOTAL PLAYER > 2 CHANGE LEAD
 	{
 		for (member_witerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
 		{
 			Client* cl;
-			if (player != NULL)
-				cl = player->getClient();
+			if (client != NULL)
+				cl = client;
 			if (cl != NULL)
 			{
 				if (itr->guid != cl->getAccountID())
@@ -84,7 +118,7 @@ bool Group::RemoveMember(Player* player)
 	member_witerator witr = m_memberSlots.begin();
 	while (witr != m_memberSlots.end())
 	{
-		if (witr->guid == player->getClient()->getAccountID())
+		if (witr->guid == client->getAccountID())
 		{
 			found = true;
 			break;
@@ -114,17 +148,17 @@ void Group::Disband(bool hideDestroy /* = false */)
 		sGRU_DISBAND_GROUPE_RES * res = (sGRU_DISBAND_GROUPE_RES *)packet.GetPacketData();
 		res->wOpCode = GRU_DISBAND_GROUPE_RES;
 		packet.SetPacketLen(sizeof(sGRU_DISBAND_GROUPE_RES));
-		itr->me->getClient()->getSession()->SendPacket(&packet); // SEND DISBAND TO LAST PLAYERS
-		itr->me->getClient()->setIPendingInvitation(false);
-		itr->me->getClient()->setIsGrouped(false);
-		itr->me->getClient()->setIsLead(false);
+		itr->me->getSession()->SendPacket(&packet); // SEND DISBAND TO LAST PLAYERS
+		itr->me->setIPendingInvitation(false);
+		itr->me->setIsGrouped(false);
+		itr->me->setIsLead(false);
 		itr->me->setGroup(NULL);
 	}
 	delete this;
 }
-void Group::ChangeLeader(Player* player)
+void Group::ChangeLeader(Client* client)
 {
-	player->getClient()->setIsLead(true);
+	client->setIsLead(true);
 }
 void Group::Update(int diff)
 {
@@ -156,10 +190,10 @@ void Group::SendAll(CNtlPacket *pPacket)
 	{
 		if (witr->me != NULL)
 		{
-			Player *plr = witr->me;
-			if (plr->getClient() != NULL)
+			Client *plr = witr->me;
+			if (plr != NULL)
 			{
-				Client *cur = plr->getClient();
+				Client *cur = plr;
 				cur->getSession()->SendPacket(pPacket);
 			}
 		}

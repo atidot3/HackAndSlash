@@ -5,16 +5,20 @@
 
 #include <mutex>
 #include "NtlSfx.h"
+#include "../Client/CClientSession.h"
 #include "../Client/Client.h"
 #include "../Game/Groupe/Groupe.h"
 #include "../Game/Session/Session.h"
 #include "NtlPacketEncoder_RandKey.h"
+#include "../CharacterManager/CharacterManager.h"
 #include "mysqlconn_wrapper.h"
 #include <windows.h>
 #include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
 
 class Client;
+class CAuthServer;
+class CharacterManager;
 
 enum APP_LOG
 {
@@ -36,7 +40,7 @@ struct sSERVERCONFIG
 	CNtlString		User;
 	CNtlString		Password;
 	CNtlString		Database;
-	DWORD			SaveOnLogout;
+	bool			SaveOnLogout;
 	DWORD			PlayerLimits;
 	DWORD			saveInterval;
 };
@@ -45,33 +49,14 @@ const DWORD					MAX_NUMOF_GAME_CLIENT = 100;
 const DWORD					MAX_NUMOF_SERVER = 1;
 const DWORD					MAX_NUMOF_SESSION = MAX_NUMOF_GAME_CLIENT + MAX_NUMOF_SERVER;
 
-class CAuthServer;
-
 //---------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------//
-
 class CClientSession : public CNtlSession
 {
 public:
-	CClientSession(bool bAliveCheck = false, bool bOpcodeCheck = false)
-		:CNtlSession( SESSION_CLIENT )
-	{
-		SetControlFlag( CONTROL_FLAG_USE_SEND_QUEUE );
-		if( bAliveCheck )
-		{
-			SetControlFlag( CONTROL_FLAG_CHECK_ALIVE );
-		}
-		if( bOpcodeCheck )
-		{
-			SetControlFlag( CONTROL_FLAG_CHECK_OPCODE );
-		}
-
-		SetPacketEncoder( &m_packetEncoder );
-	}
-
+	CClientSession(bool bAliveCheck = false, bool bOpcodeCheck = false);
 	~CClientSession();
-
 public:
 	int								OnAccept();
 	void							OnClose();
@@ -80,45 +65,45 @@ public:
 	int								ParseFriendPacket(CNtlPacket * pPacket);
 	int								ParseGroupePacket(CNtlPacket * pPacket);
 	int								ParseGamePacket(CNtlPacket * pPacket);
+	int								ParseChatPacket(CNtlPacket * pPacket);
 	int								SendPacket(CNtlPacket * pPacket, int sleepTime = 0);
 	void							Update(DWORD diff);
 	bool							isInWorld();
 	// Packet functions
 	// LOGIN
-		bool						SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app);
-		void						SendLoginDcReq(CNtlPacket * pPacket);
-		void						RefreshMyGroupHUD();
+	bool							SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app);
+	void							SendLoginDcReq(CNtlPacket * pPacket);
+	void							RefreshMyGroupHUD();
 	// FRIEND
-		void						SendFriendList();
-		void						SendFriendToAddToGroupeRequest(CNtlPacket *pPacket, CAuthServer * app);
-		void						SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app);
-		void						SendFriendLogin(CAuthServer * app, bool online);
+	void							SendFriendList();
+	void							SendFriendToAddToGroupeRequest(CNtlPacket *pPacket, CAuthServer * app);
+	void							SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app);
+	void							SendFriendLogin(CAuthServer * app, bool online);
 	// GAME
-		void						SendMapList();
-		void						SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app);
-		void						SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer * app);
-		void						SendCharacterMoveOnMap(CNtlPacket *pPacket, CAuthServer * app);
-		void						SendBackToMenu(CNtlPacket *pPacket, CAuthServer * app);
-		void						SendPopupMessage(const char* theString);
+	void							SendMapList();
+	void							SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app);
+	void							SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer * app);
+	void							SendCharacterMoveOnMap(CNtlPacket *pPacket, CAuthServer * app);
+	void							SendBackToMenu(CNtlPacket *pPacket, CAuthServer * app);
+	void							SendPopupMessage(const char* theString);
+	// CHAT
+	void							SendWorldMessage(CNtlPacket *pPacket, CAuthServer * app);
+	// GROUPE
+	void							SendPlayerOnKick(CNtlPacket *pPacket, CAuthServer * app);
 	// End Packet functions
 private:
 	CNtlPacketEncoder_RandKey		m_packetEncoder;
 	SOCKET							sock;
-// ATIDOTE THING
+	// ATIDOTE THING
 public:
 	Client							*me;
 	WSADATA							wsa;
 	void							sendToAllPacket(CNtlPacket * pPacket, int accid);
 };
 
-//---------------------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------------------//
-
 class CAuthSessionFactory : public CNtlSessionFactory
 {
 public:
-
 	CNtlSession * CreateSession(SESSIONTYPE sessionType)
 	{
 		CNtlSession * pSession = NULL;
@@ -133,7 +118,6 @@ public:
 		default:
 			break;
 		}
-
 		return pSession;
 	}
 };
@@ -168,7 +152,7 @@ public:
 	}
 	const bool		GetConfigFileSaveOnLogout()
 	{
-		return m_config.SaveOnLogout;
+		return (bool)m_config.SaveOnLogout;
 	}
 	const int		GetConfigFileSaveInterval()
 	{
@@ -194,8 +178,13 @@ public:
 	int	OnCreate()
 	{
 		int rc = NTL_SUCCESS;
-		rc = m_clientAcceptor.Create(	m_config.strClientAcceptAddr.c_str(), m_config.wClientAcceptPort, SESSION_CLIENT, 
-			m_config.PlayerLimits + MAX_NUMOF_SERVER, 5, 2, m_config.PlayerLimits + MAX_NUMOF_SERVER);
+		rc = m_clientAcceptor.Create(	m_config.strClientAcceptAddr.c_str(),
+			m_config.wClientAcceptPort,
+			SESSION_CLIENT, 
+			m_config.PlayerLimits + MAX_NUMOF_SERVER,
+			5,
+			2,
+			m_config.PlayerLimits + MAX_NUMOF_SERVER);
 		if ( NTL_SUCCESS != rc )
 		{
 			return rc;
@@ -278,42 +267,15 @@ public:
 	}
 	void Run()
 	{
-		DWORD dwTickCur, dwTickOld = ::GetTickCount();
-		DWORD saveTick, saveTickOld = ::GetTickCount();
-		
 		while (IsRunnable())
 		{
-			saveTick = dwTickCur = ::GetTickCount();
-			if (dwTickCur - dwTickOld >= 1000)
-			{
-				Update(dwTickCur);
-				dwTickOld = dwTickCur;
-			}
-			if (GetConfigFileSaveOnLogout() == 0)
-			{
-				if ((saveTick - saveTickOld) >= GetConfigFileSaveInterval())
-				{
-					saveTickOld = saveTick;
-				}
-			}
 			Sleep(1);
 		}
 	}
-	void									Update(DWORD diff);
-	void									CheckOffline(DWORD diff);
 public:
-	bool									AddUser(const char * lpszUserID, CClientSession * pSession);
-	void									RemoveUser(const char * lpszUserID);
-	bool									FindUser(const char * lpszUserID);
-	CClientSession							*GetPlayerByAccount(int accountID);
-	CClientSession							*GetPlayerByName(const char* accName);
-	void									SendToPlayerIfExist(const char * lpszUserID, CNtlPacket * pPacket);
-	void									UpdateFriendList();
+	CharacterManager						*GetCharacterManager();
 	DWORD									ThreadID;
-
-	void									sendToAll(CNtlPacket * pPacket, int accid);
-
-
+	CharacterManager						*Charmanager;
 private:
 	CNtlAcceptor							m_clientAcceptor;
 	CNtlLog  								m_log;

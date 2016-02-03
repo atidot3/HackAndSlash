@@ -30,10 +30,12 @@ public:
 	void							RemovePlayerFromMap(Player *plr, bool del);
 	void							SendMovementPlayer(Player* plr, int mapID, CNtlPacket *packet);
 	bool							isPlayerPlaying();
-	void							UpdateMap(int diff);
+	void							UpdateMap(DWORD diff);
+	void							UpdatePlayer(DWORD diff);
 	void							ClearMaps();
 	bool							AddPlayerToSession(Client* client);
 	void							RemovePlayerFromSession();
+	void							RemovePlayer(Client* cl);
 	bool							isPlayerInSession(Client* cl);
 	void							lock();
 	void							unlock();

@@ -207,6 +207,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\CharacterManager\CharacterManager.h" />
+    <ClInclude Include="Source\Client\CClientSession.h" />
     <ClInclude Include="Source\Client\Client.h" />
     <ClInclude Include="Source\Game\Groupe\Groupe.h" />
     <ClInclude Include="Source\Game\Map\Map.h" />
@@ -214,6 +216,8 @@
     <ClInclude Include="Source\Packets\AllPackets.h" />
     <ClInclude Include="Source\Packets\Friend\NtlPacketFU.h" />
     <ClInclude Include="Source\Packets\Friend\NtlPacketUF.h" />
+    <ClInclude Include="Source\Packets\Game\Chat\NtlPacketCHU.h" />
+    <ClInclude Include="Source\Packets\Game\Chat\NtlPacketUCH.h" />
     <ClInclude Include="Source\Packets\Game\Groupe\PacketGRU.h" />
     <ClInclude Include="Source\Packets\Game\Groupe\PacketUGR.h" />
     <ClInclude Include="Source\Packets\Game\PacketGU.h" />
@@ -225,6 +229,8 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\CharacterManager\CharacterManager.cpp" />
+    <ClCompile Include="Source\Client\CClientSession.cpp" />
     <ClCompile Include="Source\Client\Client.cpp" />
     <ClCompile Include="Source\Game\Groupe\Groupe.cpp" />
     <ClCompile Include="Source\Game\Map\Map.cpp" />
@@ -233,6 +239,10 @@
     <ClCompile Include="Source\Packets\Friend\NtlPacketUF.cpp" />
     <ClCompile Include="Source\Packets\Friend\PacketFriendServer.cpp" />
     <ClCompile Include="Source\Packets\Friend\ParseFriendPacket.cpp" />
+    <ClCompile Include="Source\Packets\Game\Chat\NtlPacketCHU.cpp" />
+    <ClCompile Include="Source\Packets\Game\Chat\NtlPacketUCH.cpp" />
+    <ClCompile Include="Source\Packets\Game\Chat\PacketChatServer.cpp" />
+    <ClCompile Include="Source\Packets\Game\Chat\ParseChatPacket.cpp" />
     <ClCompile Include="Source\Packets\Game\Groupe\NtlPacketGRU.cpp" />
     <ClCompile Include="Source\Packets\Game\Groupe\NtlPacketUGR.cpp" />
     <ClCompile Include="Source\Packets\Game\Groupe\PacketGroupeServer.cpp" />

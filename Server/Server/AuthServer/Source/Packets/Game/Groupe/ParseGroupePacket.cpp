@@ -17,9 +17,9 @@ int CClientSession::ParseGroupePacket(CNtlPacket * pPacket)
 	sNTLPACKETHEADER * pHeader = (sNTLPACKETHEADER *)pPacket->GetPacketData();
 	switch (pHeader->wOpCode)
 	{
-		case 0:
+		case UGR_GROUPE_KICK:
 		{
-
+			SendPlayerOnKick(pPacket, app);
 		}
 		break;
 		default:
