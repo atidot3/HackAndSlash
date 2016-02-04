@@ -49,11 +49,11 @@ public:
 		int rc = pAcceptor->ReserveAccept( pAcceptor->m_nCreateAcceptCount );
 		if( NTL_SUCCESS != rc )
 		{
-			NTL_PRINT(PRINT_SYSTEM, "%s Precreate ReserveAccept Fail :%d[%s]", GetName(),  rc, NtlGetErrorMessage(rc));
+			NTL_PRINT(PRINT_SYSTEM, FOREGROUND_RED, "%s Precreate ReserveAccept Fail :%d[%s]", GetName(), rc, NtlGetErrorMessage(rc));
 		}
 		else
 		{
-			NTL_PRINT(PRINT_SYSTEM, "%s Precreate ReserveAccept Success : Current[%d]", GetName(), pAcceptor->m_nAcceptingCount);
+			NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "%s Precreate ReserveAccept Success : Current[%d]", GetName(), pAcceptor->m_nAcceptingCount);
 		}
 
 
@@ -67,11 +67,13 @@ public:
 				rc = pAcceptor->ReserveAccept( nAcceptCount );
 				if( NTL_SUCCESS != rc )
 				{
-					NTL_PRINT(PRINT_SYSTEM, "%s ReserveAccept Fail :%d[%s]", GetName(),  rc, NtlGetErrorMessage(rc));
+					NTL_PRINT(PRINT_SYSTEM, FOREGROUND_RED, "%s ReserveAccept Fail :%d[%s]", GetName(), rc, NtlGetErrorMessage(rc));
 				}
 				else
 				{
-					NTL_PRINT(PRINT_SYSTEM, "%s ReserveAccept Success : ReserveCount[%d] Accepting[%d] Accepted[%u]", GetName(), nAcceptCount, pAcceptor->m_nAcceptingCount, pAcceptor->m_nAcceptedCount );
+					//NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "%s ReserveAccept Success : ReserveCount[%d] Accepting[%d] Accepted[%u]", GetName(), nAcceptCount, pAcceptor->m_nAcceptingCount, pAcceptor->m_nAcceptedCount);
+					NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "%s ReserveAccept Success : ReserveCount[%d]", GetName(), nAcceptCount);
+					NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "Accepting[%d] Accepted[%u]", pAcceptor->m_nAcceptingCount, pAcceptor->m_nAcceptedCount);
 				}
 			}
 
@@ -282,7 +284,7 @@ int CNtlAcceptor::OnAssociated(CNtlNetwork * pNetwork)
 int CNtlAcceptor::CreateThread()
 {
 	CNtlString strName;
-	strName.Format("AcceptorThread [%s:%u] Type[%u]", m_listenAddr.GetDottedAddr(), m_listenAddr.GetPort(), m_sessionType);
+	strName.Format("AcceptorThread [%s:%u] Type[%u]\n", m_listenAddr.GetDottedAddr(), m_listenAddr.GetPort(), m_sessionType);
 
 	m_pThread = new CAcceptorThread( this );
 	if (NULL == m_pThread)

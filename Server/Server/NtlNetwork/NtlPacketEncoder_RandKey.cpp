@@ -294,7 +294,7 @@ int CNtlPacketEncoder_RandKey::RxDecrypt(CNtlPacket& rPacket)
 	}
 
 	// Checksum
-	NTL_PRINT( PRINT_SYSTEM, "Rx PacketLen[%u] Sequence[%u] Checksum[%u]", rPacket.GetPacketHeader()->wPacketLen, rPacket.GetPacketHeader()->bySequence, rPacket.GetPacketHeader()->byChecksum );
+	NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "Rx PacketLen[%u] Sequence[%u] Checksum[%u]", rPacket.GetPacketHeader()->wPacketLen, rPacket.GetPacketHeader()->bySequence, rPacket.GetPacketHeader()->byChecksum);
 	if( byCheckSum != rPacket.GetPacketHeader()->byChecksum )
 	{
 		return NTL_ERR_NET_PACKET_CHECKSUM_FAIL;
@@ -323,7 +323,7 @@ int CNtlPacketEncoder_RandKey::TxEncrypt(CNtlPacket& rPacket)
 	rPacket.GetPacketHeader()->byChecksum = byCheckSum;
 
 
-	NTL_PRINT( PRINT_SYSTEM, "TxEncryptPacketLen[%u] Sequence[%u] Checksum[%u]", rPacket.GetPacketHeader()->wPacketLen, rPacket.GetPacketHeader()->bySequence, rPacket.GetPacketHeader()->byChecksum );
+	NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "TxEncryptPacketLen[%u] Sequence[%u] Checksum[%u]", rPacket.GetPacketHeader()->wPacketLen, rPacket.GetPacketHeader()->bySequence, rPacket.GetPacketHeader()->byChecksum);
 
 	// Encrypt Header
 	TxEncrypt( rPacket.GetPacketHeader() );

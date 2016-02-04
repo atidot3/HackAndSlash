@@ -47,17 +47,17 @@ public:
 			}
 			else
 			{
-				NTL_PRINT(PRINT_SYSTEM, "%s Connector Try Connect", GetName());
+				NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "%s Connector Try Connect", GetName());
 
 				int rc = pConnector->DoConnect();
 				if( NTL_SUCCESS != rc )
 				{
-					NTL_PRINT(PRINT_SYSTEM, "%s Connector Connect Fail :%d[%s]", GetName(),  rc, NtlGetErrorMessage(rc));
+					NTL_PRINT(PRINT_SYSTEM, FOREGROUND_RED, "%s Connector Connect Fail :%d[%s]", GetName(), rc, NtlGetErrorMessage(rc));
 					Wait( pConnector->m_dwRetryTime );
 				}
 				else
 				{
-					NTL_PRINT(PRINT_SYSTEM, "%s Connector Connect Success", GetName() );
+					NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "%s Connector Connect Success", GetName());
 				}
 			}
 
@@ -203,7 +203,7 @@ int CNtlConnector::DoConnect()
 	rc = pSession->CompleteConnect( m_sessionType );
 	if( NTL_SUCCESS != rc )
 	{
-		NTL_PRINT( PRINT_SYSTEM, "Session[%X] CompleteConnect Error : Err:%d(%s)", pSession, rc, NtlGetErrorMessage(rc) );
+		NTL_PRINT(PRINT_SYSTEM, FOREGROUND_RED, "Session[%X] CompleteConnect Error : Err:%d(%s)", pSession, rc, NtlGetErrorMessage(rc));
 		pSession->Close();
 		return rc;
 	}

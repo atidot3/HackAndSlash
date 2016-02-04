@@ -38,7 +38,7 @@ extern FILE * s_curStream;
 
 	void NtlSetPrintStream(FILE * fp);
 	void NtlSetPrintFlag(unsigned int dwFlag);
-	void NtlDebugPrint(unsigned int dwFlag, LPCTSTR lpszText, ...);
+	void NtlDebugPrint(unsigned int dwFlag, char color, LPCTSTR lpszText, ...);
 
 	#define NTL_PRINT			NtlDebugPrint
 

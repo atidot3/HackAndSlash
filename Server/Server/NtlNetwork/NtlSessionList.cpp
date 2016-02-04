@@ -229,7 +229,7 @@ void CNtlSessionList::ValidCheck(DWORD dwTickTime)
 		{
 			if( false == pSession->ValidCheck( dwTickTime ) )
 			{
-				NTL_PRINT(PRINT_SYSTEM, "The session[%X] should be disconnected due to timeout.", pSession);
+				NTL_PRINT(PRINT_SYSTEM, FOREGROUND_RED, "The session[%X] should be disconnected due to timeout.", pSession);
 
 				pSession->Disconnect( false );	
 			}

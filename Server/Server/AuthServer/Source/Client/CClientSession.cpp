@@ -16,7 +16,7 @@ CClientSession::CClientSession(bool bAliveCheck, bool bOpcodeCheck) : CNtlSessio
 }
 CClientSession::~CClientSession()
 {
-	NTL_PRINT(PRINT_APP, "CClientSession Destructor Called");
+	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "CClientSession Destructor Called");
 }
 int							CClientSession::OnAccept()
 {

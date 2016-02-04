@@ -63,7 +63,7 @@ public:
 
 			if( THREAD_CLOSE == (ULONG_PTR) pSession )
 			{
-				NTL_PRINT( PRINT_SYSTEM,"Thread Close" );
+				NTL_PRINT(PRINT_SYSTEM, FOREGROUND_RED, "Thread Close");
 				break;
 			}	
 

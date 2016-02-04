@@ -50,7 +50,7 @@ int AuthServerMain(int argc, _TCHAR* argv[])
 	rc = app.Create(argc, argv, ".\\Server.ini");
 	if (NTL_SUCCESS != rc)
 	{
-		NTL_PRINT(PRINT_APP, "Server Application Create Fail %d(%s)", rc, NtlGetErrorMessage(rc));
+		NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Server Application Create Fail %d(%s)", rc, NtlGetErrorMessage(rc));
 		return rc;
 	}
 
@@ -60,11 +60,11 @@ int AuthServerMain(int argc, _TCHAR* argv[])
 	try
 	{
 		app.db->connect();
-		NTL_PRINT(PRINT_APP, "Connected to database server.");
+		NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Connected to database server.");
 	}
 	catch (exception e)
 	{
-		NTL_PRINT(PRINT_APP, "couldn't connect to database server ErrID:%s", e.what());
+		NTL_PRINT(PRINT_APP, FOREGROUND_RED, "couldn't connect to database server ErrID:%s", e.what());
 	}
 	try
 	{
@@ -72,19 +72,22 @@ int AuthServerMain(int argc, _TCHAR* argv[])
 	}
 	catch (exception e)
 	{
-		NTL_PRINT(PRINT_APP, "Couldn't switch database to %s Error:%s", app.GetConfigFileDatabase(), e.what());
+		NTL_PRINT(PRINT_APP, FOREGROUND_RED, "Couldn't switch database to %s Error:%s", app.GetConfigFileDatabase(), e.what());
 	}
 	app.Charmanager = new CharacterManager();
 	app.Start();
 	Sleep(500);
-	/*std::cout << "\n\n" << std::endl;
-	std::cout << "\t  ____                              ____        _ _ " << std::endl;
-	std::cout << "\t |  _ \\ _ __ __ _  __ _  ___  _ __ | __ )  __ _| | |" << std::endl;
-	std::cout << "\t | | | | '__/ _` |/ _` |/ _ \\| '_ \\|  _ \\ / _` | | |" << std::endl;
-	std::cout << "\t | |_| | | | (_| | (_| | (_) | | | | |_) | (_| | | |" << std::endl;
-	std::cout << "\t |____/|_|  \\__,_|\\__, |\\___/|_| |_|____/ \\__,_|_|_|" << std::endl;
-	std::cout << "\t                  |___/                             " << std::endl;*/
 	std::cout << "\t______           AKCore :O 2015					______\n\n" << std::endl;
+	std::string sCommand = "";
+	while (true)
+	{
+		cout << "Server> ";
+		getline(cin, sCommand);
+		if (!sCommand.empty())
+		{
+			cout << "Server> " << sCommand.c_str() << std::endl;
+		}
+	}
 	app.WaitForTerminate();
 	return 0;
 }

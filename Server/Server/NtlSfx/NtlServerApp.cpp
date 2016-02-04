@@ -215,7 +215,7 @@ void CNtlServerApp::OnRun()
 {
 	while( IsRunnable() )
 	{
-		NTL_PRINT(PRINT_SYSTEM, "Run");
+		NTL_PRINT(PRINT_SYSTEM, FOREGROUND_GREEN, "Run");
 	}
 }
 
