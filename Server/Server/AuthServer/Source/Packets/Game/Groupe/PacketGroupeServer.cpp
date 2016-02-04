@@ -11,6 +11,9 @@
 #include <map>
 #include <list>
 
+//--------------------------------------------------------------------------------------//
+//		Player Is Kick From The Current Group
+//--------------------------------------------------------------------------------------//
 void		CClientSession::SendPlayerOnKick(CNtlPacket *pPacket, CAuthServer * app)
 {
 	sUGR_GROUPE_KICK * req = (sUGR_GROUPE_KICK *)pPacket->GetPacketData();

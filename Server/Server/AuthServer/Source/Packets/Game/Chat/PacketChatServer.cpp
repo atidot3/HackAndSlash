@@ -10,7 +10,9 @@
 #include <iostream>
 #include <map>
 #include <list>
-
+//--------------------------------------------------------------------------------------//
+//		Send Chat World Message
+//--------------------------------------------------------------------------------------//
 void			CClientSession::SendWorldMessage(CNtlPacket *pPacket, CAuthServer * app)
 {
 	CNtlPacket packet(sizeof(sCHU_SEND_WORLD_MESSAGE_RES));

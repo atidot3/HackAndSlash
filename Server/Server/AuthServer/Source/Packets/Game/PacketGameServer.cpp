@@ -10,7 +10,9 @@
 #include <iostream>
 #include <map>
 #include <list>
-
+//--------------------------------------------------------------------------------------//
+//		Send Map List From Database
+//--------------------------------------------------------------------------------------//
 void CClientSession::SendMapList()
 {
 	CAuthServer * app = (CAuthServer*)NtlSfxGetApp();
@@ -39,6 +41,9 @@ void CClientSession::SendMapList()
 	packet.SetPacketLen(sizeof(sGU_LOAD_MAPS));
 	SendPacket(&packet, 300);
 }
+//--------------------------------------------------------------------------------------//
+//		Player Request To Join The Game
+//--------------------------------------------------------------------------------------//
 void CClientSession::SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app)
 {
 	me->setPlayer(new Player());
@@ -120,6 +125,9 @@ void CClientSession::SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app)
 	packet.SetPacketLen(sizeof(sGU_ENTER_GAME_RES));
 	SendPacket(&packet);
 }
+//--------------------------------------------------------------------------------------//
+//		The Server Responce For The Enter In Game Resquest
+//--------------------------------------------------------------------------------------//
 void CClientSession::SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer * app)
 {
 	sUG_GAME_ENTER_COMPLETE_REQ * req = (sUG_GAME_ENTER_COMPLETE_REQ *)pPacket->GetPacketData();
@@ -135,6 +143,9 @@ void CClientSession::SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer *
 		me->getGameSession()->AddPlayerToMap(req->mapID, me->getPlayer());
 	}
 }
+//--------------------------------------------------------------------------------------//
+//		Send Player Movement
+//--------------------------------------------------------------------------------------//
 void CClientSession::SendCharacterMoveOnMap(CNtlPacket *pPacket, CAuthServer * app)
 {
 	sGU_PARTY_MEMBER_MOVE * req = (sGU_PARTY_MEMBER_MOVE *)pPacket->GetPacketData();
@@ -150,6 +161,9 @@ void CClientSession::SendCharacterMoveOnMap(CNtlPacket *pPacket, CAuthServer * a
 		}
 	}
 }
+//--------------------------------------------------------------------------------------//
+//		Player Go Back To Menu
+//--------------------------------------------------------------------------------------//
 void CClientSession::SendBackToMenu(CNtlPacket *pPacket, CAuthServer * app)
 {
 	if (me != NULL)
@@ -200,6 +214,9 @@ void CClientSession::SendBackToMenu(CNtlPacket *pPacket, CAuthServer * app)
 		}
 	}
 }
+//--------------------------------------------------------------------------------------//
+//		Server Important Message
+//--------------------------------------------------------------------------------------//
 void CClientSession::SendPopupMessage(const char* theString)
 {
 	CNtlPacket packet(sizeof(sGU_POPUP_MESSAGE));

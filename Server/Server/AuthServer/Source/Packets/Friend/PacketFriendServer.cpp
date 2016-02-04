@@ -11,6 +11,9 @@
 #include <map>
 #include <list>
 
+//--------------------------------------------------------------------------------------//
+//		Send Friend List From Database
+//--------------------------------------------------------------------------------------//
 void	CClientSession::SendFriendList()
 {
 	CAuthServer * app = (CAuthServer*)NtlSfxGetApp();
@@ -52,6 +55,9 @@ void	CClientSession::SendFriendList()
 	SendPacket(&packet);
 	app->db->closeStatm();
 }
+//--------------------------------------------------------------------------------------//
+//		Send Friend Notification On Logging And Logout
+//--------------------------------------------------------------------------------------//
 void	CClientSession::SendFriendLogin(CAuthServer * app, bool online)
 {
 	if (me == NULL)
@@ -91,6 +97,9 @@ void	CClientSession::SendFriendLogin(CAuthServer * app, bool online)
 		}
 	}
 }
+//--------------------------------------------------------------------------------------//
+//		Disconnect from Auth Server
+//--------------------------------------------------------------------------------------//
 void	CClientSession::SendFriendToAddToGroupeRequest(CNtlPacket *pPacket, CAuthServer * app)
 {
 	sUF_GROUP_FRIEND_REQ * req = (sUF_GROUP_FRIEND_REQ *)pPacket->GetPacketData();
@@ -123,6 +132,9 @@ void	CClientSession::SendFriendToAddToGroupeRequest(CNtlPacket *pPacket, CAuthSe
 		}
 	}
 }
+//--------------------------------------------------------------------------------------//
+//		Populate The Group With User
+//--------------------------------------------------------------------------------------//
 void	CClientSession::SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app)//SOMEONE RESPONCE FOR THE GROUPE REQUEST
 {
 	sUF_GROUP_FRIEND_AWSER_REQ * req = (sUF_GROUP_FRIEND_AWSER_REQ *)pPacket->GetPacketData();
