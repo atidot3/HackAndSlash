@@ -17,7 +17,8 @@ enum LAUNCHER_STATE
     UDPDATE,
     REPAIR,
     START,
-    UNINSTALL
+    UNINSTALL,
+    ERROR
 };
 
 class MainWindow : public QMainWindow

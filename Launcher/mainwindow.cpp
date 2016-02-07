@@ -63,7 +63,7 @@ void MainWindow::ChangeToRepair()
     ui->pushButton->setEnabled(false);
     ui->pushButton->setText("REPAIR");
     UpdateRepairStatut(0,0);
-    //down->OnEventRepairGame();
+    down->OnEventRepairGame();
 }
 void MainWindow::ChangeToUninstall()
 {
@@ -148,7 +148,7 @@ void MainWindow::on_actionRemove_installation_triggered()
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes)
       {
-        qDebug() << "Yes was clicked";
+        ui->pushButton->setEnabled(false);
         ChangeToUninstall();
         down->onUninstall();
       }

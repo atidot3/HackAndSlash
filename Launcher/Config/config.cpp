@@ -132,8 +132,8 @@ void    Config::ParseManifest(QDownloader *down)
     }
     else
     {
-        RenameManifest();
-        ParseManifest(downloader);
+        down->window.state = LAUNCHER_STATE::ERROR;
+        down->DownloadManifest();
     }
     file.close();
 }
@@ -153,6 +153,8 @@ void    Config::UninstallParseManifest(QDownloader *down)
     }
     else
     {
+        down->window.state = LAUNCHER_STATE::ERROR;
+        down->DownloadManifest();
         qDebug() << path << " cant be opended";
     }
     file.close();

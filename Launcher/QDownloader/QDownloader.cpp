@@ -228,7 +228,14 @@ void QDownloader::onReplyFinishedManifest()
     }*/
     if (conf->LoadConfig() == false)
     {
-        window.ChangeState(LAUNCHER_STATE::UDPDATE);
+        if (window.state == LAUNCHER_STATE::ERROR)
+        {
+            ProcessUpdate();
+        }
+        else
+        {
+            window.ChangeState(LAUNCHER_STATE::UDPDATE);
+        }
     }
     else
         window.ChangeState(LAUNCHER_STATE::START);
