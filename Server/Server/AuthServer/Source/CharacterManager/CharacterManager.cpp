@@ -6,24 +6,17 @@ CharacterManager::CharacterManager()
 }
 CharacterManager::~CharacterManager()
 {
-
-}
-
-void 						CharacterManager::Init()
-{
-
-}
-void 						CharacterManager::Release()
-{
-
-}
-void 						CharacterManager::CreateThread()
-{
-
 }
 void 						CharacterManager::Run()
 {
-
+	server_mutex.Lock();
+	DWORD currentTick = ::GetTickCount();
+	USERIT it;
+	for (it = m_userList.begin(); it != m_userList.end(); it++)
+	{
+		it->second->Update(currentTick);
+	}
+	server_mutex.Lock();
 }
 
 void						CharacterManager::sendToAll(CNtlPacket * pPacket, int accid)

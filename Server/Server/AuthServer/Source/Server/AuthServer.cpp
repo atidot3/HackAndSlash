@@ -17,14 +17,10 @@
 
 using namespace std;
 
-/*void CAuthServer::Update(DWORD diff)
+void CAuthServer::Update()
 {
-	USERIT it;
-	for (it = m_userList.begin(); it != m_userList.end(); it++)
-	{
-		it->second->Update(diff);
-	}
-}*/
+	Charmanager->Run();
+}
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
@@ -32,6 +28,7 @@ using namespace std;
 //-----------------------------------------------------------------------------------
 int AuthServerMain(int argc, _TCHAR* argv[])
 {
+	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Starting Game-Server...");
 	CAuthServer app;
 	CNtlFileStream traceFileStream;
 
@@ -77,7 +74,7 @@ int AuthServerMain(int argc, _TCHAR* argv[])
 	app.Charmanager = new CharacterManager();
 	app.Start();
 	Sleep(500);
-	std::cout << "\t______           AKCore :O 2015					______\n\n" << std::endl;
+	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Game-Server Started.");
 	std::string sCommand = "";
 	while (true)
 	{

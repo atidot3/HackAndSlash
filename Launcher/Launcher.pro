@@ -22,3 +22,6 @@ HEADERS  += mainwindow.h \
     QDownloader/QDownloader.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    myres.qrc

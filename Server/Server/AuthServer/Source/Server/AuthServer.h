@@ -269,9 +269,11 @@ public:
 	{
 		while (IsRunnable())
 		{
+			Update();
 			Sleep(1);
 		}
 	}
+	void Update();
 public:
 	CharacterManager						*GetCharacterManager();
 	DWORD									ThreadID;
@@ -280,7 +282,6 @@ private:
 	CNtlAcceptor							m_clientAcceptor;
 	CNtlLog  								m_log;
 	sSERVERCONFIG							m_config;
-	CNtlMutex								server_mutex;
 public:
 	MySQLConnWrapper *						db;
 	typedef std::map<CNtlString, CClientSession*> USERLIST;

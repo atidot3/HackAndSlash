@@ -63,7 +63,7 @@ void MainWindow::ChangeToRepair()
     ui->pushButton->setEnabled(false);
     ui->pushButton->setText("REPAIR");
     UpdateRepairStatut(0,0);
-    down->OnEventRepairGame();
+    //down->OnEventRepairGame();
 }
 void MainWindow::ChangeToUninstall()
 {
@@ -157,7 +157,6 @@ void MainWindow::on_actionRemove_installation_triggered()
         qDebug() << "Yes was *not* clicked";
       }
 }
-
 void MainWindow::on_pushButton_clicked()
 {
     switch (state)
@@ -169,14 +168,32 @@ void MainWindow::on_pushButton_clicked()
             ui->label_2->show();
             ui->label_3->show();
             ui->label->setText("File downloaded: ");
-            down->ProcessUpdate();
             ui->pushButton->setEnabled(false);
+            down->ProcessUpdate();
             break;
         }
         case START:
         {
-            QApplication::exit();
+            QString exe = QDir::currentPath();
+            exe.append("HackAndSlash.exe");
+            QFile file(exe);
+            if(file.open(QIODevice::ReadOnly))
+            {
+                system(exe.toStdString().c_str());
+            }
+            else
+            {
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, "Error", "executable file not found, do you want to repair the game ?\nIt's possible for the Launcher to freeze for some times, don't close it.",
+                                          QMessageBox::Yes|QMessageBox::No);
+                if (reply == QMessageBox::Yes)
+                {
+                    ChangeToRepair();
+                    down->ProcessUpdate();
+                }
+            }
             break;
         }
     }
 }
+

@@ -15,9 +15,6 @@ public:
 	CharacterManager();
 	~CharacterManager();
 
-	void Init();
-	void Release();
-	void CreateThread();
 	void Run();
 
 	bool									AddUser(const char * lpszUserID, CClientSession * pSession);
