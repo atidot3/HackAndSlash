@@ -32,13 +32,17 @@ bool CClientSession::SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app)
 		{
 			res->accountId = app->db->getInt("AccountID");
 			res->wResultCode = AUTH_SUCCESS;
-			this->me = new Client(user, res->accountId);
-			this->me->setSession(this);
-			me->setGroup(NULL);
-			app->GetCharacterManager()->AddUser(me->getAccountName().c_str(), this);
-			me->setMoney(app->db->getInt("money"));
-			me->setGameSession(NULL);
-			me->setStatut(ClientStatut::MENU);
+			for (int i = 0; i <= app->serverNmb; i++)
+			{
+				res->serverList[i].id = app->serverList[i].id;
+				memcpy(res->serverList[i].ip, app->serverList[i].ip, 16);
+				memcpy(res->serverList[i].servername, app->serverList[i].servername, 16);
+				res->serverList[i].len = app->serverList[i].len;
+				res->serverList[i].port = app->serverList[i].port;
+				res->serverList[i].len = i;
+			}
+			res->serverList[0].len = app->serverNmb;
+			std::cout << res->serverList[0].len;
 			theReturn = true;
 		}
 		else
@@ -55,20 +59,20 @@ bool CClientSession::SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app)
 	else
 	{
 		res->wResultCode = AUTH_USER_NOT_FOUND;
-		me = NULL;
 		theReturn = false;
 	}
 	packet.SetPacketLen(sizeof(sAU_LOGIN_RES));
 	int rc = SendPacket(&packet);
 	app->db->closeStatm();
 	return theReturn;
+	this->Disconnect(true);
 }
 //--------------------------------------------------------------------------------------//
 //		REFRESH GROUP WHEN BACK TO MENU
 //--------------------------------------------------------------------------------------//
 void CClientSession::RefreshMyGroupHUD()
 {
-	if (me != NULL)
+	/*if (me != NULL)
 	{
 		if (me->getIsGrouped() == true)
 		{
@@ -77,14 +81,14 @@ void CClientSession::RefreshMyGroupHUD()
 				me->getGroup()->RefreshAllGroup();
 			}
 		}
-	}
+	}*/
 }
 //--------------------------------------------------------------------------------------//
 //		Disconnect from Auth Server
 //--------------------------------------------------------------------------------------//
 void CClientSession::SendLoginDcReq(CNtlPacket * pPacket) 
 {
-	CAuthServer * app = (CAuthServer*)NtlSfxGetApp();
+	/*CAuthServer * app = (CAuthServer*)NtlSfxGetApp();
 	if (me != NULL)
 	{
 		if (me->getIsGrouped() == true)
@@ -125,5 +129,5 @@ void CClientSession::SendLoginDcReq(CNtlPacket * pPacket)
 		app->GetCharacterManager()->RemoveUser(me->getAccountName().c_str());
 		SAFE_DELETE(me);
 	}
-	this->Disconnect(true);
+	this->Disconnect(true);*/
 }

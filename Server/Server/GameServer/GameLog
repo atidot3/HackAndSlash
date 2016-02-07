@@ -1,0 +1,8 @@
+[2016-02-07 20:26:34] AcceptorThread [192.168.1.36:12345] Type[0]
+ Precreate ReserveAccept Success : Current[101]
+[2016-02-07 20:26:34] Connected to database server.
+[2016-02-07 20:26:34] Game-Server Started.
+[2016-02-07 21:7:50] AcceptorThread [192.168.1.36:12345] Type[0]
+ Precreate ReserveAccept Success : Current[101]
+[2016-02-07 21:7:50] Connected to database server.
+[2016-02-07 21:7:51] Game-Server Started.

@@ -20,19 +20,13 @@ int CClientSession::ParseAuthPacket(CNtlPacket * pPacket)
 	{
 		case UA_LOGIN_REQ:
 		{
-			if (CClientSession::SendCharLogInReq(pPacket, app) == true)
-			{
-				SendMapList();
-				app->GetCharacterManager()->UpdateFriendList();
-				sock = g_pApp->GetNetwork()->FindSocket(this->GetHandle());
-				SendPopupMessage("Welcome onto the server, have fun by all the team :)");
-				SendFriendLogin(app, true);
-			}
+			std::cout << "UA_LOGIN_REQ" << std::endl;
+			CClientSession::SendCharLogInReq(pPacket, app);
 		}
 		break;
 		case UA_LOGIN_DISCONNECT_REQ:
 		{
-			SendFriendLogin(app, false);
+			std::cout << "UA_LOGIN_DISCONNECT_REQ" << std::endl;
 			CClientSession::SendLoginDcReq(pPacket);
 		}
 		break;	

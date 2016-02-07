@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6E8EE378-A6D4-4E42-B3FD-64F5C0CF924C}</ProjectGuid>
+    <ProjectGuid>{87281502-D276-4FDD-940D-B0A6D00BC8B7}</ProjectGuid>
     <RootNamespace>AuthServer</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>MasterServer</ProjectName>
+    <ProjectName>AuthServer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -207,21 +207,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\CharacterManager\CharacterManager.h" />
     <ClInclude Include="Source\Client\CClientSession.h" />
-    <ClInclude Include="Source\Client\Client.h" />
-    <ClInclude Include="Source\Game\Groupe\Groupe.h" />
-    <ClInclude Include="Source\Game\Map\Map.h" />
-    <ClInclude Include="Source\Game\Session\Session.h" />
     <ClInclude Include="Source\Packets\AllPackets.h" />
-    <ClInclude Include="Source\Packets\Friend\NtlPacketFU.h" />
-    <ClInclude Include="Source\Packets\Friend\NtlPacketUF.h" />
-    <ClInclude Include="Source\Packets\Game\Chat\NtlPacketCHU.h" />
-    <ClInclude Include="Source\Packets\Game\Chat\NtlPacketUCH.h" />
-    <ClInclude Include="Source\Packets\Game\Groupe\PacketGRU.h" />
-    <ClInclude Include="Source\Packets\Game\Groupe\PacketUGR.h" />
-    <ClInclude Include="Source\Packets\Game\PacketGU.h" />
-    <ClInclude Include="Source\Packets\Game\PacketUG.h" />
     <ClInclude Include="Source\Packets\Login\NtlPacketAU.h" />
     <ClInclude Include="Source\Packets\Login\NtlPacketUA.h" />
     <ClInclude Include="Source\Server\AuthServer.h" />
@@ -229,28 +216,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\CharacterManager\CharacterManager.cpp" />
     <ClCompile Include="Source\Client\CClientSession.cpp" />
-    <ClCompile Include="Source\Client\Client.cpp" />
-    <ClCompile Include="Source\Game\Groupe\Groupe.cpp" />
-    <ClCompile Include="Source\Game\Map\Map.cpp" />
-    <ClCompile Include="Source\Game\Session\Session.cpp" />
-    <ClCompile Include="Source\Packets\Friend\NtlPacketFU.cpp" />
-    <ClCompile Include="Source\Packets\Friend\NtlPacketUF.cpp" />
-    <ClCompile Include="Source\Packets\Friend\PacketFriendServer.cpp" />
-    <ClCompile Include="Source\Packets\Friend\ParseFriendPacket.cpp" />
-    <ClCompile Include="Source\Packets\Game\Chat\NtlPacketCHU.cpp" />
-    <ClCompile Include="Source\Packets\Game\Chat\NtlPacketUCH.cpp" />
-    <ClCompile Include="Source\Packets\Game\Chat\PacketChatServer.cpp" />
-    <ClCompile Include="Source\Packets\Game\Chat\ParseChatPacket.cpp" />
-    <ClCompile Include="Source\Packets\Game\Groupe\NtlPacketGRU.cpp" />
-    <ClCompile Include="Source\Packets\Game\Groupe\NtlPacketUGR.cpp" />
-    <ClCompile Include="Source\Packets\Game\Groupe\PacketGroupeServer.cpp" />
-    <ClCompile Include="Source\Packets\Game\Groupe\ParseGroupePacket.cpp" />
-    <ClCompile Include="Source\Packets\Game\NtlPacketGU.cpp" />
-    <ClCompile Include="Source\Packets\Game\NtlPacketUG.cpp" />
-    <ClCompile Include="Source\Packets\Game\PacketGameServer.cpp" />
-    <ClCompile Include="Source\Packets\Game\ParseGamePacket.cpp" />
     <ClCompile Include="Source\Packets\Login\NtlPacketAU.cpp" />
     <ClCompile Include="Source\Packets\Login\NtlPacketUA.cpp" />
     <ClCompile Include="Source\Packets\Login\PacketAuthServer.cpp" />

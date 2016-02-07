@@ -17,23 +17,53 @@
 
 using namespace std;
 
-void CAuthServer::Update()
-{
-	Charmanager->Run();
-}
 //-----------------------------------------------------------------------------------
+//		Load Realm database
+//-----------------------------------------------------------------------------------
+bool CAuthServer::LoadRealmlist()
+{
+	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Loading Realmlist...");
 
+	db->prepare("SELECT * FROM realmd");
+	db->execute();
+	if ((db->rowsCount()) != 0)
+	{
+		int len = 0;
+		while (db->fetch())
+		{
+			serverList[len].id = db->getInt("realmdID");
+			serverList[len].port = db->getInt("port");
+			memcpy(&serverList[len].ip, db->getString("ip").c_str(), 16);
+			memcpy(&serverList[len].servername, db->getString("servername").c_str(), 16);
+			serverList[len].len = len;
+			std::cout << "id: " << serverList[len].id << std::endl
+				<< "port:" << serverList[len].port << std::endl
+				<< "ip:" << serverList[len].ip << std::endl
+				<< "name:" << serverList[len].servername << std::endl;
+			len++;
+		}
+		serverNmb = len;
+	}
+	else
+	{
+		NTL_PRINT(PRINT_APP, FOREGROUND_RED, "Error while loading Realmd, table empty.");
+		db->closeStatm();
+		return false;
+	}
+	db->closeStatm();
+	return true;
+}
 //-----------------------------------------------------------------------------------
 //		AuthServerMain
 //-----------------------------------------------------------------------------------
 int AuthServerMain(int argc, _TCHAR* argv[])
 {
-	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Starting Game-Server...");
+	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Starting Auth-Server...");
 	CAuthServer app;
 	CNtlFileStream traceFileStream;
 
 	// LOG FILE
-	int rc = traceFileStream.Create("GameLog");
+	int rc = traceFileStream.Create("AuthLog");
 	if (NTL_SUCCESS != rc)
 	{
 		printf("log file CreateFile error %d(%s)", rc, NtlGetErrorMessage(rc));
@@ -71,20 +101,10 @@ int AuthServerMain(int argc, _TCHAR* argv[])
 	{
 		NTL_PRINT(PRINT_APP, FOREGROUND_RED, "Couldn't switch database to %s Error:%s", app.GetConfigFileDatabase(), e.what());
 	}
-	app.Charmanager = new CharacterManager();
+	app.LoadRealmlist();
 	app.Start();
 	Sleep(500);
-	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Game-Server Started.");
-	std::string sCommand = "";
-	while (true)
-	{
-		cout << "Server> ";
-		getline(cin, sCommand);
-		if (!sCommand.empty())
-		{
-			cout << "Server> " << sCommand.c_str() << std::endl;
-		}
-	}
+	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Auth-Server Started.");
 	app.WaitForTerminate();
 	return 0;
 }

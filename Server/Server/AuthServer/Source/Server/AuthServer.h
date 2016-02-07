@@ -6,19 +6,14 @@
 #include <mutex>
 #include "NtlSfx.h"
 #include "../Client/CClientSession.h"
-#include "../Client/Client.h"
-#include "../Game/Groupe/Groupe.h"
-#include "../Game/Session/Session.h"
 #include "NtlPacketEncoder_RandKey.h"
-#include "../CharacterManager/CharacterManager.h"
 #include "mysqlconn_wrapper.h"
 #include <windows.h>
 #include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
+#include "../Packets/AllPackets.h"
 
-class Client;
 class CAuthServer;
-class CharacterManager;
 
 enum APP_LOG
 {
@@ -62,43 +57,18 @@ public:
 	void							OnClose();
 	int								OnDispatch(CNtlPacket * pPacket);
 	int								ParseAuthPacket(CNtlPacket * pPacket);
-	int								ParseFriendPacket(CNtlPacket * pPacket);
-	int								ParseGroupePacket(CNtlPacket * pPacket);
-	int								ParseGamePacket(CNtlPacket * pPacket);
-	int								ParseChatPacket(CNtlPacket * pPacket);
 	int								SendPacket(CNtlPacket * pPacket, int sleepTime = 0);
-	void							Update(DWORD diff);
-	bool							isInWorld();
 	// Packet functions
 	// LOGIN
 	bool							SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app);
 	void							SendLoginDcReq(CNtlPacket * pPacket);
 	void							RefreshMyGroupHUD();
-	// FRIEND
-	void							SendFriendList();
-	void							SendFriendToAddToGroupeRequest(CNtlPacket *pPacket, CAuthServer * app);
-	void							SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app);
-	void							SendFriendLogin(CAuthServer * app, bool online);
-	// GAME
-	void							SendMapList();
-	void							SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app);
-	void							SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer * app);
-	void							SendCharacterMoveOnMap(CNtlPacket *pPacket, CAuthServer * app);
-	void							SendBackToMenu(CNtlPacket *pPacket, CAuthServer * app);
-	void							SendPopupMessage(const char* theString);
-	// CHAT
-	void							SendWorldMessage(CNtlPacket *pPacket, CAuthServer * app);
-	// GROUPE
-	void							SendPlayerOnKick(CNtlPacket *pPacket, CAuthServer * app);
-	// End Packet functions
 private:
 	CNtlPacketEncoder_RandKey		m_packetEncoder;
 	SOCKET							sock;
 	// ATIDOTE THING
 public:
-	Client							*me;
 	WSADATA							wsa;
-	void							sendToAllPacket(CNtlPacket * pPacket, int accid);
 };
 
 class CAuthSessionFactory : public CNtlSessionFactory
@@ -129,6 +99,7 @@ public:
 class CAuthServer : public CNtlServerApp
 {
 public:
+	bool			LoadRealmlist();
 	const char*		GetConfigFileHost()
 	{
 		return m_config.Host.c_str();
@@ -269,25 +240,19 @@ public:
 	{
 		while (IsRunnable())
 		{
-			Update();
 			Sleep(1);
 		}
 	}
-	void Update();
 public:
-	CharacterManager						*GetCharacterManager();
 	DWORD									ThreadID;
-	CharacterManager						*Charmanager;
 private:
 	CNtlAcceptor							m_clientAcceptor;
 	CNtlLog  								m_log;
 	sSERVERCONFIG							m_config;
 public:
 	MySQLConnWrapper *						db;
-	typedef std::map<CNtlString, CClientSession*> USERLIST;
-	typedef USERLIST::value_type USERVAL;
-	typedef USERLIST::iterator USERIT;
-	USERLIST								m_userList;
+	int										serverNmb;
+	sSERVERDB								serverList[MAX_NUMOF_SERVER_DB];
 };
 
 #endif
