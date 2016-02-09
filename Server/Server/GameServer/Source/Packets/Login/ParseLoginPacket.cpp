@@ -32,8 +32,12 @@ int CClientSession::ParseAuthPacket(CNtlPacket * pPacket)
 		break;
 		case UA_LOGIN_DISCONNECT_REQ:
 		{
-			SendFriendLogin(app, false);
-			CClientSession::SendLoginDcReq(pPacket);
+			if (me != NULL)
+			{
+				SendFriendLogin(app, false);
+				CClientSession::SendLoginDcReq(pPacket);
+				removed = true;
+			}
 		}
 		break;	
 		default:

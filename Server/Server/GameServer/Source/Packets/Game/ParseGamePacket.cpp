@@ -17,6 +17,23 @@ int CClientSession::ParseGamePacket(CNtlPacket * pPacket)
 	sNTLPACKETHEADER * pHeader = (sNTLPACKETHEADER *)pPacket->GetPacketData();
 	switch (pHeader->wOpCode)
 	{
+		case UG_GAME_LOGIN_REQ:
+		{
+			if (OnGameLogin(pPacket) == true)
+			{
+				Sleep(100);
+				SendMapList();
+				Sleep(100);
+				app->GetCharacterManager()->UpdateFriendList();
+				Sleep(100);
+				sock = g_pApp->GetNetwork()->FindSocket(this->GetHandle());
+				Sleep(100);
+				SendPopupMessage("Welcome onto the server, have fun by all the team :)");
+				Sleep(100);
+				SendFriendLogin(app, true);
+			}
+		}
+		break;
 		case UG_GAME_ENTER_REQ:
 		{
 			SendGameEnterReq(pPacket, app);

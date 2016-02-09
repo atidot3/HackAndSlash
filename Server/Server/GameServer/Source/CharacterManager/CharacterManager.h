@@ -17,8 +17,8 @@ public:
 
 	void Run();
 
-	bool									AddUser(const char * lpszUserID, CClientSession * pSession);
-	void									RemoveUser(const char * lpszUserID);
+	bool									AddUser(CClientSession* tmp);
+	void									RemoveUser(CClientSession* tmp);
 	bool									FindUser(const char * lpszUserID);
 	CClientSession							*GetPlayerByAccount(int accountID);
 	CClientSession							*GetPlayerByName(const char* accName);
@@ -32,7 +32,7 @@ private:
 	DWORD									dwLastTick;
 	CNtlMutex								server_mutex;
 public:
-	typedef std::map<CNtlString, CClientSession*> USERLIST;
+	typedef std::list<CClientSession*> USERLIST;
 	typedef USERLIST::value_type USERVAL;
 	typedef USERLIST::iterator USERIT;
 	USERLIST								m_userList;

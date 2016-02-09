@@ -35,7 +35,7 @@ bool CClientSession::SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app)
 			this->me = new Client(user, res->accountId);
 			this->me->setSession(this);
 			me->setGroup(NULL);
-			app->GetCharacterManager()->AddUser(me->getAccountName().c_str(), this);
+			app->GetCharacterManager()->AddUser(this);
 			me->setMoney(app->db->getInt("money"));
 			me->setGameSession(NULL);
 			me->setStatut(ClientStatut::MENU);
@@ -122,7 +122,7 @@ void CClientSession::SendLoginDcReq(CNtlPacket * pPacket)
 				SAFE_DELETE(sess);
 			}
 		}
-		app->GetCharacterManager()->RemoveUser(me->getAccountName().c_str());
+		app->GetCharacterManager()->RemoveUser(this);
 		SAFE_DELETE(me);
 	}
 	this->Disconnect(true);

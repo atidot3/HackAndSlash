@@ -43,6 +43,7 @@ struct sSERVERCONFIG
 	bool			SaveOnLogout;
 	DWORD			PlayerLimits;
 	DWORD			saveInterval;
+	int				realmid;
 };
 
 const DWORD					MAX_NUMOF_GAME_CLIENT = 100;
@@ -80,6 +81,7 @@ public:
 	void							SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app);
 	void							SendFriendLogin(CAuthServer * app, bool online);
 	// GAME
+	bool							OnGameLogin(CNtlPacket * pPacket);
 	void							SendMapList();
 	void							SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app);
 	void							SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer * app);
@@ -94,6 +96,7 @@ public:
 private:
 	CNtlPacketEncoder_RandKey		m_packetEncoder;
 	SOCKET							sock;
+	bool							removed;
 	// ATIDOTE THING
 public:
 	Client							*me;
@@ -174,7 +177,6 @@ public:
 
 		return NTL_SUCCESS;
 	}
-
 	int	OnCreate()
 	{
 		int rc = NTL_SUCCESS;
@@ -199,11 +201,9 @@ public:
 		return NTL_SUCCESS;
 
 	}
-
 	void	OnDestroy()
 	{
 	}
-
 	int	OnCommandArgument(int argc, _TCHAR* argv[])
 	{
 		return NTL_SUCCESS;
@@ -222,11 +222,11 @@ public:
 		{
 			return NTL_ERR_SYS_CONFIG_FILE_READ_FAIL;
 		}
-		if( !file.Read("Auth Server", "Address", m_config.strClientAcceptAddr) )
+		if( !file.Read("Game Server", "Address", m_config.strClientAcceptAddr) )
 		{
 			return NTL_ERR_SYS_CONFIG_FILE_READ_FAIL;
 		}
-		if( !file.Read("Auth Server", "Port",  m_config.wClientAcceptPort) )
+		if( !file.Read("Game Server", "Port",  m_config.wClientAcceptPort) )
 		{
 			return NTL_ERR_SYS_CONFIG_FILE_READ_FAIL;
 		}
@@ -258,6 +258,10 @@ public:
 		{
 			return NTL_ERR_DBC_CONNECTION_CONNECT_FAIL;
 		}
+		if (!file.Read("REALMD", "realmid", m_config.realmid))
+		{
+			return NTL_ERR_DBC_CONNECTION_CONNECT_FAIL;
+		}
 		return NTL_SUCCESS;
 	}
 
@@ -274,6 +278,7 @@ public:
 		}
 	}
 	void Update();
+	void PrepareServer(bool online);
 public:
 	CharacterManager						*GetCharacterManager();
 	DWORD									ThreadID;

@@ -3,5 +3,8 @@
         <file>Image/fermer-croix-supprimer-erreurs-sortie-icone-4368-32.png</file>
         <file>Image/kservices-icone-9072-32.png</file>
         <file>Image/supprimer-vide-ordures-corbeille-icone-7418-32.png</file>
+        <file>Image/Bar.png</file>
+        <file>Image/fontBar.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

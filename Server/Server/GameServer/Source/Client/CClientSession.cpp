@@ -16,10 +16,18 @@ CClientSession::CClientSession(bool bAliveCheck, bool bOpcodeCheck) : CNtlSessio
 }
 CClientSession::~CClientSession()
 {
+	if (removed == false)
+	{
+		SendLoginDcReq(NULL);
+	}
+	std::cout << "Client disconnected" << std::endl;
 	//NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "CClientSession Destructor Called");
 }
 int							CClientSession::OnAccept()
 {
+	std::cout << "Client coonnected" << std::endl;
+	removed = false;
+	me = NULL;
 	//NTL_PRINT( PRINT_APP, "%s", __FUNCTION__ );
 	return NTL_SUCCESS;
 }
@@ -33,7 +41,7 @@ int							CClientSession::SendPacket(CNtlPacket * pPacket, int sleepTime)
 	sNTLPACKETHEADER * pHeader = (sNTLPACKETHEADER *)pPacket->GetPacketData();
 	int header = pHeader->wOpCode;
 	int rc = g_pApp->Send(this->GetHandle(), pPacket);
-	//std::cout << "Packet sended " << i++ << " size packet: " << pPacket->GetUsedSize() << " Opcode: " << header << endl;
+	std::cout << " size packet: " << pPacket->GetUsedSize() << " Opcode: " << header << endl;
 	return rc;
 }
 void						CClientSession::Update(DWORD diff)
@@ -71,6 +79,7 @@ int							CClientSession::OnDispatch(CNtlPacket * pPacket)
 {
 	CAuthServer * app = (CAuthServer*)NtlSfxGetApp();
 	sNTLPACKETHEADER * pHeader = (sNTLPACKETHEADER *)pPacket->GetPacketData();
+
 	if (pHeader->wOpCode >= UA_OPCODE_BEGIN && pHeader->wOpCode <= UA_OPCODE_END)
 	{
 		ParseAuthPacket(pPacket);

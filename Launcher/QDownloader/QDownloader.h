@@ -46,8 +46,8 @@ private:
     QFile output;
     QTime downloadTime;
 
-    int downloadedCount;
-    int totalCount;
+    float downloadedCount;
+    float totalCount;
 private slots:
     void startNextDownload();
 

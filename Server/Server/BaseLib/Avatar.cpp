@@ -59,7 +59,7 @@ bool CNtlAvatar::UpdateAvatarAttribute(BYTE byAttributeTotalCount, void* pvRawDa
 
 	return true;
 }
-//Convert Attributes to Attribute Link - Luiz45
+//Convert Attributes to Attribute Link - Atidote
 sAVATAR_ATTRIBUTE_LINK CNtlAvatar::ConvertAttributeToAttributeLink(sAVATAR_ATTRIBUTE* pAttributes)
 {
 	sAVATAR_ATTRIBUTE_LINK newAttribs;

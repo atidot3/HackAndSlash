@@ -12,6 +12,7 @@ enum eOPCODE_UG
 {
 	UG_OPCODE_BEGIN = 4000,
 
+	UG_GAME_LOGIN_REQ,
 	UG_GAME_ENTER_REQ,
 	UG_GAME_ENTER_COMPLETE_REQ,
 	UG_GAME_MOVEMENT_REQ,
@@ -30,15 +31,21 @@ const char * NtlGetPacketName_UG(WORD wOpCode);
 //------------------------------------------------------------------
 #pragma pack(1)
 //------------------------------------------------------------------
+BEGIN_PROTOCOL(UG_GAME_LOGIN_REQ)
+	int			AccountID;
+	WCHAR		awchUserId[NTL_MAX_SIZE_USERID_UNICODE + 1];
+	WCHAR		awchPasswd[NTL_MAX_SIZE_USERPW_UNICODE + 1];
+END_PROTOCOL()
+//------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_GAME_ENTER_REQ)
-	int mapID;
-	int charID;
+	int			mapID;
+	int			charID;
 	Difficulty difficu;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_GAME_ENTER_COMPLETE_REQ)
-	int mapID;
-	NtlVector postion;
+	int			mapID;
+	NtlVector	postion;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_BACK_TO_MENU_REQ)

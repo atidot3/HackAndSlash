@@ -30,7 +30,7 @@ public:
     ~MainWindow();
     void Start(QDownloader *tmp);
     void UpdateProgressBar(int value);
-    void SetFileToDownload(QString str);
+    void SetFileToDownload(QString speed, QString filesize);
     void SetFileToDownloadNumber(QString str);
     void DownloadDone();
     void ChangeToRepair();

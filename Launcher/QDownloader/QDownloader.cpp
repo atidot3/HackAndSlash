@@ -142,8 +142,6 @@ void QDownloader::setFile(QString fileURL, QString savePath)
     file->setFileName(savePath);
     file->open(QIODevice::WriteOnly);
 
-    qDebug() << "file url" << fileURL << "savepath" << savePath;
-    window.UpdateProgressBar(0);
     connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(onDownloadProgress(qint64,qint64)));
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onFinished(QNetworkReply*)));
     connect(reply,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
@@ -171,21 +169,21 @@ void QDownloader::onDownloadProgress(qint64 bytesRead,qint64 bytesTotal)
     float moTotal = bytesTotal / 1024 / 1024;
     if (bytesRead > 0)
     {
-       float downloaded_Size = (float)moRead;
-       float total_Size = (float)moTotal;
-       float progress = (downloaded_Size/total_Size) * 100;
-       window.UpdateProgressBar(progress);
-       QString current = QString::number(moRead);
-       current.append(" mo / ");
-       current.append(QString::number(moTotal));
-       current.append(" mo  ");
-       current.append(QString::number((moRead / moTotal) * 100));
-       current.append(" %");
-       current.append("   ");
-       current.append(QString::number(speed));
-       current.append(unit);
-       window.SetFileToDownload(current);
-    }
+        if (totalCount > 0)
+        {
+            float progress = ((downloadedCount / totalCount) * 100);
+            window.UpdateProgressBar(progress);
+        }
+        QString current = QString::number(moRead);
+        current.append(" mo / ");
+        current.append(QString::number(moTotal));
+        current.append(" mo  ");
+        current.append(QString::number((moRead / moTotal) * 100));
+        current.append(" %");
+        QString speedCur(QString::number((int)speed));
+        speedCur.append(unit);
+        window.SetFileToDownload(speedCur, current);
+      }
 }
 void QDownloader::onFinished(QNetworkReply * reply)
 {
@@ -238,7 +236,17 @@ void QDownloader::onReplyFinishedManifest()
         }
     }
     else
-        window.ChangeState(LAUNCHER_STATE::START);
+    {
+        QString exe = QDir::currentPath();
+        exe.append("HackAndSlash.exe");
+        QFile file(exe);
+        if(!file.open(QIODevice::ReadOnly))
+        {
+            window.ChangeState(LAUNCHER_STATE::UDPDATE);
+        }
+        else
+            window.ChangeState(LAUNCHER_STATE::START);
+    }
 }
 
 void QDownloader::ProcessUpdate()

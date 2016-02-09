@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------
-//		Auth Server by Daneos @ Ragezone 
+//		Auth Server by Atidote @ Ragezone 
 //-----------------------------------------------------------------------------------
 
 #include "stdafx.h"
@@ -14,20 +14,49 @@
 #include <iostream>
 #include <map>
 #include <list>
+#include <csignal>
 
 using namespace std;
 
 void CAuthServer::Update()
 {
-	Charmanager->Run();
+	//Charmanager->Run();
 }
 //-----------------------------------------------------------------------------------
+
+void CAuthServer::PrepareServer(bool online)
+{
+	db->prepare("UPDATE realmd SET online=? WHERE realmdID=?");
+	if (online == false)
+		db->setInt(1, 0);
+	else
+		db->setInt(1, 1);
+	db->setInt(2, m_config.realmid);
+	db->execute();
+	db->closeStatm();
+}
+
+void signalHandler(int signum)
+{
+	cout << "Interrupt signal (" << signum << ") received.\n";
+	
+	CAuthServer * app = (CAuthServer*)NtlSfxGetApp();
+	app->PrepareServer(false);
+}
 
 //-----------------------------------------------------------------------------------
 //		AuthServerMain
 //-----------------------------------------------------------------------------------
 int AuthServerMain(int argc, _TCHAR* argv[])
 {
+	signal(SIGINT, signalHandler);
+	signal(SIGABRT, signalHandler);
+	signal(SIGFPE, signalHandler);
+	signal(SIGILL, signalHandler);
+	signal(SIGSEGV, signalHandler);
+	signal(SIGTERM, signalHandler);
+	signal(SIGBREAK, signalHandler);
+
 	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Starting Game-Server...");
 	CAuthServer app;
 	CNtlFileStream traceFileStream;
@@ -72,11 +101,12 @@ int AuthServerMain(int argc, _TCHAR* argv[])
 		NTL_PRINT(PRINT_APP, FOREGROUND_RED, "Couldn't switch database to %s Error:%s", app.GetConfigFileDatabase(), e.what());
 	}
 	app.Charmanager = new CharacterManager();
+	app.PrepareServer(true);
 	app.Start();
 	Sleep(500);
 	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Game-Server Started.");
 	std::string sCommand = "";
-	while (true)
+	/*while (app.IsRunnable())
 	{
 		cout << "Server> ";
 		getline(cin, sCommand);
@@ -84,7 +114,8 @@ int AuthServerMain(int argc, _TCHAR* argv[])
 		{
 			cout << "Server> " << sCommand.c_str() << std::endl;
 		}
-	}
+	}*/
+	// register signal SIGINT and signal handler
 	app.WaitForTerminate();
 	return 0;
 }

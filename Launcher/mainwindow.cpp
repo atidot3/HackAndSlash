@@ -23,6 +23,12 @@ void MainWindow::Start(QDownloader *tmp)
     this->setFixedSize(this->maximumSize());
     ui->pushButton->setEnabled(false);
     ui->pushButton->setText("CHECK");
+
+    ui->FileDownloaded->hide();
+    ui->DownloadSpeed->hide();
+    ui->TextDesc->hide();
+    ui->sizeOfFile->hide();
+
     down = tmp;
 }
 void MainWindow::UpdateRepairStatut(int current, int max)
@@ -30,10 +36,10 @@ void MainWindow::UpdateRepairStatut(int current, int max)
     QString currentFile = QString::number(current);
     currentFile.append(" / ");
     currentFile.append(QString::number(max));
-    ui->label_2->setText(currentFile);
+    ui->FileDownloaded->setText(currentFile);
     if (current > 0)
     {
-        ui->label_3->setText(QString::number((current/max) * 100));
+        ui->DownloadSpeed->setText(QString::number((current/max) * 100));
         ui->progressBar->setValue((current/max) * 100);
     }
 }
@@ -42,24 +48,24 @@ void MainWindow::ChangeToReady()
     ui->pushButton->setEnabled(true);
     ui->pushButton->setText("PLAY");
     ui->progressBar->setValue(100);
-    ui->label->hide();
-    ui->label_2->hide();
-    ui->label_3->hide();
+    ui->FileDownloaded->hide();
+    ui->DownloadSpeed->hide();
+    ui->TextDesc->hide();
+    ui->sizeOfFile->hide();
 }
 void MainWindow::ChangeToUpdating()
 {
+    ui->progressBar->setValue(0);
     ui->pushButton->setEnabled(true);
     ui->pushButton->setText("INSTALLATION");
-    ui->label->hide();
-    ui->label_2->hide();
-    ui->label_3->hide();
 }
 void MainWindow::ChangeToRepair()
 {
     ui->progressBar->setValue(0);
-    ui->label->show();
-    ui->label_2->show();
-    ui->label_3->show();
+    ui->FileDownloaded->show();
+    ui->DownloadSpeed->show();
+    ui->TextDesc->show();
+    ui->sizeOfFile->show();
     ui->pushButton->setEnabled(false);
     ui->pushButton->setText("REPAIR");
     UpdateRepairStatut(0,0);
@@ -68,9 +74,10 @@ void MainWindow::ChangeToRepair()
 void MainWindow::ChangeToUninstall()
 {
     ui->progressBar->setValue(0);
-    ui->label->hide();
-    ui->label_2->hide();
-    ui->label_3->hide();
+    ui->FileDownloaded->hide();
+    ui->DownloadSpeed->hide();
+    ui->TextDesc->hide();
+    ui->sizeOfFile->hide();
     ui->pushButton->setEnabled(false);
     ui->pushButton->setText("UNINSTALL");
 }
@@ -114,16 +121,19 @@ void MainWindow::UpdateProgressBar(int value)
 void MainWindow::DownloadDone()
 {
     ui->progressBar->setValue(100);
-    ui->label->hide();
-    ui->label_2->hide();
+    ui->FileDownloaded->hide();
+    ui->DownloadSpeed->hide();
+    ui->TextDesc->hide();
+    ui->sizeOfFile->hide();
 }
-void MainWindow::SetFileToDownload(QString str)
+void MainWindow::SetFileToDownload(QString speed, QString filesize)
 {
-    ui->label_2->setText(str);
+    ui->DownloadSpeed->setText(speed);
+    ui->sizeOfFile->setText(filesize);
 }
 void MainWindow::SetFileToDownloadNumber(QString str)
 {
-    ui->label_3->setText(str);
+    ui->FileDownloaded->setText(str);
 }
 MainWindow::~MainWindow()
 {
@@ -164,10 +174,11 @@ void MainWindow::on_pushButton_clicked()
         case UDPDATE:
         {
             ui->progressBar->setValue(0);
-            ui->label->show();
-            ui->label_2->show();
-            ui->label_3->show();
-            ui->label->setText("File downloaded: ");
+            ui->FileDownloaded->show();
+            ui->DownloadSpeed->show();
+            ui->TextDesc->show();
+            ui->sizeOfFile->show();
+            ui->TextDesc->setText("File downloaded: ");
             ui->pushButton->setEnabled(false);
             down->ProcessUpdate();
             break;

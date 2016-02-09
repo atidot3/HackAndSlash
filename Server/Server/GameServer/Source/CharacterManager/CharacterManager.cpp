@@ -1,8 +1,8 @@
 #include "CharacterManager.h"
+#include <list>
 
 CharacterManager::CharacterManager()
 {
-
 }
 CharacterManager::~CharacterManager()
 {
@@ -14,7 +14,7 @@ void 						CharacterManager::Run()
 	USERIT it;
 	for (it = m_userList.begin(); it != m_userList.end(); it++)
 	{
-		it->second->Update(currentTick);
+		(*it)->Update(currentTick);
 	}
 	server_mutex.Lock();
 }
@@ -25,11 +25,11 @@ void						CharacterManager::sendToAll(CNtlPacket * pPacket, int accid)
 	USERIT it;
 	for (it = m_userList.begin(); it != m_userList.end(); it++)
 	{
-		CClientSession *plr = it->second;
+		CClientSession *plr = (*it);
 		if (plr != NULL)
 		{
 			//if (plr->me->getAccountID() != accid)
-				plr->SendPacket(pPacket);
+			plr->SendPacket(pPacket);
 		}
 	}
 	server_mutex.Unlock();
@@ -40,7 +40,7 @@ void						CharacterManager::SendToPlayerIfExist(const char * lpszUserID, CNtlPac
 	USERIT it;
 	for (it = m_userList.begin(); it != m_userList.end(); it++)
 	{
-		CClientSession *plr = it->second;
+		CClientSession *plr = (*it);
 		if (plr != NULL)
 		{
 			if (strcmp(plr->me->getAccountName().c_str(), lpszUserID) == 0)
@@ -58,7 +58,7 @@ CClientSession				*CharacterManager::GetPlayerByAccount(int accountID)
 	USERIT it;
 	for (it = m_userList.begin(); it != m_userList.end(); it++)
 	{
-		CClientSession *plr = it->second;
+		CClientSession *plr = (*it);
 		if (plr != NULL)
 		{
 			if (plr->me->getAccountID() == accountID)
@@ -71,42 +71,62 @@ CClientSession				*CharacterManager::GetPlayerByAccount(int accountID)
 	server_mutex.Unlock();
 	return NULL;
 }
-bool						CharacterManager::AddUser(const char * lpszUserID, CClientSession * pSession)
+bool						CharacterManager::AddUser(CClientSession * pSession)
 {
 	server_mutex.Lock();
-	if (false == m_userList.insert(USERVAL(CNtlString(lpszUserID), pSession)).second)
+	m_userList.push_back(pSession);
+	server_mutex.Unlock();
+	/*if (false == m_userList.insert(USERVAL(CNtlString(lpszUserID), pSession)).second)
 	{
 		server_mutex.Unlock();
 		return false;
 	}
-	server_mutex.Unlock();
+	server_mutex.Unlock();*/
 	return true;
 }
-void						CharacterManager::RemoveUser(const char * lpszUserID)
+void						CharacterManager::RemoveUser(CClientSession* tmp)
 {
+
 	server_mutex.Lock();
-	m_userList.erase(CNtlString(lpszUserID));
+	for (USERIT it = m_userList.begin(); it != m_userList.end(); ++it)
+	{
+		if ((*it)->me->getAccountID() == tmp->me->getAccountID())
+		{
+			m_userList.erase(it);
+			std::cout << "User :" << tmp->me->getAccountName() << " Removed, list size: " << m_userList.size() << std::endl;
+			break;
+		}
+	}
 	server_mutex.Unlock();
 }
 bool						CharacterManager::FindUser(const char * lpszUserID)
 {
 	server_mutex.Lock();
-	USERIT it = m_userList.find(CNtlString(lpszUserID));
-	if (it == m_userList.end())
+	for (USERIT it = m_userList.begin(); it != m_userList.end(); ++it)
 	{
-		server_mutex.Unlock();
-		return false;
+		if (it == m_userList.end())
+		{
+			server_mutex.Unlock();
+			return false;
+		}
+		if ((*it)->me->getAccountName().c_str() == lpszUserID)
+		{
+			server_mutex.Unlock();
+			return true;
+			break;
+		}
 	}
 	server_mutex.Unlock();
-	return true;
+	return false;
 }
 CClientSession				*CharacterManager::GetPlayerByName(const char* accName)
 {
 	server_mutex.Lock();
+	//USERIT it = m_userList.begin();
 	USERIT it = m_userList.begin();
 	while (it != m_userList.end())
 	{
-		CClientSession *plr = it->second;
+		CClientSession *plr = (*it);
 		if (plr != NULL)
 		{
 			if (strcmp(plr->me->getAccountName().c_str(), accName) == 0)
@@ -126,7 +146,7 @@ void						CharacterManager::UpdateFriendList()
 	USERIT it;
 	for (it = m_userList.begin(); it != m_userList.end(); it++)
 	{
-		CClientSession *plr = it->second;
+		CClientSession *plr = (*it);
 		if (plr != NULL)
 		{
 			plr->SendFriendList();

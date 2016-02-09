@@ -10,6 +10,72 @@
 #include <iostream>
 #include <map>
 #include <list>
+
+//--------------------------------------------------------------------------------------//
+//		Parse Login From Auth Server
+//--------------------------------------------------------------------------------------//
+bool CClientSession::OnGameLogin(CNtlPacket * pPacket)
+{
+	CAuthServer * app = (CAuthServer*)NtlSfxGetApp();
+	sUG_GAME_LOGIN_REQ * req = (sUG_GAME_LOGIN_REQ *)pPacket->GetPacketData();
+	CNtlPacket packet(sizeof(sGU_LOGIN_RES));
+	sGU_LOGIN_RES * res = (sGU_LOGIN_RES *)packet.GetPacketData();
+
+	bool theReturn = false;
+
+	res->wOpCode = GU_LOGIN_RES;
+	char user[NTL_MAX_SIZE_USERID + 1] = "";
+	char pass[NTL_MAX_SIZE_USERPW + 1] = "";
+
+	strcpy_s(user, NTL_MAX_SIZE_USERID + 1, (char*)req->awchUserId);
+	strcpy_s(pass, NTL_MAX_SIZE_USERPW + 1, (char*)req->awchPasswd);
+
+	app->db->prepare("SELECT * FROM accounts where username = ? AND acc_status = \"active\"");
+	app->db->setString(1, user);
+	app->db->execute();
+	if ((app->db->rowsCount()) != 0)
+	{
+		if (app->db->fetch() == false)
+		{
+			res->wResultCode = AUTH_USER_NOT_FOUND;
+			packet.SetPacketLen(sizeof(sGU_LOGIN_RES));
+			int rc = SendPacket(&packet);
+			return false;
+		}
+		if (app->db->getString("username") == user && app->db->getString("AccountPW") == pass & app->db->getString("acc_status") == "active")
+		{
+			res->wResultCode = AUTH_SUCCESS;
+			this->me = new Client(user, req->AccountID);
+			this->me->setSession(this);
+			me->setGroup(NULL);
+			app->GetCharacterManager()->AddUser(this);
+			me->setMoney(app->db->getInt("money"));
+			me->setGameSession(NULL);
+			me->setStatut(ClientStatut::MENU);
+			theReturn = true;
+		}
+		else
+		{
+			if (app->db->getString("AccountPW") != pass)
+				res->wResultCode = AUTH_WRONG_PASSWORD;
+			else if (app->db->getString("acc_status") != "active")
+				res->wResultCode = AUTH_USER_BLOCK;
+			else
+				res->wResultCode = AUTH_USER_NOT_FOUND;
+			theReturn = false;
+		}
+	}
+	else
+	{
+		res->wResultCode = AUTH_USER_NOT_FOUND;
+		me = NULL;
+		theReturn = false;
+	}
+	packet.SetPacketLen(sizeof(sGU_LOGIN_RES));
+	int rc = SendPacket(&packet);
+	app->db->closeStatm();
+	return theReturn;
+}
 //--------------------------------------------------------------------------------------//
 //		Send Map List From Database
 //--------------------------------------------------------------------------------------//

@@ -10,6 +10,7 @@ enum eOPCODE_GU
 {
 	GU_OPCODE_BEGIN = 5000,
 
+	GU_LOGIN_RES,
 	GU_ENTER_GAME_RES,
 	GU_PARTY_MEMBER_SPAWN,
 	GU_PARTY_MEMBER_MOVE,
@@ -41,6 +42,10 @@ struct GU_PARTY_MEMBER_DATA
 	NtlVector location;
 	char name[20];
 };
+//------------------------------------------------------------------
+BEGIN_PROTOCOL(GU_LOGIN_RES)
+	WORD			wResultCode;
+END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_ENTER_GAME_RES)
 	WORD				wResultCode;
