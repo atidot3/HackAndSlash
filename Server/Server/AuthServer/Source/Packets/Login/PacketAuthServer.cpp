@@ -32,6 +32,7 @@ bool CClientSession::SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app)
 		{
 			res->accountId = app->db->getInt("AccountID");
 			res->wResultCode = AUTH_SUCCESS;
+			app->LoadRealmlist();
 			for (int i = 0; i <= app->serverNmb; i++)
 			{
 				res->serverList[i].id = app->serverList[i].id;
@@ -40,6 +41,7 @@ bool CClientSession::SendCharLogInReq(CNtlPacket * pPacket, CAuthServer * app)
 				res->serverList[i].len = app->serverList[i].len;
 				res->serverList[i].port = app->serverList[i].port;
 				res->serverList[i].len = i;
+				res->serverList[i].online = app->serverList[i].online;
 			}
 			res->serverList[0].len = app->serverNmb;
 			std::cout << res->serverList[0].len;

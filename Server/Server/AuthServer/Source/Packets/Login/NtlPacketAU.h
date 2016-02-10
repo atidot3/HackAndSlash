@@ -28,6 +28,7 @@ struct sSERVERDB
 	char		ip[16];
 	int			port;
 	char		servername[16];
+	bool		online;
 	int			len;
 };
 

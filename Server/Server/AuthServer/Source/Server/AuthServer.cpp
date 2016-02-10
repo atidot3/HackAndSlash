@@ -20,9 +20,11 @@ using namespace std;
 //-----------------------------------------------------------------------------------
 //		Load Realm database
 //-----------------------------------------------------------------------------------
-bool CAuthServer::LoadRealmlist()
+bool CAuthServer::LoadRealmlist(bool fromInit)
 {
-	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Loading Realmlist...");
+	m_authMutex.Lock();
+	if (fromInit == true)
+		NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Loading Realmlist...");
 
 	db->prepare("SELECT * FROM realmd");
 	db->execute();
@@ -35,22 +37,37 @@ bool CAuthServer::LoadRealmlist()
 			serverList[len].port = db->getInt("port");
 			memcpy(&serverList[len].ip, db->getString("ip").c_str(), 16);
 			memcpy(&serverList[len].servername, db->getString("servername").c_str(), 16);
+			if (db->getBoolean("online") == true)
+				serverList[len].online = true;
+			else
+				serverList[len].online = false;
 			serverList[len].len = len;
-			std::cout << "id: " << serverList[len].id << std::endl
-				<< "port:" << serverList[len].port << std::endl
-				<< "ip:" << serverList[len].ip << std::endl
-				<< "name:" << serverList[len].servername << std::endl;
+			std::string status = "";
+			if (serverList[len].online == true && fromInit == true)
+			{
+				status = "online";
+				NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Server: %d: %s / %s:%d, %s", serverList[len].id, serverList[len].servername, serverList[len].ip, serverList[len].port, status.c_str());
+			}
+			else if (serverList[len].online == false && fromInit == true)
+			{
+				status = "offline";
+				NTL_PRINT(PRINT_APP, FOREGROUND_RED, "Server: %d: %s / %s:%d, %s", serverList[len].id, serverList[len].servername, serverList[len].ip, serverList[len].port, status.c_str());
+			}
+			
 			len++;
 		}
 		serverNmb = len;
 	}
 	else
 	{
-		NTL_PRINT(PRINT_APP, FOREGROUND_RED, "Error while loading Realmd, table empty.");
+		if (fromInit == true)
+			NTL_PRINT(PRINT_APP, FOREGROUND_RED, "Error while loading Realmd, table empty.");
+		m_authMutex.Unlock();
 		db->closeStatm();
 		return false;
 	}
 	db->closeStatm();
+	m_authMutex.Unlock();
 	return true;
 }
 //-----------------------------------------------------------------------------------
@@ -101,7 +118,7 @@ int AuthServerMain(int argc, _TCHAR* argv[])
 	{
 		NTL_PRINT(PRINT_APP, FOREGROUND_RED, "Couldn't switch database to %s Error:%s", app.GetConfigFileDatabase(), e.what());
 	}
-	app.LoadRealmlist();
+	app.LoadRealmlist(true);
 	app.Start();
 	Sleep(500);
 	NTL_PRINT(PRINT_APP, FOREGROUND_GREEN, "Auth-Server Started.");

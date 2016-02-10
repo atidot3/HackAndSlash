@@ -99,7 +99,7 @@ public:
 class CAuthServer : public CNtlServerApp
 {
 public:
-	bool			LoadRealmlist();
+	bool			LoadRealmlist(bool fromInit = false);
 	const char*		GetConfigFileHost()
 	{
 		return m_config.Host.c_str();
@@ -249,6 +249,7 @@ private:
 	CNtlAcceptor							m_clientAcceptor;
 	CNtlLog  								m_log;
 	sSERVERCONFIG							m_config;
+	CNtlMutex								m_authMutex;
 public:
 	MySQLConnWrapper *						db;
 	int										serverNmb;
