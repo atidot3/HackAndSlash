@@ -28,6 +28,7 @@ public:
 	void			lock();
 	void			unlock();
 	void			setDifficulty(Difficulty diff){ m_dungeonDifficulty = diff; }
+	int				getGUID();
 	// SEND
 	void			SendToAll(CNtlPacket *pPacket);
 	void			SendData(CNtlPacket *pPacket, Player* plr);
@@ -42,6 +43,7 @@ private:
 	MemberList						m_memberLists;
 	CNtlMutex						map_mutex;
 	Difficulty						m_dungeonDifficulty;
+	int								lastGUID;
 };
 
 

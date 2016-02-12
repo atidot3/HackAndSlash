@@ -12,6 +12,7 @@ enum eOPCODE_GU
 
 	GU_LOGIN_RES,
 	GU_ENTER_GAME_RES,
+	GU_ENTER_GAME_COMPLETE_RES,
 	GU_PARTY_MEMBER_SPAWN,
 	GU_PARTY_MEMBER_MOVE,
 	GU_PARTY_MEMBER_LOGOUT,
@@ -41,6 +42,7 @@ struct GU_PARTY_MEMBER_DATA
 	int charId;
 	NtlVector location;
 	char name[20];
+	int GUID;
 };
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_LOGIN_RES)
@@ -52,9 +54,13 @@ BEGIN_PROTOCOL(GU_ENTER_GAME_RES)
 	char				mapName[50];
 END_PROTOCOL()
 //------------------------------------------------------------------
+BEGIN_PROTOCOL(GU_ENTER_GAME_COMPLETE_RES)
+	int		GUID;
+END_PROTOCOL()
+//------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_LOAD_MAPS)
-	Maps	map[50];
-	int		byCount;
+	Maps				map[50];
+	int					byCount;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_PARTY_MEMBER_SPAWN)
@@ -63,17 +69,17 @@ BEGIN_PROTOCOL(GU_PARTY_MEMBER_SPAWN)
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_PARTY_MEMBER_LOGOUT)
-	int charID;
+	int					charID;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_PARTY_MEMBER_MOVE)
-	int charID;
-	NtlVector location;
-	int mapID;
+	int					GUID;
+	NtlVector			location;
+	int					mapID;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_POPUP_MESSAGE)
-	BYTE	theMessage[NTL_MAX_LENGTH_OF_CHAT_MESSAGE];
+	BYTE				theMessage[NTL_MAX_LENGTH_OF_CHAT_MESSAGE];
 END_PROTOCOL()
 #pragma pack()
 

@@ -8,6 +8,12 @@ Map::~Map()
 Map::Map(int id)
 {
 	mapID = id;
+	lastGUID = 0;
+}
+int	Map::getGUID()
+{
+	lastGUID += 1;
+	return lastGUID;
 }
 bool Map::AddPlayerToMap(Player* player, bool initPlayer /*= true*/)
 {
@@ -15,6 +21,7 @@ bool Map::AddPlayerToMap(Player* player, bool initPlayer /*= true*/)
 	if (m_memberLists.size() < MAX_PLAYER_PER_MAP)
 	{
 		m_memberLists.push_back(player);
+		player->setGUID(getGUID());
 		if (m_memberLists.size() > 1)
 		{
 			createSpawnMembersPacket(player);
@@ -35,6 +42,7 @@ void  Map::createAddPlayerToMapPacket(Player* plr)
 	res->group[0].level = plr->getLevel();
 	res->group[0].location = plr->getLocation();
 	strcpy(res->group[0].name, plr->getClient()->getAccountName().c_str());
+	res->group[0].GUID = plr->getGUID();
 	res->count = 1;
 	res->wOpCode = GU_PARTY_MEMBER_SPAWN;
 	packet.SetPacketLen(sizeof(sGU_PARTY_MEMBER_SPAWN));
@@ -54,6 +62,7 @@ void Map::createSpawnMembersPacket(Player *plr)
 			res->group[i].level = pl->getLevel();
 			res->group[i].location = pl->getLocation();
 			strcpy(res->group[i].name, pl->getClient()->getAccountName().c_str());
+			res->group[i].GUID = plr->getGUID();
 			i++;
 			res->count++;
 		}
@@ -143,7 +152,9 @@ void Map::SendToOther(CNtlPacket *pPacket, Player *plr)
 		if (pl->getClient()->getAccountID() != plr->getClient()->getAccountID())
 		{
 			if (pl->getClient()->getSession()->isInWorld() == true)
+			{
 				pl->getClient()->getSession()->SendPacket(pPacket);
+			}
 		}
 	}
 	unlock();

@@ -49,8 +49,8 @@ bool Session::isPlayerInSession(Client* _cl)
 			return true;
 		}
 	}
-	return false;
 	unlock();
+	return false;
 }
 void Session::RemovePlayerFromSession()
 {

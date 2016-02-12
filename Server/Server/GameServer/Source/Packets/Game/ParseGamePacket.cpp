@@ -43,6 +43,13 @@ int CClientSession::ParseGamePacket(CNtlPacket * pPacket)
 		{
 			SendGameEnterCompleteReq(pPacket, app);
 			RefreshMyGroupHUD();
+			
+			CNtlPacket packet(sizeof(sGU_ENTER_GAME_COMPLETE_RES));
+			sGU_ENTER_GAME_COMPLETE_RES * res = (sGU_ENTER_GAME_COMPLETE_RES *)packet.GetPacketData();
+			res->GUID = me->getPlayer()->getGUID();
+			res->wOpCode = GU_ENTER_GAME_COMPLETE_RES;
+			packet.SetPacketLen(sizeof(sGU_ENTER_GAME_COMPLETE_RES));
+			SendPacket(&packet);
 		}
 		break;
 		case GU_PARTY_MEMBER_MOVE:

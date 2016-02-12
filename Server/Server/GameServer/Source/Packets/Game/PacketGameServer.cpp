@@ -197,7 +197,6 @@ void CClientSession::SendGameEnterReq(CNtlPacket *pPacket, CAuthServer * app)
 void CClientSession::SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer * app)
 {
 	sUG_GAME_ENTER_COMPLETE_REQ * req = (sUG_GAME_ENTER_COMPLETE_REQ *)pPacket->GetPacketData();
-
 	if (me->getGameSession() != NULL)
 	{
 		me->setStatut(ClientStatut::GAME);
@@ -205,7 +204,7 @@ void CClientSession::SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer *
 		// need to fill players class with models etc
 		if (me->getIsGrouped() == true)
 			me->getGroup()->UpdatePlayerOnline(me);
-		//
+
 		me->getGameSession()->AddPlayerToMap(req->mapID, me->getPlayer());
 	}
 }

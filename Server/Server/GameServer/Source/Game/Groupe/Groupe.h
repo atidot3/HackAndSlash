@@ -39,39 +39,7 @@ enum Difficulty
 class Client;
 class Group;
 class Session;
-
-class Player
-{
-public:
-	Player()
-	{ 
-		disconnected = true;
-		life = 100;
-		level = 1;
-		classe = 0;
-	}
-	~Player(){}
-	int			getClass(){ return classe; }
-	void		setClass(int _class){ classe = _class; }
-	void		setDisconnected(bool di){ disconnected = di; }
-	bool		getDisconnedted(){ return disconnected; }
-	void		setLife(int amnt){ life = amnt; }
-	int			getLife(){ return life; }
-	void		setLevel(int lvl){ level = lvl; }
-	int			getLevel(){ return level; }
-	void		setClient(Client *me){ cl = me; }
-	Client		*getClient(){ return cl; }
-	void		setLocation(NtlVector _location){ location = _location; }
-	NtlVector	getLocation(){ return location; }
-	void		update(DWORD diff){}
-private:
-	bool		disconnected;
-	int			level;
-	int			life;
-	Client		*cl;
-	NtlVector	location;
-	int			classe;
-};
+class Player;
 
 class Group
 {

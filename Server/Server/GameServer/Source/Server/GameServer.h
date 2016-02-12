@@ -11,6 +11,9 @@
 #include "../Game/Session/Session.h"
 #include "NtlPacketEncoder_RandKey.h"
 #include "../CharacterManager/CharacterManager.h"
+#include "../Game/Entities/Object/Object.h"
+#include "../Game/Entities/Player/Player.h"
+#include "../Game/Entities/Unit/Unit.h"
 #include "mysqlconn_wrapper.h"
 #include <windows.h>
 #include <winsock2.h>

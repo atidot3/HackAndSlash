@@ -109,7 +109,7 @@ bool						CharacterManager::FindUser(const char * lpszUserID)
 			server_mutex.Unlock();
 			return false;
 		}
-		if ((*it)->me->getAccountName().c_str() == lpszUserID)
+		if (strcmp((*it)->me->getAccountName().c_str(), lpszUserID) == 0)
 		{
 			server_mutex.Unlock();
 			return true;
