@@ -192,6 +192,9 @@
     <ClInclude Include="Source\Game\Entities\Unit\Unit.h">
       <Filter>ServerFile\Header\Game\Entities\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Entities\ObjectGUID.h">
+      <Filter>ServerFile\Header\Game\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Server\main.cpp">
@@ -283,6 +286,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Entities\Object\Object.cpp">
       <Filter>ServerFile\Source\Game\Entities\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Entities\Unit\Unit.cpp">
+      <Filter>ServerFile\Source\Game\Entities\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Entities\Player\Player.cpp">
+      <Filter>ServerFile\Source\Game\Entities\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

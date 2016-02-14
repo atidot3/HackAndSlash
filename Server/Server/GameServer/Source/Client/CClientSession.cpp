@@ -25,7 +25,7 @@ CClientSession::~CClientSession()
 }
 int							CClientSession::OnAccept()
 {
-	std::cout << "Client coonnected" << std::endl;
+	std::cout << "Client connected" << std::endl;
 	removed = false;
 	me = NULL;
 	//NTL_PRINT( PRINT_APP, "%s", __FUNCTION__ );
@@ -41,7 +41,7 @@ int							CClientSession::SendPacket(CNtlPacket * pPacket, int sleepTime)
 	sNTLPACKETHEADER * pHeader = (sNTLPACKETHEADER *)pPacket->GetPacketData();
 	int header = pHeader->wOpCode;
 	int rc = g_pApp->Send(this->GetHandle(), pPacket);
-	std::cout << " size packet: " << pPacket->GetUsedSize() << " Opcode: " << header << endl;
+	//std::cout << " size packet: " << pPacket->GetUsedSize() << " Opcode: " << header << endl;
 	return rc;
 }
 void						CClientSession::Update(DWORD diff)

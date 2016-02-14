@@ -148,6 +148,7 @@ enum eRESULTCODE
 	COMMUNITY_FRIEND_CHAR_EXIST,								// 친구목록에 존재하는 캐릭입니다.
 	COMMUNITY_FRIEND_BLACK_CHAR_EXIST,							// Black List 목록에 존재하는 캐릭입니다.
 	COMMUNITY_FRIEND_SELF_FAIL,									// 자기 자신은 추가 할수 없습니다.
+	COMMUNITY_FRIEND_ADDED,										// Request added
 
 	COMMUNITY_RANK_BATTLE_LIST_NOT_FOUND,						// 랭크배틀 리스트에 없습니다.
 
@@ -551,6 +552,10 @@ enum eRESULTCODE
 	GAME_PARTY_COULDNT_JOIN_FOR_SOME_REASON,				// 시스템 문제로 파티에 가입할 수 없었습니다.
 	GAME_PARTY_NO_SUCH_A_PLAYER_IN_THE_PARTY,				// 파티에 존재하지 않는 플레이어입니다.
 	GAME_PARTY_COULDNT_KICK_OUT_FOR_SOME_REASON,			// 시스템 문제로 멤버를 강제로 탈퇴시킬 수 없었습니다.
+
+	GAME_PARTY_TARGET_REFUSE_INVITATION,					// target refuse the invitation
+	GAME_PARTY_NOT_LEADER,									// you are not leader
+	GAME_PARTY_IS_FULL,										// your party is full
 
 	GAME_PARTY_CANT_KICK_OUT_HIMSELF,						// 자기 자신을 강제로 탈퇴시킬 수 없습니다.
 	GAME_PARTY_YOU_ARE_ALREADY_A_LEADER,					// 이미 자신이 파티 리더입니다.

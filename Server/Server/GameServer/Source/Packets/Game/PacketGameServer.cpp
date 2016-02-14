@@ -203,9 +203,20 @@ void CClientSession::SendGameEnterCompleteReq(CNtlPacket *pPacket, CAuthServer *
 		me->getPlayer()->setLocation(req->postion);
 		// need to fill players class with models etc
 		if (me->getIsGrouped() == true)
+		{
+			if (me->getGroup()->getSession() == NULL)
+				me->getGroup()->setSession(me->getGameSession());
 			me->getGroup()->UpdatePlayerOnline(me);
-
+		}
 		me->getGameSession()->AddPlayerToMap(req->mapID, me->getPlayer());
+
+		// SEND TO PLAYER ENTER WORLD COMPLETE
+		CNtlPacket packet(sizeof(sGU_ENTER_GAME_COMPLETE_RES));
+		sGU_ENTER_GAME_COMPLETE_RES * res = (sGU_ENTER_GAME_COMPLETE_RES *)packet.GetPacketData();
+		res->GUID = me->getPlayer()->getGUID();
+		res->wOpCode = GU_ENTER_GAME_COMPLETE_RES;
+		packet.SetPacketLen(sizeof(sGU_ENTER_GAME_COMPLETE_RES));
+		SendPacket(&packet);
 	}
 }
 //--------------------------------------------------------------------------------------//

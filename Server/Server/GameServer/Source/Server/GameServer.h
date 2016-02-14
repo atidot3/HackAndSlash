@@ -82,7 +82,9 @@ public:
 	void							SendFriendList();
 	void							SendFriendToAddToGroupeRequest(CNtlPacket *pPacket, CAuthServer * app);
 	void							SendFriendGroupe(CNtlPacket *pPacket, CAuthServer * app);
+	void							SendFriendRequest(CNtlPacket *pPacket, CAuthServer * app);
 	void							SendFriendLogin(CAuthServer * app, bool online);
+	void							SendFriendPendingRequest();
 	// GAME
 	bool							OnGameLogin(CNtlPacket * pPacket);
 	void							SendMapList();
@@ -292,10 +294,6 @@ private:
 	sSERVERCONFIG							m_config;
 public:
 	MySQLConnWrapper *						db;
-	typedef std::map<CNtlString, CClientSession*> USERLIST;
-	typedef USERLIST::value_type USERVAL;
-	typedef USERLIST::iterator USERIT;
-	USERLIST								m_userList;
 };
 
 #endif

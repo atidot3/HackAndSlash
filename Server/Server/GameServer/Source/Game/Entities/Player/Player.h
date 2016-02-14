@@ -4,22 +4,22 @@
 #include "../../../Server/GameServer.h"
 #include "../../Session/Session.h"
 #include "../Unit/Unit.h"
+#include "../ObjectGUID.h"
 
 struct		NtlVector;
 class		Client;
 class		Unit;
+class		Object;
 
 class Player : public Unit
 {
 public:
-	explicit Player()
-	{
-		disconnected = true;
-		life = 100;
-		level = 1;
-		classe = 0;
-	}
+	explicit Player();
 	~Player()	{}
+
+
+	void		AddToWorld() override;
+	void		RemoveFromWorld() override;
 	int			getClass(){ return classe; }
 	void		setClass(int _class){ classe = _class; }
 	void		setDisconnected(bool di){ disconnected = di; }
@@ -32,9 +32,20 @@ public:
 	Client		*getClient(){ return cl; }
 	void		setLocation(NtlVector _location){ location = _location; }
 	NtlVector	getLocation(){ return location; }
-	void		update(DWORD diff){}
+	void		Update(DWORD time) override;
 	int			getGUID(){ return GUID; }
 	void		setGUID(int id){ GUID = id; }
+	/*********************************************************/
+	/***                    QUEST SYSTEM                   ***/
+	/*********************************************************/
+
+	/*********************************************************/
+	/***                   LOAD SYSTEM                     ***/
+	/*********************************************************/
+
+	/*********************************************************/
+	/***                   SAVE SYSTEM                     ***/
+	/*********************************************************/
 private:
 	bool		disconnected;
 	int			level;

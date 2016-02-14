@@ -27,6 +27,11 @@ int CClientSession::ParseFriendPacket(CNtlPacket * pPacket)
 			SendFriendGroupe(pPacket, app);
 		}
 		break;
+		case UF_REQUEST_NEW_FRIEND_REQ:
+		{
+			SendFriendRequest(pPacket, app);
+		}
+		break;
 		default:
 			return CNtlSession::OnDispatch(pPacket);
 	}

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2016-02-09 10:52:40
+Date: 2016-02-14 10:51:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -197,7 +197,6 @@ INSERT INTO `friendlist` VALUES ('3', 'toto', 'atidote');
 INSERT INTO `friendlist` VALUES ('4', 'atidote', 'toto');
 INSERT INTO `friendlist` VALUES ('5', 'kevin', 'toto');
 INSERT INTO `friendlist` VALUES ('6', 'toto', 'kevin');
-
 -- ----------------------------
 -- Table structure for `maps`
 -- ----------------------------
@@ -207,13 +206,11 @@ CREATE TABLE `maps` (
   `Name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
 -- ----------------------------
 -- Records of maps
 -- ----------------------------
 INSERT INTO `maps` VALUES ('0', 'TopDownExampleMap');
 INSERT INTO `maps` VALUES ('1', 'ElevenRuins');
-
 -- ----------------------------
 -- Table structure for `realmd`
 -- ----------------------------
@@ -227,9 +224,18 @@ CREATE TABLE `realmd` (
   `online` smallint(1) DEFAULT '0',
   PRIMARY KEY (`realmdID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
 -- ----------------------------
 -- Records of realmd
 -- ----------------------------
 INSERT INTO `realmd` VALUES ('1', 'France', '88.190.215.114', '30001', '0', '0');
 INSERT INTO `realmd` VALUES ('2', 'English', '88.190.215.114', '7777', '0', '0');
+-- ----------------------------
+-- Pending friend request
+-- ----------------------------
+DROP TABLE IF EXISTS `pendingRequest`;
+CREATE TABLE `pendingRequest` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `fromWho` varchar(20) DEFAULT NULL,
+  `toWho` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

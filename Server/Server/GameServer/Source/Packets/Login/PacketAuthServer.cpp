@@ -106,8 +106,8 @@ void CClientSession::SendLoginDcReq(CNtlPacket * pPacket)
 				{
 					if (me->getGameSession() != NULL)
 					{
-						me->getGameSession()->RemovePlayer(me);
 						me->getGameSession()->RemovePlayerFromMap(me->getPlayer(), true);
+						me->getGameSession()->RemovePlayer(me);
 					}
 					me->getGroup()->RemoveMember(me);
 				}

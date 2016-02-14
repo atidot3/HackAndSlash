@@ -208,7 +208,7 @@ void Session::UpdatePlayer(DWORD diff)
 			{
 				if (plr->getPlayer() != NULL)
 				{
-					plr->getPlayer()->update(diff);
+					plr->getPlayer()->Update(diff);
 				}
 			}
 		}

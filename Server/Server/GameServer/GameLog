@@ -1,1 +1,61 @@
 [2016-02-12 22:22:14] Server Application Create Fail 100016(NTL_ERR_DBC_CONNECTION_CONNECT_FAIL)
+[2016-02-13 13:32:7] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 13:32:8] Connected to database server.
+[2016-02-13 13:32:8] Game-Server Started.
+[2016-02-13 13:34:59] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 13:34:59] Connected to database server.
+[2016-02-13 13:35:0] Game-Server Started.
+[2016-02-13 13:36:31] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 13:36:31] Connected to database server.
+[2016-02-13 13:36:32] Game-Server Started.
+[2016-02-13 13:41:52] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 13:41:52] Connected to database server.
+[2016-02-13 13:41:53] Game-Server Started.
+[2016-02-13 13:49:48] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 13:49:49] Connected to database server.
+[2016-02-13 13:49:49] Game-Server Started.
+[2016-02-13 13:55:45] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 13:55:45] Connected to database server.
+[2016-02-13 13:55:46] Game-Server Started.
+[2016-02-13 15:39:31] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 15:39:32] Connected to database server.
+[2016-02-13 15:39:32] Game-Server Started.
+[2016-02-13 15:45:44] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 15:45:44] Connected to database server.
+[2016-02-13 15:45:45] Game-Server Started.
+[2016-02-13 15:54:12] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 15:54:12] Connected to database server.
+[2016-02-13 15:54:13] Game-Server Started.
+[2016-02-13 15:59:54] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 15:59:54] Connected to database server.
+[2016-02-13 15:59:54] Game-Server Started.
+[2016-02-13 16:4:37] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-13 16:4:38] Connected to database server.
+[2016-02-13 16:4:38] Game-Server Started.
+[2016-02-14 17:24:49] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-14 17:24:49] Connected to database server.
+[2016-02-14 17:24:50] Game-Server Started.
+[2016-02-14 17:25:2] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-14 17:25:2] Connected to database server.
+[2016-02-14 17:25:2] Game-Server Started.
+[2016-02-14 17:25:15] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-14 17:25:15] Connected to database server.
+[2016-02-14 17:25:16] Game-Server Started.
+[2016-02-14 17:28:33] AcceptorThread [192.168.1.36:30001] Type[0]
+ Precreate ReserveAccept Success : Current[11]
+[2016-02-14 17:28:33] Connected to database server.
+[2016-02-14 17:28:34] Game-Server Started.

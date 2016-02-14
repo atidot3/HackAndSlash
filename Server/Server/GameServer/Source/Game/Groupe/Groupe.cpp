@@ -80,13 +80,26 @@ bool Group::AddMember(Client* client)
 	if (GetMembersCount() < MAX_GROUP_SIZE)	// If the leader can't be added to a new group because it appears full, something is clearly wrong.
 	{
 		MemberSlot member;
-		member.guid = client->getAccountID();
-		member.name = "";
-		member._class = 0;
-		member.level = 0;
-		member.life = 0;
-		member.disconnected = true;
-		member.me = client;
+		if (client->getStatut() == ClientStatut::MENU)
+		{
+			member.guid = client->getAccountID();
+			member.name = "";
+			member._class = 0;
+			member.level = 0;
+			member.life = 0;
+			member.disconnected = true;
+			member.me = client;
+		}
+		else
+		{
+			member.guid = client->getAccountID();
+			member.name = client->getAccountName();
+			member._class = client->getPlayer()->getClass();
+			member.level = client->getPlayer()->getLevel();
+			member.life = client->getPlayer()->getLife();
+			member.disconnected = false;
+			member.me = client;
+		}
 		m_memberSlots.push_back(member);
 		client->setGroup(this);
 		RefreshAllGroup();
