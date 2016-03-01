@@ -32,6 +32,11 @@ int CClientSession::ParseFriendPacket(CNtlPacket * pPacket)
 			SendFriendRequest(pPacket, app);
 		}
 		break;
+		case UF_REQUEST_FRIEND_REQ:
+		{
+			app->GetCharacterManager()->UpdateFriendList();
+		}
+		break;
 		default:
 			return CNtlSession::OnDispatch(pPacket);
 	}

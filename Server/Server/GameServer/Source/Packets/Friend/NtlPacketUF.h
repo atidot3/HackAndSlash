@@ -10,6 +10,7 @@ enum eOPCODE_UF
 	UF_GROUP_FRIEND_REQ = UF_OPCODE_BEGIN,
 	UF_GROUP_FRIEND_AWSER_REQ,
 	UF_REQUEST_NEW_FRIEND_REQ,
+	UF_REQUEST_FRIEND_REQ,
 
 	UF_OPCODE_DUMMY,
 	UF_OPCODE_END = UF_OPCODE_DUMMY - 1
@@ -34,6 +35,10 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UF_REQUEST_NEW_FRIEND_REQ) // PLAYER SENDED A REQUEST TO A PLAYER
 	char toWho[20];
+END_PROTOCOL()
+//------------------------------------------------------------------
+BEGIN_PROTOCOL(UF_REQUEST_FRIEND_REQ)
+
 END_PROTOCOL()
 //------------------------------------------------------------------
 #pragma pack()

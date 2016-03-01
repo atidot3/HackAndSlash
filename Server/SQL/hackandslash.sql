@@ -10,13 +10,13 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2016-02-14 10:51:03
+Date: 2016-03-01 15:10:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `accounts`
+-- Table structure for accounts
 -- ----------------------------
 DROP TABLE IF EXISTS `accounts`;
 CREATE TABLE `accounts` (
@@ -27,17 +27,10 @@ CREATE TABLE `accounts` (
   `money` int(10) DEFAULT '0',
   `email` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AccountID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of accounts
--- ----------------------------
-INSERT INTO `accounts` VALUES ('1', 'atidote', 'atidote', 'active', '0', null);
-INSERT INTO `accounts` VALUES ('2', 'kevin', 'kevin', 'active', '0', null);
-INSERT INTO `accounts` VALUES ('3', 'toto', 'toto', 'active', '0', null);
-
--- ----------------------------
--- Table structure for `characters`
+-- Table structure for characters
 -- ----------------------------
 DROP TABLE IF EXISTS `characters`;
 CREATE TABLE `characters` (
@@ -109,11 +102,7 @@ CREATE TABLE `characters` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of characters
--- ----------------------------
-
--- ----------------------------
--- Table structure for `experiance`
+-- Table structure for experiance
 -- ----------------------------
 DROP TABLE IF EXISTS `experiance`;
 CREATE TABLE `experiance` (
@@ -121,64 +110,10 @@ CREATE TABLE `experiance` (
   `Level` int(10) NOT NULL,
   `MaxExpInThisLevel` int(10) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of experiance
--- ----------------------------
-INSERT INTO `experiance` VALUES ('1', '1', '417');
-INSERT INTO `experiance` VALUES ('2', '2', '887');
-INSERT INTO `experiance` VALUES ('3', '3', '1437');
-INSERT INTO `experiance` VALUES ('4', '4', '2067');
-INSERT INTO `experiance` VALUES ('5', '5', '2777');
-INSERT INTO `experiance` VALUES ('6', '6', '3567');
-INSERT INTO `experiance` VALUES ('7', '7', '4437');
-INSERT INTO `experiance` VALUES ('8', '8', '5387');
-INSERT INTO `experiance` VALUES ('9', '9', '6417');
-INSERT INTO `experiance` VALUES ('10', '10', '7527');
-INSERT INTO `experiance` VALUES ('11', '11', '8717');
-INSERT INTO `experiance` VALUES ('12', '12', '9987');
-INSERT INTO `experiance` VALUES ('13', '13', '11337');
-INSERT INTO `experiance` VALUES ('14', '14', '12767');
-INSERT INTO `experiance` VALUES ('15', '15', '14277');
-INSERT INTO `experiance` VALUES ('16', '16', '15867');
-INSERT INTO `experiance` VALUES ('17', '17', '17537');
-INSERT INTO `experiance` VALUES ('18', '18', '19287');
-INSERT INTO `experiance` VALUES ('19', '19', '21117');
-INSERT INTO `experiance` VALUES ('20', '20', '23027');
-INSERT INTO `experiance` VALUES ('21', '21', '25017');
-INSERT INTO `experiance` VALUES ('22', '22', '27087');
-INSERT INTO `experiance` VALUES ('23', '23', '29237');
-INSERT INTO `experiance` VALUES ('24', '24', '29200');
-INSERT INTO `experiance` VALUES ('25', '25', '31950');
-INSERT INTO `experiance` VALUES ('26', '26', '34840');
-INSERT INTO `experiance` VALUES ('27', '27', '37870');
-INSERT INTO `experiance` VALUES ('28', '28', '41040');
-INSERT INTO `experiance` VALUES ('29', '29', '44350');
-INSERT INTO `experiance` VALUES ('30', '30', '47800');
-INSERT INTO `experiance` VALUES ('31', '31', '51390');
-INSERT INTO `experiance` VALUES ('32', '32', '55120');
-INSERT INTO `experiance` VALUES ('33', '33', '58990');
-INSERT INTO `experiance` VALUES ('34', '34', '63000');
-INSERT INTO `experiance` VALUES ('35', '35', '67150');
-INSERT INTO `experiance` VALUES ('36', '36', '71440');
-INSERT INTO `experiance` VALUES ('37', '37', '75870');
-INSERT INTO `experiance` VALUES ('38', '38', '80440');
-INSERT INTO `experiance` VALUES ('39', '39', '85150');
-INSERT INTO `experiance` VALUES ('40', '40', '90000');
-INSERT INTO `experiance` VALUES ('41', '41', '94990');
-INSERT INTO `experiance` VALUES ('42', '42', '100120');
-INSERT INTO `experiance` VALUES ('43', '43', '105390');
-INSERT INTO `experiance` VALUES ('44', '44', '110800');
-INSERT INTO `experiance` VALUES ('45', '45', '116350');
-INSERT INTO `experiance` VALUES ('46', '46', '122040');
-INSERT INTO `experiance` VALUES ('47', '47', '127870');
-INSERT INTO `experiance` VALUES ('48', '48', '133840');
-INSERT INTO `experiance` VALUES ('49', '49', '139950');
-INSERT INTO `experiance` VALUES ('50', '50', '146200');
-
--- ----------------------------
--- Table structure for `friendlist`
+-- Table structure for friendlist
 -- ----------------------------
 DROP TABLE IF EXISTS `friendlist`;
 CREATE TABLE `friendlist` (
@@ -186,33 +121,82 @@ CREATE TABLE `friendlist` (
   `account` varchar(20) DEFAULT NULL,
   `friend` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of friendlist
+-- Table structure for item_template
 -- ----------------------------
-INSERT INTO `friendlist` VALUES ('1', 'atidote', 'kevin');
-INSERT INTO `friendlist` VALUES ('2', 'kevin', 'atidote');
-INSERT INTO `friendlist` VALUES ('3', 'toto', 'atidote');
-INSERT INTO `friendlist` VALUES ('4', 'atidote', 'toto');
-INSERT INTO `friendlist` VALUES ('5', 'kevin', 'toto');
-INSERT INTO `friendlist` VALUES ('6', 'toto', 'kevin');
+DROP TABLE IF EXISTS `item_template`;
+CREATE TABLE `item_template` (
+  `""` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `ID` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `class` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `subclass` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `Quality` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `BuyPrice` bigint(20) NOT NULL DEFAULT '0',
+  `SellPrice` int(10) unsigned NOT NULL DEFAULT '0',
+  `InventoryType` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `AllowableClass` int(11) NOT NULL DEFAULT '-1',
+  `RequiredLevel` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `count` int(11) NOT NULL DEFAULT '0',
+  `maxcount` int(11) NOT NULL DEFAULT '0',
+  `stackable` int(11) DEFAULT '1',
+  `dmg_min1` float NOT NULL DEFAULT '0',
+  `dmg_max1` float NOT NULL DEFAULT '0',
+  `dmg_type1` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `dmg_min2` float NOT NULL DEFAULT '0',
+  `dmg_max2` float NOT NULL DEFAULT '0',
+  `dmg_type2` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `armor` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `holy_res` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `fire_res` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `nature_res` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `frost_res` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `shadow_res` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `arcane_res` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `stat_type1` int(10) NOT NULL DEFAULT '0',
+  `stat_value1` int(10) NOT NULL DEFAULT '0',
+  `stat_type2` int(10) NOT NULL DEFAULT '0',
+  `stat_value2` int(10) NOT NULL DEFAULT '0',
+  `stat_type3` int(10) NOT NULL DEFAULT '0',
+  `stat_value3` int(10) NOT NULL DEFAULT '0',
+  `stat_type4` int(10) NOT NULL DEFAULT '0',
+  `stat_value4` int(10) NOT NULL DEFAULT '0',
+  `delay` smallint(5) unsigned NOT NULL DEFAULT '1000',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `itemset` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `Durability` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `MaxDurability` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `FoodType` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `icon` varchar(255) NOT NULL DEFAULT '',
+  `mesh` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ID`,`""`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='Item System';
+
 -- ----------------------------
--- Table structure for `maps`
+-- Table structure for maps
 -- ----------------------------
 DROP TABLE IF EXISTS `maps`;
 CREATE TABLE `maps` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `Name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+
 -- ----------------------------
--- Records of maps
+-- Table structure for pendingrequest
 -- ----------------------------
-INSERT INTO `maps` VALUES ('0', 'TopDownExampleMap');
-INSERT INTO `maps` VALUES ('1', 'ElevenRuins');
+DROP TABLE IF EXISTS `pendingrequest`;
+CREATE TABLE `pendingrequest` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `fromWho` varchar(20) DEFAULT NULL,
+  `toWho` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- ----------------------------
--- Table structure for `realmd`
+-- Table structure for realmd
 -- ----------------------------
 DROP TABLE IF EXISTS `realmd`;
 CREATE TABLE `realmd` (
@@ -223,19 +207,4 @@ CREATE TABLE `realmd` (
   `onlinePlayer` int(10) DEFAULT '0',
   `online` smallint(1) DEFAULT '0',
   PRIMARY KEY (`realmdID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
--- ----------------------------
--- Records of realmd
--- ----------------------------
-INSERT INTO `realmd` VALUES ('1', 'France', '88.190.215.114', '30001', '0', '0');
-INSERT INTO `realmd` VALUES ('2', 'English', '88.190.215.114', '7777', '0', '0');
--- ----------------------------
--- Pending friend request
--- ----------------------------
-DROP TABLE IF EXISTS `pendingRequest`;
-CREATE TABLE `pendingRequest` (
-  `ID` int(10) NOT NULL AUTO_INCREMENT,
-  `fromWho` varchar(20) DEFAULT NULL,
-  `toWho` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
