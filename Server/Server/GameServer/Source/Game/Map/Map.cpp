@@ -22,7 +22,6 @@ bool Map::AddPlayerToMap(Player* player, bool initPlayer /*= true*/)
 	{
 		m_memberLists.push_back(player);
 		player->setGUID(getGUID());
-		std::cout << "player added to map with GUID: " << player->getGUID() << std::endl;
 		if (m_memberLists.size() > 1)
 		{
 			createSpawnMembersPacket(player);
@@ -64,7 +63,6 @@ void Map::createSpawnMembersPacket(Player *plr)
 			res->group[i].location = pl->getLocation();
 			strcpy(res->group[i].name, pl->getClient()->getAccountName().c_str());
 			res->group[i].GUID = pl->getGUID();
-			std::cout << "spawn member with GUID: " << res->group[i].GUID << std::endl;
 			i++;
 			res->count++;
 		}
@@ -106,7 +104,6 @@ void Map::RemovePlayerFromMap(Player* player, bool remove)
 	}
 	if (plr != NULL)
 	{
-		std::cout << "remove player with GUID: " << plr->getGUID() << std::endl;
 		m_memberLists.remove(plr);
 	}
 	unlock();
@@ -120,7 +117,7 @@ void Map::Update(DWORD t_diff)
 	lock();
 	for each (Player *pl in m_memberLists)
 	{
-		std::cout << "player: " << pl->getClient()->getAccountName() << "GUID: " << pl->getGUID() << std::endl;
+		
 	}
 	unlock();
 }

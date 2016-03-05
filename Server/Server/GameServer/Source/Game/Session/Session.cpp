@@ -3,6 +3,7 @@
 Session::Session()
 {
 	runnable = true;
+	haveEverPlayer = false;
 	CAuthServer * app = (CAuthServer*)NtlSfxGetApp();
 	hProcessThread = CreateThread(NULL, 0, &Session::StaticThreadStart, this, 0, &app->ThreadID);
 	if (hProcessThread == NULL)
@@ -145,6 +146,7 @@ void Session::AddPlayerToMap(int mapID, Player* plr)
 			// create packet to update player map etc
 		}
 	}
+	haveEverPlayer = true;
 	unlock();
 }
 void Session::RemovePlayerFromMap(Player *plr, bool del)
@@ -189,7 +191,7 @@ DWORD Session::PreUpdate(Session *sess)
 }
 void Session::update(int diff)
 {
-	if ((isPlayerPlaying()) == false)
+	if ((isPlayerPlaying()) == false && haveEverPlayer == true)
 	{
 		RemovePlayerFromSession();
 		runnable = false;

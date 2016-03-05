@@ -53,6 +53,7 @@ protected:
 	HANDLE							hProcessThread;
 	bool							runnable;
 	CNtlMutex						session_mutex;
+	bool							haveEverPlayer;
 };
 
 #endif
