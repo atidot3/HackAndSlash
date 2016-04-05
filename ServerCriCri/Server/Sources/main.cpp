@@ -27,7 +27,7 @@ private:
 		{
 			/*
 			Sleep(20);
-			_wqueue->push("Here is a new cmd");
+			_wqueue.push("Here is a new cmd");
 			*/
 		}
 	}

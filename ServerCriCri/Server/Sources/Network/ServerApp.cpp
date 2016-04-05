@@ -11,18 +11,12 @@
 
 ServerApp::ServerApp()
 {
-	_isRunning = new std::atomic<bool>();
-	*_isRunning = false;
-	_list = new std::list<Socket>();
-	_wqueue = new std::queue<std::string>();
+	_isRunning = false;
 }
 
 ServerApp::~ServerApp()
 {
-	delete _list;
-	delete _wqueue;
-	*_isRunning = false;
-	delete _isRunning;
+	_isRunning = false;
 }
 
 void	ServerApp::WSAinit()
@@ -44,13 +38,13 @@ void	ServerApp::consoleIO()
 {
 	std::string	cmd;
 
-	while (*_isRunning)
+	while (_isRunning)
 	{
 		cmd = "";
 		std::cin >> cmd;
 		std::cout << "Command: " << cmd << std::endl;
 		if (cmd == "stop")
-			*_isRunning = false;
+			_isRunning = false;
 	}
 }
 
@@ -71,16 +65,16 @@ void	ServerApp::run()
 	_select.setNdfs(_server);
 //	_select.setTimeout(0, 50);
 	std::cout << "Start Server" << std::endl;
-	*_isRunning = true;
+	_isRunning = true;
 
 	std::thread		cio(&ServerApp::consoleIO, this);
 //	std::thread		srv(&ServerApp::serverRun, this);
 
-	while (*_isRunning)
+	while (_isRunning)
 	{
 		_select.zero();
 		_select.set(_server, Select::READ);
-		for (iterator it = _list->begin(); it != _list->end(); ++it)
+		for (iterator it = _list.begin(); it != _list.end(); ++it)
 		{
 			_select.set((*it), Select::READ);
 //			_select.set((*it), Select::WRITE);
@@ -88,16 +82,16 @@ void	ServerApp::run()
 		if ((ret = _select.start()) < 0)
 		{
 			std::cerr << "Select Error: " << WSAGetLastError() << std::endl;
-			*_isRunning = false;
+			_isRunning = false;
 		}
 		else if (_select.isset(_server, Select::READ))
 		{
 			cpy = _server.Accept();
 			if (cpy.getState() != Socket::INACTIVE)
 			{
-				_list->push_back(cpy);
+				_list.push_back(cpy);
 				std::cout << "A client is connected" << std::endl;
-				std::cout << "There is " << _list->size() << " Clients connected." << std::endl;
+				std::cout << "There is " << _list.size() << " Clients connected." << std::endl;
 				_server.Send(cpy, std::string("Hello World !"));
 				_select.setNdfs(cpy);
 			}
@@ -105,13 +99,13 @@ void	ServerApp::run()
 		else
 		{
 			cmd = "";
-			for (iterator it = _list->begin(); it != _list->end(); ++it)
+			for (iterator it = _list.begin(); it != _list.end(); ++it)
 				if (_select.isset(*it, Select::READ))
 					if (_server.Recv(*it, cmd) <= 0)
 					{
 						std::cout << "A client has quitted" << std::endl;
 						it->Close();
-						it = _list->erase(it);
+						it = _list.erase(it);
 					}
 					//else
 						// std::cout << "Message from " << it->getAddr() << ": " << cmd << std::endl;
@@ -130,7 +124,7 @@ void	ServerApp::run()
 	}
 	cio.join();
 //	srv.join();
-	for (iterator it = _list->begin(); it != _list->end(); ++it)
+	for (iterator it = _list.begin(); it != _list.end(); ++it)
 		it->Close();
 
 	std::cout << "Server Closed" << std::endl;

@@ -23,16 +23,16 @@ class ServerApp
 private:
 	Socket				_server;
 	Select				_select;
-	std::list<Socket>	*_list;
-	std::atomic<bool>	*_isRunning;
-	std::list<std::string>	*_srvCmdList;
+	std::list<Socket>	_list;
+	bool				_isRunning;
+	std::list<std::string>	_srvCmdList;
 
 # ifdef		WIN32
 	WSADATA		_data;
 # endif
 
 protected:
-	std::queue<std::string>	*_wqueue;
+	std::queue<std::string>	_wqueue;
 
 public:
 	ServerApp();
@@ -50,8 +50,8 @@ protected:
 	virtual void	init() = 0;
 	virtual void	serverRun() = 0;
 
-	void	addServerCmd(std::string const &cmd) { _srvCmdList->push_back(cmd); }
-	bool	isRunning() { return *_isRunning; }
+	void	addServerCmd(std::string const &cmd) { _srvCmdList.push_back(cmd); }
+	bool	isRunning() const { return _isRunning; }
 };
 
 #endif // !SERVERAPP_HPP_
