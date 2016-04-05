@@ -1,0 +1,11 @@
+﻿  ServerApp.cpp
+     Creating library C:\Users\chaume_c\documents\visual studio 2015\Projects\ServerLib\Server_Library\\Bin\Server_Library_x64.lib and object C:\Users\chaume_c\documents\visual studio 2015\Projects\ServerLib\Server_Library\\Bin\Server_Library_x64.exp
+  Generating code
+  13 of 465 functions ( 2.8%) were compiled, the rest were copied from previous compilation.
+    5 functions were new in current compilation
+    18 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Server_Library.vcxproj -> C:\Users\chaume_c\documents\visual studio 2015\Projects\ServerLib\Server_Library\\Bin\Server_Library_x64.dll
+  Server_Library.vcxproj -> C:\Users\chaume_c\documents\visual studio 2015\Projects\ServerLib\Server_Library\\Bin\Server_Library_x64.pdb (Full PDB)
+          1 file(s) copied.
+          1 file(s) copied.
