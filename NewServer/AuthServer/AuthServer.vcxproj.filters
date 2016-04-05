@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{25d0560f-9dac-42f5-8f71-295bc7eaef09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network\Server">
+      <UniqueIdentifier>{f073eaed-17e2-47bf-9944-03860f45a071}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network\Socket">
+      <UniqueIdentifier>{8fcab0e5-e124-4b1b-a439-3a84916215db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{14c19ccc-42ca-4bcc-aaac-04d36e5ee33b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network\Server">
+      <UniqueIdentifier>{79f2860d-50f6-4881-8aba-4d1a7c6957a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network\Socket">
+      <UniqueIdentifier>{fbb31899-0009-471f-a6eb-d69ce1ea673b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Client">
+      <UniqueIdentifier>{af30d2e2-cf37-44d8-b0d5-e07d2c6853e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Client">
+      <UniqueIdentifier>{f10fbffc-ae42-4b70-9353-0460f8f756e4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Server\AuthServer.h">
+      <Filter>Header Files\Network\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Socket\Socket.h">
+      <Filter>Header Files\Network\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\Client.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Socket\Socket.cpp">
+      <Filter>Source Files\Network\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Server\AuthServer.cpp">
+      <Filter>Source Files\Network\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\Client.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
