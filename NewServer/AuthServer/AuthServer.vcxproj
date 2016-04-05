@@ -41,10 +41,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Unreal Projects\ThePathOfDestiny\ServerSources\Server\AuthServer\Network\Select;$(ProjectDir)..\;D:\Unreal Projects\ThePathOfDestiny\ServerSources\Server\AuthServer\Network;D:\Unreal Projects\ThePathOfDestiny\ServerSources\Server\AuthServer;D:\Unreal Projects\ThePathOfDestiny\ServerSources\Server\AuthServer\Client;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\AuthServer\Client;$(SolutionDir)\AuthServer\Network\Select;$(SolutionDir)\AuthServer\Network\Server;$(SolutionDir)\AuthServer\Network\Socket;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)\AuthServer\Client;$(SolutionDir)\AuthServer\Network\Select;$(SolutionDir)\AuthServer\Network\Server;$(SolutionDir)\AuthServer\Network\Socket;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -53,7 +54,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Unreal Projects\ThePathOfDestiny\ServerSources\Server\AuthServer\Network\Select;D:\Unreal Projects\ThePathOfDestiny\ServerSources\Server\AuthServer\Client;D:\Unreal Projects\ThePathOfDestiny\ServerSources\Server\AuthServer\Network\Socket;D:\Unreal Projects\ThePathOfDestiny\ServerSources\Server\AuthServer\Network\Server;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\AuthServer\Client;$(SolutionDir)\AuthServer\Network\Select;$(SolutionDir)\AuthServer\Network\Server;$(SolutionDir)\AuthServer\Network\Socket;</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
@@ -73,6 +74,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\AuthServer\Client;$(SolutionDir)\AuthServer\Network\Select;$(SolutionDir)\AuthServer\Network\Server;$(SolutionDir)\AuthServer\Network\Socket;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

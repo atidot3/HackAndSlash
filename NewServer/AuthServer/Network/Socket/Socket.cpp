@@ -90,7 +90,7 @@ int		Socket::Bind()
 			cerr << "ServerSocket: Failed to connect\n";
 			system("pause");
 			WSACleanup();
-			exit(14);
+			return 1;
 		}
 	}
 	freeaddrinfo(result);

@@ -6,7 +6,10 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	sAuth->Start();
+	AuthServer server;
+	server.Start();
+//	sAuth->Start();
+	system("PAUSE");
 	return 0;
 }
 

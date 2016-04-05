@@ -14,7 +14,6 @@
 class AuthServer
 {
 public:
-	static				AuthServer* instance();
 	AuthServer();
 	~AuthServer();
 	void				Start();
@@ -22,6 +21,7 @@ public:
 	SOCKET				getSocket();
 	Client				*getClient(int position);
 	bool				isClientIpExist(char *ip);
+	void				removeClient(Client* client);
 private:
 	bool				running;
 	bool				update_running;
@@ -30,7 +30,5 @@ private:
 	std::list<Client*>	myClientList;
 	std::mutex			serverMutex;
 };
-
-#define sAuth AuthServer::instance()
 
 #endif /*__AUTHSERVER__H_*/

@@ -14,9 +14,11 @@ public:
 	SOCKET	getSocket();
 	Socket	*getSocketClass();
 	Packet	*getSending();
+	float	getLastKeepAlive(){return lastKeepAlive;}
 	char	*ip;
 private:
 	Socket	*connection;
+	float	lastKeepAlive;
 };
 
 #endif			/*__CLIENT__H_*/

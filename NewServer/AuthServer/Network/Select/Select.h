@@ -8,9 +8,9 @@ class AuthServer;
 class Select
 {
 public:
-	Select(Socket*);
+	Select(Socket*, Socket*);
 	~Select();
-	int			waitFds();
+	int			waitFds(AuthServer*);
 	fd_set		getReadFds();
 	fd_set		getWriteFds();
 	bool		isThereNewClient();
@@ -18,10 +18,11 @@ public:
 	void		recvThings(AuthServer*);
 private:
 	Socket		*storedSocket;
+	Socket		*serverSocket;
 	fd_set		readfds;
 	fd_set		writefds;
 private:
-	void		init();
+	void		init(AuthServer*);
 };
 
 #endif			/*__SELECT__H_*/

@@ -5,9 +5,8 @@ using namespace std;
 AuthServer::AuthServer()
 {
 	serverSocket = new Socket();
-	select = new Select(serverSocket);
+	select = new Select(serverSocket, serverSocket);
 	running = false;
-	std::cout << sAuth << " " << this << std::endl;
 }
 AuthServer::~AuthServer()
 {
@@ -16,11 +15,6 @@ AuthServer::~AuthServer()
 SOCKET		AuthServer::getSocket()
 {
 	return serverSocket->getSocket();
-}
-AuthServer*	AuthServer::instance()
-{
-	static AuthServer instance;
-	return &instance;
 }
 Client*		AuthServer::getClient(int position)
 {
@@ -39,6 +33,22 @@ Client*		AuthServer::getClient(int position)
 		serverMutex.unlock();
 		return (*it);
 	}
+}
+void		AuthServer::removeClient(Client* client)
+{
+	serverMutex.lock();
+	std::list<Client*>::iterator	it = myClientList.begin();
+	while (it != myClientList.end())
+	{
+		if (strcmp((*it)->ip, client->ip) == 0)
+		{
+			delete (*it);
+			it = myClientList.erase(it);
+			break;
+		}
+		it++;
+	}
+	serverMutex.unlock();
 }
 bool		AuthServer::isClientIpExist(char *ip)
 {
@@ -64,34 +74,25 @@ void		AuthServer::Start()
 
 	running = true;
 	update_running = true;
-
-	std::thread	serverThread(&AuthServer::Update, this);
-	
-	while (select->waitFds() != -1)
+	//std::thread	serverThread(&AuthServer::Update, this);
+	while (select->waitFds(this) != -1)
 	{
 		if (select->isThereNewClient() == true)
 		{
 			Client* newClient = serverSocket->Accept();
-			//if (isClientIpExist(newClient->ip) == false)
-			//{
-				serverMutex.lock();
-				if (newClient != NULL)
-				{
-					myClientList.push_back(newClient);
-					printf("Client from %s created\n", newClient->ip);
-				}
-				serverMutex.unlock();
-			//}
-			//else
-			//{
-				// send error
-			//}
-		}		
+			serverMutex.lock();
+			if (newClient != NULL)
+			{
+				myClientList.push_back(newClient);
+				//printf("Client from %s created\n", newClient->ip);
+			}
+			serverMutex.unlock();
+		}
 		select->recvThings(this);
 	}
 	running = false;
 	update_running = false;
-	serverThread.join();
+	//serverThread.join();
 }
 void		AuthServer::Update()
 {
