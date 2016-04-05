@@ -6,9 +6,7 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	AuthServer server;
-
-	server.Start();
+	sAuth->Start();
 	return 0;
 }
 

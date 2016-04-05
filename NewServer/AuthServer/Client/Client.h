@@ -3,6 +3,8 @@
 
 #include "Socket.h"
 
+class Packet;
+
 class Client
 {
 public:
@@ -10,13 +12,11 @@ public:
 	~Client();
 	int		KeepAlive();
 	SOCKET	getSocket();
-	SOCKET	getUdp();
-	void	AssignToken(char *_token);
+	Socket	*getSocketClass();
+	Packet	*getSending();
 	char	*ip;
-	const char	*token;
 private:
 	Socket	*connection;
-	Socket	*udp;
 };
 
 #endif			/*__CLIENT__H_*/

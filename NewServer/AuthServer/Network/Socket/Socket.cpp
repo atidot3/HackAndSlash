@@ -19,65 +19,6 @@ SOCKET	Socket::getSocket()
 {
 	return sock;
 }
-void	Socket::init(AuthServer *server)
-{
-	FD_ZERO(&readfds);
-	FD_ZERO(&writefds);
-	FD_SET(sock, &readfds);
-}
-udpData	*Socket::recvThings(AuthServer *server)
-{
-	Client*	client;
-	char message[1024];
-	int bytes_received;
-	int i = 0;
-	ClientAddrLen = (int)sizeof(struct sockaddr_in);
-
-	bytes_received = recvfrom(sock, message, 1024, 0, (SOCKADDR*)&ClientAddr, &ClientAddrLen);
-	if (bytes_received > 0)
-	{
-		message[bytes_received] = '\0';
-
-		printf("Server: Total Bytes received: %d\n", bytes_received);
-		printf("Server: The data is \"%s\"\n", message);
-
-		getpeername(sock, (SOCKADDR *)&ClientAddr, &ClientAddrLen);
-		printf("Server: Sending IP used: %s\n", inet_ntoa(ClientAddr.sin_addr));
-		printf("Server: Sending port used: %d\n", htons(ClientAddr.sin_port));
-
-		sendto(sock, message, bytes_received, 0, (struct sockaddr *)&ClientAddr, ClientAddrLen);
-
-		udpData data;
-		data.ip = inet_ntoa(ClientAddr.sin_addr);
-		data.message = message;
-		return &data;
-	}
-	else if (bytes_received <= 0)
-	{
-		printf("Server: Connection closed with error code: %ld\n",
-			WSAGetLastError());
-	}
-	else
-	{
-		printf("Server: recvfrom() failed with error code: %d\n",
-			WSAGetLastError());
-	}
-	return NULL;
-}
-int		Socket::waitFds(AuthServer *server)
-{
-	int			ret;
-
-	this->init(server);
-	ret = select(sock + 1, &readfds, &writefds, NULL, NULL);
-	return (ret);
-}
-bool	Socket::isThereNewClient()
-{
-	if (FD_ISSET(sock, &readfds))
-		return (true);
-	return (false);
-}
 int		Socket::Create(bool isUdp)
 {
 	udp = isUdp;
@@ -181,19 +122,4 @@ Client	*Socket::Accept()
 	}
 	Client *client = new Client(NewConnection, inet_ntoa(ClientAddr.sin_addr));
 	return client;
-}
-int		Socket::recvfromTimeOutUDP(long sec, long usec)
-{
-	// Setup timeval variable
-	timeval timeout;
-	timeout.tv_sec = sec;
-	timeout.tv_usec = usec;
-	// Setup readfds structure
-	FD_ZERO(&readfds);
-	FD_SET(sock, &readfds);
-	// Return value:
-	// -1: error occurred
-	// 0: timed out
-	// > 0: data ready to be read
-	return select(sock, &readfds, 0, 0, NULL);
 }
