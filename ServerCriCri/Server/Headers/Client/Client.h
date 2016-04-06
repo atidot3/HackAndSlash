@@ -15,11 +15,13 @@ class Client
 public:
 	Client();
 	~Client();
-	Client(Socket*, std::string);
+	Client(Socket &, std::string);
 	SOCKET			getSOCKET();
-	Socket			*getSocket();
+	Socket			&getSocket();
+
+	bool	operator==(Client &client) { return this->getSOCKET() == client.getSOCKET(); }
 private:
-	Socket			*socket;
+	Socket			socket;
 	std::string		token;
 };
 

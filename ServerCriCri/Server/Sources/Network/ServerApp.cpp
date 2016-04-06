@@ -10,13 +10,18 @@
 #include	"IniReader.h"
 #include	<thread>
 
+#define		SERVER_LOG_FILE		"./Server.log"
+
 ServerApp::ServerApp()
 {
 	_isRunning = false;
+	Logger::getInstance().registerFile("./Server.log");
+	LOGFILE(SERVER_LOG_FILE, "Server Started");
 }
 
 ServerApp::~ServerApp()
 {
+	LOGFILE(SERVER_LOG_FILE, "Server Stopped");
 	_isRunning = false;
 }
 
@@ -39,6 +44,7 @@ void	ServerApp::consoleIO()
 {
 	std::string	cmd;
 
+	Logger::getInstance();
 	while (_isRunning)
 	{
 		cmd = "";
@@ -144,22 +150,23 @@ void	ServerApp::run()
 
 	while (_isRunning)
 	{
-		//std::cout << "Connected client: " << cmanager->getConnectedClient() << std::endl;
 #pragma region SELECT REGION
 		_select.zero();
 		_select.set(_server, Select::READ);
-		/*counter = 0;
+		counter = 0;
 		while ((client = cmanager->getClient(counter)))
 		{
-			_select.set(*client->getSocket(), Select::READ);
+			_select.set(client->getSocket(), Select::READ);
 			//_select.set(client->getSocket(), Select::WRITE);
 			++counter;
-		}*/
+		}
+		/*
 		for (iterator it = _list.begin(); it != _list.end(); ++it)
 		{
 			_select.set((*it), Select::READ);
 			//			_select.set((*it), Select::WRITE);
 		}
+		*/
 		if ((ret = _select.start()) < 0)
 		{
 			std::cerr << "Select Error: " << WSAGetLastError() << std::endl;
@@ -167,18 +174,22 @@ void	ServerApp::run()
 		}
 		else if (_select.isset(_server, Select::READ))
 		{
-			cpy = _server.Accept();
+			_server.Accept(cpy);
 			if (cpy.getState() != Socket::INACTIVE)
 			{
-				_list.push_back(cpy);
-				//cmanager->AddClient(new Client(&cpy, "H3ll0 w0rld")); // NEED GENERATE TOKEN
+//				_list.push_back(cpy);
 				_server.Send(cpy, std::string("Hello World !"));
 				_select.setNdfs(cpy);
+				cmanager->AddClient(new Client(cpy, "H3ll0 w0rld")); // NEED GENERATE TOKEN
+				LOG("A client from " + cpy.getAddr() + " is connected!");
+				LOGFILE(SERVER_LOG_FILE, "A client from " + cpy.getAddr() + " is connected!");
+				std::cout << "Connected client: " << cmanager->getConnectedClient() << std::endl;
 			}
 		}
 		else
 		{
 			cmd = "";
+			/*
 			for (iterator it = _list.begin(); it != _list.end(); ++it)
 				if (_select.isset(*it, Select::READ))
 					if (_server.Recv(*it, cmd) <= 0)
@@ -187,19 +198,23 @@ void	ServerApp::run()
 						it->Close();
 						it = _list.erase(it);
 					}
-			/*counter = 0;
+					*/
+			counter = 0;
 			while ((client = cmanager->getClient(counter)))
 			{
-				if (_select.isset(*client->getSocket(), Select::READ))
+				if (_select.isset(client->getSocket(), Select::READ))
 				{
-					if (_server.Recv(*client->getSocket(), cmd) <= 0)
+					if (_server.Recv(client->getSocket(), cmd) <= 0)
 					{
+						LOG("A client from " + cpy.getAddr() + " is disconnected!");
+						LOGFILE(SERVER_LOG_FILE, "A client from " + cpy.getAddr() + " is disconnected!");
 						cmanager->removeClient(client);
+						std::cout << "Connected client: " << cmanager->getConnectedClient() << std::endl;
 						--counter;
 					}
 				}
 				++counter;
-			}*/
+			}
 		}
 #pragma endregion
 	}

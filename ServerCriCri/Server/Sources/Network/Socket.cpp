@@ -32,7 +32,6 @@ Socket::Socket(char const *addr, unsigned int &port)
 
 	_type = CLIENT;
 	_state = INACTIVE;
-	_addr = *addr;
 	inet_pton(AF_INET, addr, &sin_addr);
 	_sin.sin_addr = sin_addr;
 	_sin.sin_family = AF_INET;
@@ -57,12 +56,12 @@ Socket::~Socket()
 
 Socket	&Socket::operator=(Socket &cpy)
 {
-	std::cerr << "Socket Copied" << std::endl;
+	this->Close();
+
 	_type = cpy._type;
 	_state = cpy._state;
 	_sin = cpy._sin;
 	_sock = cpy._sock;
-	_addr = cpy._addr;
 
 	cpy.setState(INACTIVE);
 	return *this;
@@ -79,7 +78,7 @@ int		Socket::init(unsigned int &port)
 	_sin.sin_port = htons(port);
 	if ((_sock = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 	{
-		std::cerr << WSAGetLastError() << std::endl;
+		std::cerr << "socket error: " << WSAGetLastError() << std::endl;
 		return -1;
 	}
 	_state = ACTIVE;
@@ -100,7 +99,7 @@ int		Socket::init(unsigned int &port, const char *addr)
 	_sin.sin_port = htons(port);
 	if ((_sock = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 	{
-		std::cerr << WSAGetLastError() << std::endl;
+		std::cerr << "socket error: " << WSAGetLastError() << std::endl;
 		return -1;
 	}
 	_state = ACTIVE;
@@ -113,7 +112,7 @@ int		Socket::Bind()
 		return 0;
 	if (bind(_sock, (SOCKADDR *)&_sin, sizeof _sin) == SOCKET_ERROR)
 	{
-		perror("bind()");
+		std::cerr << "Bind error: " << WSAGetLastError() << std::endl;
 		return -1;
 	}
 	return 0;
@@ -125,7 +124,7 @@ int		Socket::Listen()
 		return 0;
 	if (listen(_sock, 5) == SOCKET_ERROR)
 	{
-		perror("listen()");
+		std::cerr << "Listen error: " << WSAGetLastError() << std::endl;
 		return -1;
 	}
 	return 0;
@@ -133,20 +132,20 @@ int		Socket::Listen()
 
 int		Socket::Connect()
 {
-	if (_type != CLIENT || _state == CONNECTED)
+	if (_type != CLIENT || _state == ACTIVE)
 		return 0;
 	if (connect(_sock, (SOCKADDR *)&_sin, sizeof(_sin)) == SOCKET_ERROR)
 	{
-		std::cerr << WSAGetLastError() << std::endl;
+		std::cerr << "Connect error: " << WSAGetLastError() << std::endl;
 		return -1;
 	}
 	return 0;
 }
 
-Socket		Socket::Accept()
+int		Socket::Accept(Socket &sock)
 {
 	if (_type != SERVER || _state == INACTIVE)
-		return Socket();
+		return 0;
 	SOCKADDR_IN	c_sin;
 	SOCKET		c_sock;
 	int			c_sin_size = sizeof(c_sin);
@@ -154,10 +153,12 @@ Socket		Socket::Accept()
 	c_sock = accept(_sock, (SOCKADDR *)&c_sin, &c_sin_size);
 	if (c_sock == INVALID_SOCKET)
 	{
-//		perror("accept()");
-		return Socket();
+		std::cerr << "Accept error: " << WSAGetLastError() << std::endl;
+		return -1;
 	}
-	return Socket(c_sock, c_sin);
+	sock.Close();
+	sock = Socket(c_sock, c_sin);
+	return 0;
 }
 
 int		Socket::Close()
@@ -193,4 +194,15 @@ int		Socket::Recv(Socket &sock, std::string &dest)
 	}
 	delete buff;
 	return res;
+}
+
+std::string	Socket::getAddr()
+{
+	char		dst[INET_ADDRSTRLEN];
+	std::string	ret;
+	IN_ADDR		addr = _sin.sin_addr;
+
+	inet_ntop(_sin.sin_family, &addr, dst, INET_ADDRSTRLEN);
+	ret = dst;
+	return ret;
 }

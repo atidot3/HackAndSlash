@@ -9,13 +9,17 @@
 #ifndef		SERVERIMP_HPP_
 # define	SERVERIMP_HPP_
 
+/*
+	Defines the include and the typedef for Windows and Linux
+*/
+
 # ifdef		WIN32
 
 #  include	<winsock2.h>
 #  include	<Ws2tcpip.h>
 #  pragma	comment(lib, "ws2_32.lib")
 
-# else defined	(linux)
+# elif		__linux__
 
 #  include	<sys/types.h>
 #  include	<sys/socket.h>
@@ -32,6 +36,10 @@ typedef int		SOCKET;
 typedef struct sockaddr_in	SOCKADDR_IN;
 typedef struct sockaddr		SOCKADDR;
 typedef struct in_addr		IN_ADDR;
+
+# else
+
+#  error	"System is not supported!"
 
 # endif
 

@@ -47,8 +47,9 @@ void		ClientManager::removeClient(Client* client)
 	std::list<Client*>::iterator	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		if ((*it)== client)
+		if ((*it) == client)
 		{
+			std::cout << "Client nb " << (*it)->getSOCKET() << " deleted!" << std::endl;
 			delete (*it);
 			it = clientList.erase(it);
 			break;

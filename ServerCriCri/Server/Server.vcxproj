@@ -154,6 +154,7 @@
     <ClCompile Include="Sources\Network\Select.cpp" />
     <ClCompile Include="Sources\Network\ServerApp.cpp" />
     <ClCompile Include="Sources\Network\Socket.cpp" />
+    <ClCompile Include="Sources\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Client\Client.h" />
@@ -163,6 +164,10 @@
     <ClInclude Include="Headers\Network\ServerApp.hpp" />
     <ClInclude Include="Headers\Network\ServerImp.hpp" />
     <ClInclude Include="Headers\Network\Socket.hpp" />
+    <ClInclude Include="Headers\Utils\Logger.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Bin\Server.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,7 +10,7 @@ Copyright (c) 2016 Entringer Antony
 Client::Client()
 {
 }
-Client::Client(Socket *_socket, std::string _token)
+Client::Client(Socket &_socket, std::string _token)
 {
 	socket = _socket;
 	token = _token;
@@ -20,9 +20,9 @@ Client::~Client()
 }
 SOCKET		Client::getSOCKET()
 {
-	return socket->getRawSocket();
+	return socket.getRawSocket();
 }
-Socket		*Client::getSocket()
+Socket		&Client::getSocket()
 {
 	return socket;
 }
