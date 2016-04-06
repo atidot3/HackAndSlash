@@ -1,3 +1,10 @@
+/*
+ClientManager.h for project Server_Library
+Created on 06/04/2016
+Update on 06/04/2016
+
+Copyright (c) 2016 Entringer Antony
+*/
 #include "IniReader.h"
 #include <Winsock2.h>
 #include <Windows.h>

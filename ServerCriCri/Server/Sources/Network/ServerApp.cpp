@@ -126,10 +126,10 @@ void	ServerApp::run()
 
 	unsigned int	port = m_config.wClientAcceptPort;
 	Socket	cpy;
+	Client *client;
+	int		counter = 0;
 	int		ret = 0;
 	std::string		cmd = "";
-
-	
 
 	_server.init(port);
 	_server.Bind();
@@ -138,19 +138,27 @@ void	ServerApp::run()
 //	_select.setTimeout(0, 50);
 	std::cout << "Start Server on: " << m_config.ExternalIP << " " << m_config.wClientAcceptPort << std::endl;
 	_isRunning = true;
-
+	cmanager = new ClientManager();
 	std::thread		cio(&ServerApp::consoleIO, this);
 //	std::thread		srv(&ServerApp::serverRun, this);
 
 	while (_isRunning)
 	{
+		//std::cout << "Connected client: " << cmanager->getConnectedClient() << std::endl;
 #pragma region SELECT REGION
 		_select.zero();
 		_select.set(_server, Select::READ);
+		/*counter = 0;
+		while ((client = cmanager->getClient(counter)))
+		{
+			_select.set(*client->getSocket(), Select::READ);
+			//_select.set(client->getSocket(), Select::WRITE);
+			++counter;
+		}*/
 		for (iterator it = _list.begin(); it != _list.end(); ++it)
 		{
 			_select.set((*it), Select::READ);
-//			_select.set((*it), Select::WRITE);
+			//			_select.set((*it), Select::WRITE);
 		}
 		if ((ret = _select.start()) < 0)
 		{
@@ -163,8 +171,7 @@ void	ServerApp::run()
 			if (cpy.getState() != Socket::INACTIVE)
 			{
 				_list.push_back(cpy);
-				std::cout << "A client is connected" << std::endl;
-				std::cout << "There is " << _list.size() << " Clients connected." << std::endl;
+				//cmanager->AddClient(new Client(&cpy, "H3ll0 w0rld")); // NEED GENERATE TOKEN
 				_server.Send(cpy, std::string("Hello World !"));
 				_select.setNdfs(cpy);
 			}
@@ -180,26 +187,25 @@ void	ServerApp::run()
 						it->Close();
 						it = _list.erase(it);
 					}
-					//else
-						// std::cout << "Message from " << it->getAddr() << ": " << cmd << std::endl;
-			/*
-			if (_wqueue->size() > 0 && _list->size() > 0)
+			/*counter = 0;
+			while ((client = cmanager->getClient(counter)))
 			{
-				cmd = _wqueue->front();
-				_wqueue->pop();
-				for (iterator it = _list->begin(); it != _list->end(); ++it)
-					if (_select.isset(*it, Select::WRITE))
-						if ((_server.Send(*it, cmd)) <= 0)
-							std::cerr << "Error while writing to client: " << WSAGetLastError() << std::endl;
-			}
-			*/
+				if (_select.isset(*client->getSocket(), Select::READ))
+				{
+					if (_server.Recv(*client->getSocket(), cmd) <= 0)
+					{
+						cmanager->removeClient(client);
+						--counter;
+					}
+				}
+				++counter;
+			}*/
 		}
 #pragma endregion
 	}
 	cio.join();
 //	srv.join();
-	for (iterator it = _list.begin(); it != _list.end(); ++it)
-		it->Close();
+	cmanager->removeAllClient();
 
 	std::cout << "Server Closed" << std::endl;
 	_server.Close();

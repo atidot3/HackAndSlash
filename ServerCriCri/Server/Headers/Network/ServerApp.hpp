@@ -11,6 +11,8 @@
 
 # include	"Network/Socket.hpp"
 # include	"Network/Select.hpp"
+#include	"Client.h"
+#include	"ClientManager.h"
 # include	<list>
 # include	<queue>
 # include	<atomic>
@@ -39,6 +41,7 @@ private:
 	Socket					_server;
 	Select					_select;
 	std::list<Socket>		_list;
+	ClientManager			*cmanager;
 	bool					_isRunning;
 	std::list<std::string>	_srvCmdList;
 # ifdef		WIN32

@@ -1,3 +1,10 @@
+/*
+ClientManager.h for project Server_Library
+Created on 06/04/2016
+Update on 06/04/2016
+
+Copyright (c) 2016 Entringer Antony
+*/
 #ifndef __INIFILE_H__
 #define __INIFILE_H__
 

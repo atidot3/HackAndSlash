@@ -25,8 +25,8 @@ private:
 	{
 		while (isRunning())
 		{
-			Sleep(20);
-			_wqueue.push("Here is a new cmd");
+			/*Sleep(20);
+			_wqueue.push("Here is a new cmd");*/
 		}
 	}
 };
