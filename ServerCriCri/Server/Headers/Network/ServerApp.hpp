@@ -36,13 +36,13 @@ struct sSERVERCONFIG
 class ServerApp
 {
 private:
-	Socket				_server;
-	Select				_select;
-	std::list<Socket>	_list;
-	bool				_isRunning;
+	Socket					_server;
+	Select					_select;
+	std::list<Socket>		_list;
+	bool					_isRunning;
 	std::list<std::string>	_srvCmdList;
 # ifdef		WIN32
-	WSADATA		_data;
+	WSADATA					_data;
 # endif
 protected:
 	std::queue<std::string>	_wqueue;
@@ -50,17 +50,17 @@ protected:
 public:
 	ServerApp();
 	virtual ~ServerApp();
-	void	run();
-	int		OnConfiguration(const char * lpszConfigFile); // Load ini file
+	void					run();
+	int						OnConfiguration(const char * lpszConfigFile); // Load ini file
 private:
-	void	WSAinit(); // Init Windows Sockets
-	void	WSAClose(); // Stop Windows Sockets
-	void	consoleIO(); // Get Input from console
+	void					WSAinit(); // Init Windows Sockets
+	void					WSAClose(); // Stop Windows Sockets
+	void					consoleIO(); // Get Input from console
 protected:
-	virtual int	init() = 0;
-	virtual void	serverRun() = 0;
-	void	addServerCmd(std::string const &cmd) { _srvCmdList.push_back(cmd); }
-	bool	isRunning() const { return _isRunning; }
+	virtual int				init() = 0;
+	virtual void			serverRun() = 0;
+	void					addServerCmd(std::string const &cmd) { _srvCmdList.push_back(cmd); }
+	bool					isRunning() const { return _isRunning; }
 };
 
 #endif // !SERVERAPP_HPP_

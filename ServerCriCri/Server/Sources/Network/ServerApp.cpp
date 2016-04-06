@@ -63,12 +63,12 @@ int		ServerApp::OnConfiguration(const char * lpszConfigFile)
 		std::cout << "loading " << "Address" << " failed" << std::endl;
 		return -1;
 	}
-	if (!file.Read("Game Server", "Address", m_config.strClientAcceptAddr))
+	if (!file.Read("Auth Server", "Address", m_config.strClientAcceptAddr))
 	{
 		std::cout << "loading " << "Game Server Address" << " failed" << std::endl;
 		return -1;
 	}
-	if (!file.Read("Game Server", "Port", m_config.wClientAcceptPort))
+	if (!file.Read("Auth Server", "Port", m_config.wClientAcceptPort))
 	{
 		std::cout << "loading " << "Port" << " failed" << std::endl;
 		return -1;
@@ -118,24 +118,25 @@ int		ServerApp::OnConfiguration(const char * lpszConfigFile)
 void	ServerApp::run()
 {
 	this->WSAinit();
-
-	unsigned int	port = 12345;
-	Socket	cpy;
-	int		ret = 0;
-	std::string		cmd = "";
-
 	if (this->init() != 0)
 	{
 		std::cout << "Error while loading server" << std::endl;
 		return;
 	}
 
+	unsigned int	port = m_config.wClientAcceptPort;
+	Socket	cpy;
+	int		ret = 0;
+	std::string		cmd = "";
+
+	
+
 	_server.init(port);
 	_server.Bind();
 	_server.Listen();
 	_select.setNdfs(_server);
 //	_select.setTimeout(0, 50);
-	std::cout << "Start Server" << std::endl;
+	std::cout << "Start Server on: " << m_config.ExternalIP << " " << m_config.wClientAcceptPort << std::endl;
 	_isRunning = true;
 
 	std::thread		cio(&ServerApp::consoleIO, this);
@@ -143,6 +144,7 @@ void	ServerApp::run()
 
 	while (_isRunning)
 	{
+#pragma region SELECT REGION
 		_select.zero();
 		_select.set(_server, Select::READ);
 		for (iterator it = _list.begin(); it != _list.end(); ++it)
@@ -192,6 +194,7 @@ void	ServerApp::run()
 			}
 			*/
 		}
+#pragma endregion
 	}
 	cio.join();
 //	srv.join();

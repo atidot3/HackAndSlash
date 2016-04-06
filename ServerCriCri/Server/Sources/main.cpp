@@ -21,15 +21,12 @@ private:
 	{
 		return OnConfiguration(".//Server.ini");
 	}
-
 	void	serverRun()
 	{
 		while (isRunning())
 		{
-			/*
 			Sleep(20);
 			_wqueue.push("Here is a new cmd");
-			*/
 		}
 	}
 };
