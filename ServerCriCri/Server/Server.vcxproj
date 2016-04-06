@@ -67,26 +67,26 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)Headers\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_x86_d</TargetName>
     <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)Headers\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_x86</TargetName>
     <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)Headers\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_d</TargetName>
-    <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
+    <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Config;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)Headers\;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Config;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -94,6 +94,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -105,6 +106,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -118,6 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -133,6 +137,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -141,12 +147,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Config\IniReader.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\Network\Select.cpp" />
     <ClCompile Include="Sources\Network\ServerApp.cpp" />
     <ClCompile Include="Sources\Network\Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\Config\IniReader.h" />
     <ClInclude Include="Headers\Network\Select.hpp" />
     <ClInclude Include="Headers\Network\ServerApp.hpp" />
     <ClInclude Include="Headers\Network\ServerImp.hpp" />

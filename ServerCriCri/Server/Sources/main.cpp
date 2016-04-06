@@ -17,8 +17,9 @@ public:
 	~Server() {}
 
 private:
-	void	init()
+	int	init()
 	{
+		return OnConfiguration(".//Server.ini");
 	}
 
 	void	serverRun()
@@ -38,5 +39,6 @@ int main()
 	Server	serv;
 
 	serv.run();
+	system("PAUSE");
 	return 0;
 }

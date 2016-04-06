@@ -7,6 +7,7 @@
 */
 
 #include	"Network/ServerApp.hpp"
+#include	"IniReader.h"
 #include	<thread>
 
 ServerApp::ServerApp()
@@ -47,17 +48,87 @@ void	ServerApp::consoleIO()
 			_isRunning = false;
 	}
 }
+int		ServerApp::OnConfiguration(const char * lpszConfigFile)
+{
+	IniFile file;
 
+	int rc = file.Create(lpszConfigFile);
+	if (0 != rc)
+	{
+		std::cout << "No such file "<< lpszConfigFile << std::endl;
+		return rc;
+	}
+	if (!file.Read("IPAddress", "Address", m_config.ExternalIP))
+	{
+		std::cout << "loading " << "Address" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("Game Server", "Address", m_config.strClientAcceptAddr))
+	{
+		std::cout << "loading " << "Game Server Address" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("Game Server", "Port", m_config.wClientAcceptPort))
+	{
+		std::cout << "loading " << "Port" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("DATABASE", "Host", m_config.Host))
+	{
+		std::cout << "loading " << "Host" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("DATABASE", "User", m_config.User))
+	{
+		std::cout << "loading " << "User" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("DATABASE", "Password", m_config.Password))
+	{
+		std::cout << "loading " << "Password" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("DATABASE", "Db", m_config.Database))
+	{
+		std::cout << "loading " << "Db" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("PERFORMANCE", "PlayerLimit", m_config.PlayerLimits))
+	{
+		std::cout << "loading " << "PlayerLimit" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("PERFORMANCE", "PlayerSaveInterval", m_config.saveInterval))
+	{
+		std::cout << "loading " << "PlayerSaveInterval" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("PERFORMANCE", "PlayerSaveStatsSaveOnlyOnLogout", m_config.SaveOnLogout))
+	{
+		std::cout << "loading " << "PlayerSaveStatsSaveOnlyOnLogout" << " failed" << std::endl;
+		return -1;
+	}
+	if (!file.Read("REALMD", "realmid", m_config.realmid))
+	{
+		std::cout << "loading " << "realmid" << " failed" << std::endl;
+		return -1;
+	}
+	return 0;
+}
 void	ServerApp::run()
 {
 	this->WSAinit();
 
-	unsigned int	port = 8888;
+	unsigned int	port = 12345;
 	Socket	cpy;
 	int		ret = 0;
 	std::string		cmd = "";
 
-	this->init();
+	if (this->init() != 0)
+	{
+		std::cout << "Error while loading server" << std::endl;
+		return;
+	}
 
 	_server.init(port);
 	_server.Bind();
