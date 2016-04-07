@@ -129,13 +129,8 @@ void	ServerApp::run()
 		std::cout << "Error while loading server" << std::endl;
 		return;
 	}
-
 	unsigned int	port = m_config.wClientAcceptPort;
 	Socket	cpy;
-	Client *client;
-	int		counter = 0;
-	int		ret = 0;
-	std::string		cmd = "";
 
 	_server.init(port);
 	_server.Bind();
@@ -144,70 +139,23 @@ void	ServerApp::run()
 //	_select.setTimeout(0, 50);
 	std::cout << "Start Server on: " << m_config.ExternalIP << " " << m_config.wClientAcceptPort << std::endl;
 	_isRunning = true;
-	cmanager = new ClientManager();
 	std::thread		cio(&ServerApp::consoleIO, this);
 //	std::thread		srv(&ServerApp::serverRun, this);
 
 	while (_isRunning)
 	{
 #pragma region SELECT REGION
-		_select.zero();
-		_select.set(_server, Select::READ);
-		counter = 0;
-		while ((client = cmanager->getClient(counter)))
-		{
-			_select.set(client->getSocket(), Select::READ);
-			//_select.set(client->getSocket(), Select::WRITE);
-			++counter;
-		}
-		if ((ret = _select.start()) < 0)
+		if (_select.UpdateLoop(_server, cpy) < 0)
 		{
 			std::cerr << "Select Error: " << WSAGetLastError() << std::endl;
 			_isRunning = false;
 		}
-		else if (_select.isset(_server, Select::READ))
-		{
-			_server.Accept(cpy);
-			if (cpy.getState() != Socket::INACTIVE)
-			{
-				_server.Send(cpy, std::string("Hello World !"));
-				_select.setNdfs(cpy);
-				cmanager->AddClient(new Client(cpy, "H3ll0 w0rld")); // NEED GENERATE TOKEN
-				LOG("A client from " + cpy.getAddr() + " is connected!");
-				LOGFILE(SERVER_LOG_FILE, "A client from " + cpy.getAddr() + " is connected!");
-				std::cout << "Connected client: " << cmanager->getConnectedClient() << std::endl;
-			}
-		}
-		else
-		{
-			cmd = "";
-			counter = 0;
-			while ((client = cmanager->getClient(counter)))
-			{
-				if (_select.isset(client->getSocket(), Select::READ))
-				{
-					if (_server.Recv(client->getSocket(), cmd) <= 0)
-					{
-						LOG("A client from " + cpy.getAddr() + " is disconnected!");
-						LOGFILE(SERVER_LOG_FILE, "A client from " + cpy.getAddr() + " is disconnected!");
-						cmanager->removeClient(client);
-						std::cout << "Connected client: " << cmanager->getConnectedClient() << std::endl;
-						--counter;
-					}
-					else
-					{
-						std::cout << "Receiving " << cmd << std::endl;
-						_server.Send(client->getSocket(), std::string("Hello World !"));
-					}
-				}
-				++counter;
-			}
-		}
+		std::cout << sCMANAGER.getConnectedClient() << std::endl;
 #pragma endregion
 	}
 	cio.join();
 //	srv.join();
-	cmanager->removeAllClient();
+	sCMANAGER.removeAllClient();
 	std::cout << "Server Closed" << std::endl;
 	_server.Close();
 	this->WSAClose();

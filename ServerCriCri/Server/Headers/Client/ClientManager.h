@@ -18,6 +18,7 @@ Copyright (c) 2016 Entringer Antony
 class ClientManager
 {
 public:
+	static ClientManager& Instance();
 	ClientManager();
 	~ClientManager();
 	void				AddClient(Client*);
@@ -28,6 +29,9 @@ public:
 private:
 	std::list<Client*>	clientList;
 	std::mutex			mutex;
+	static ClientManager m_instance;
 };
+
+#define sCMANAGER ClientManager::Instance()
 
 #endif		/*CLIENTMANAGER_H_*/

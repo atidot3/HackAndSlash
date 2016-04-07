@@ -7,6 +7,8 @@ Copyright (c) 2016 Entringer Antony
 */
 #include "ClientManager.h"
 
+ClientManager ClientManager::m_instance = ClientManager();
+
 ClientManager::ClientManager()
 {
 
@@ -14,6 +16,10 @@ ClientManager::ClientManager()
 ClientManager::~ClientManager()
 {
 
+}
+ClientManager& ClientManager::Instance()
+{
+	return m_instance;
 }
 void		ClientManager::AddClient(Client* _client)
 {

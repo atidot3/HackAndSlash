@@ -14,7 +14,6 @@ Socket::Socket()
 	_type = NONE;
 	_state = INACTIVE;
 }
-
 Socket::Socket(unsigned int &port)
 {
 	_type = SERVER;
@@ -25,7 +24,6 @@ Socket::Socket(unsigned int &port)
 	_sock = socket(AF_INET, SOCK_STREAM, 0);
 	_state = ACTIVE;
 }
-
 Socket::Socket(char const *addr, unsigned int &port)
 {
 	IN_ADDR	sin_addr;
@@ -40,7 +38,6 @@ Socket::Socket(char const *addr, unsigned int &port)
 		std::cerr << WSAGetLastError() << std::endl;
 	_state = ACTIVE;
 }
-
 Socket::Socket(SOCKET &sock, SOCKADDR_IN &sin)
 {
 	_type = CLIENT;
@@ -48,12 +45,10 @@ Socket::Socket(SOCKET &sock, SOCKADDR_IN &sin)
 	_sin = sin;
 	_sock = sock;
 }
-
 Socket::~Socket()
 {
 	this->Close();
 }
-
 Socket	&Socket::operator=(Socket &cpy)
 {
 	this->Close();
@@ -66,7 +61,6 @@ Socket	&Socket::operator=(Socket &cpy)
 	cpy.setState(INACTIVE);
 	return *this;
 }
-
 int		Socket::init(unsigned int &port)
 {
 	if (_state != INACTIVE)
@@ -84,7 +78,6 @@ int		Socket::init(unsigned int &port)
 	_state = ACTIVE;
 	return 0;
 }
-
 int		Socket::init(unsigned int &port, const char *addr)
 {
 	IN_ADDR	sin_addr;
@@ -105,7 +98,6 @@ int		Socket::init(unsigned int &port, const char *addr)
 	_state = ACTIVE;
 	return 0;
 }
-
 int		Socket::Bind()
 {
 	if (_type != SERVER)
@@ -117,7 +109,6 @@ int		Socket::Bind()
 	}
 	return 0;
 }
-
 int		Socket::Listen()
 {
 	if (_type != SERVER)
@@ -129,7 +120,6 @@ int		Socket::Listen()
 	}
 	return 0;
 }
-
 int		Socket::Connect()
 {
 	if (_type != CLIENT || _state == ACTIVE)
@@ -141,7 +131,6 @@ int		Socket::Connect()
 	}
 	return 0;
 }
-
 int		Socket::Accept(Socket &sock)
 {
 	if (_type != SERVER || _state == INACTIVE)
@@ -160,7 +149,6 @@ int		Socket::Accept(Socket &sock)
 	sock = Socket(c_sock, c_sin);
 	return 0;
 }
-
 int		Socket::Close()
 {
 	if (_state == INACTIVE)
@@ -168,14 +156,12 @@ int		Socket::Close()
 	_state = INACTIVE;
 	return closesocket(_sock);
 }
-
 int		Socket::Send(Socket &sock, std::string &src)
 {
 	if (_state == INACTIVE)
 		return 0;
 	return send(sock._sock, src.c_str(), (int)src.size(), 0);
 }
-
 int		Socket::Recv(Socket &sock, std::string &dest)
 {
 	char	*buff;
@@ -195,7 +181,6 @@ int		Socket::Recv(Socket &sock, std::string &dest)
 	delete buff;
 	return res;
 }
-
 std::string	Socket::getAddr()
 {
 	char		dst[INET_ADDRSTRLEN];

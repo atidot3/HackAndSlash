@@ -7,6 +7,8 @@
 */
 
 #include	"Network/Select.hpp"
+#include	"Client.h"
+#include	"ClientManager.h"
 
 Select::Select()
 {
@@ -18,7 +20,62 @@ Select::Select()
 Select::~Select()
 {
 }
+int	Select::UpdateLoop(Socket &server, Socket& cpy)
+{
+	int	counter = 0;
+	Client*	client;
+	std::string		cmd = "";
 
+	zero();
+	set(server, Select::READ);
+	counter = 0;
+	while ((client = sCMANAGER.getClient(counter)))
+	{
+		set(client->getSocket(), Select::READ);
+		++counter;
+	}
+	if (start() < 0)
+		return -1;
+	else if (isset(server, Select::READ))
+	{
+		server.Accept(cpy);
+		if (cpy.getState() != Socket::INACTIVE)
+		{
+			server.Send(cpy, std::string("Hello World !"));
+			setNdfs(cpy);
+			sCMANAGER.AddClient(new Client(cpy, "H3ll0 w0rld")); // NEED GENERATE TOKEN
+			//LOG("A client from " + cpy.getAddr() + " is connected!");
+			//LOGFILE(SERVER_LOG_FILE, "A client from " + cpy.getAddr() + " is connected!");
+			//std::cout << "Connected client: " << sCMANAGER.getConnectedClient() << std::endl;
+		}
+	}
+	else
+	{
+		cmd = "";
+		counter = 0;
+		while ((client = sCMANAGER.getClient(counter)))
+		{
+			if (isset(client->getSocket(), Select::READ))
+			{
+				if (server.Recv(client->getSocket(), cmd) <= 0)
+				{
+					//LOG("A client from " + cpy.getAddr() + " is disconnected!");
+					//LOGFILE(SERVER_LOG_FILE, "A client from " + cpy.getAddr() + " is disconnected!");
+					sCMANAGER.removeClient(client);
+					//std::cout << "Connected client: " << sCMANAGER.getConnectedClient() << std::endl;
+					--counter;
+				}
+				else
+				{
+					//std::cout << "Receiving " << cmd << std::endl;
+					server.Send(client->getSocket(), std::string("Hello World !"));
+				}
+			}
+			++counter;
+		}
+	}
+	return 0;
+}
 void Select::zero()
 {
 	FD_ZERO(&_rdfs);

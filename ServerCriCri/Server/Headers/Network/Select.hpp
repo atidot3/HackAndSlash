@@ -64,6 +64,8 @@ public:
 	*/
 	void	setTimeout(long tv_sec, long tv_usec);
 
+	// clean the fucking loop
+	int		UpdateLoop(Socket &server, Socket& cpy);
 private:
 
 };
