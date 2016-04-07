@@ -160,13 +160,6 @@ void	ServerApp::run()
 			//_select.set(client->getSocket(), Select::WRITE);
 			++counter;
 		}
-		/*
-		for (iterator it = _list.begin(); it != _list.end(); ++it)
-		{
-			_select.set((*it), Select::READ);
-			//			_select.set((*it), Select::WRITE);
-		}
-		*/
 		if ((ret = _select.start()) < 0)
 		{
 			std::cerr << "Select Error: " << WSAGetLastError() << std::endl;
@@ -177,7 +170,6 @@ void	ServerApp::run()
 			_server.Accept(cpy);
 			if (cpy.getState() != Socket::INACTIVE)
 			{
-//				_list.push_back(cpy);
 				_server.Send(cpy, std::string("Hello World !"));
 				_select.setNdfs(cpy);
 				cmanager->AddClient(new Client(cpy, "H3ll0 w0rld")); // NEED GENERATE TOKEN
@@ -189,16 +181,6 @@ void	ServerApp::run()
 		else
 		{
 			cmd = "";
-			/*
-			for (iterator it = _list.begin(); it != _list.end(); ++it)
-				if (_select.isset(*it, Select::READ))
-					if (_server.Recv(*it, cmd) <= 0)
-					{
-						std::cout << "A client has quitted" << std::endl;
-						it->Close();
-						it = _list.erase(it);
-					}
-					*/
 			counter = 0;
 			while ((client = cmanager->getClient(counter)))
 			{
@@ -212,6 +194,11 @@ void	ServerApp::run()
 						std::cout << "Connected client: " << cmanager->getConnectedClient() << std::endl;
 						--counter;
 					}
+					else
+					{
+						std::cout << "Receiving " << cmd << std::endl;
+						_server.Send(client->getSocket(), std::string("Hello World !"));
+					}
 				}
 				++counter;
 			}
@@ -221,7 +208,6 @@ void	ServerApp::run()
 	cio.join();
 //	srv.join();
 	cmanager->removeAllClient();
-
 	std::cout << "Server Closed" << std::endl;
 	_server.Close();
 	this->WSAClose();

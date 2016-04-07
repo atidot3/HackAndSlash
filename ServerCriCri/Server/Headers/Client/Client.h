@@ -23,6 +23,9 @@ public:
 private:
 	Socket			socket;
 	std::string		token;
+
+private: // GAME VARIABLE
+	int		AccountID;
 };
 
 #endif		/*CLIENT_H_*/
