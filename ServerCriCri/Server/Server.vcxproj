@@ -67,25 +67,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_x86_d</TargetName>
     <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_x86</TargetName>
     <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_d</TargetName>
     <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Config;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Network;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)Sources;$(ProjectDir)Sources\Config;$(ProjectDir)Sources\Network;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -94,7 +94,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -121,7 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -138,7 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -154,6 +154,8 @@
     <ClCompile Include="Sources\Network\Select.cpp" />
     <ClCompile Include="Sources\Network\ServerApp.cpp" />
     <ClCompile Include="Sources\Network\Socket.cpp" />
+    <ClCompile Include="Sources\Network\SubNetwork\IOCPHandler.cpp" />
+    <ClCompile Include="Sources\Network\SubNetwork\IOCPServer.cpp" />
     <ClCompile Include="Sources\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +166,8 @@
     <ClInclude Include="Headers\Network\ServerApp.hpp" />
     <ClInclude Include="Headers\Network\ServerImp.hpp" />
     <ClInclude Include="Headers\Network\Socket.hpp" />
+    <ClInclude Include="Headers\Network\SubNetwork\IOCPHandler.h" />
+    <ClInclude Include="Headers\Network\SubNetwork\IOCPServer.h" />
     <ClInclude Include="Headers\Utils\Logger.hpp" />
   </ItemGroup>
   <ItemGroup>

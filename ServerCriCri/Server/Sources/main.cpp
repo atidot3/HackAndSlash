@@ -7,6 +7,7 @@ Copyright (c) 2016 Christian Chaumery
 */
 
 #include	<Network/ServerApp.hpp>
+#include	<Network\SubNetwork\IOCPServer.h>
 #include	<list>
 #include	<iostream>
 
@@ -33,9 +34,13 @@ private:
 
 int main()
 {
-	Server	serv;
+	//Server	serv;
 
-	serv.run();
+	//serv.run();
+	IOCPServer server;
+
+	server.Initialize();
+
 	system("PAUSE");
 	return 0;
 }
