@@ -7,6 +7,7 @@
 */
 
 #include	"Network/ServerApp.hpp"
+#include	"IOCPServer.h"
 #include	"IniReader.h"
 #include	<thread>
 
@@ -123,7 +124,51 @@ int		ServerApp::OnConfiguration(const char * lpszConfigFile)
 }
 void	ServerApp::run()
 {
-	WSAOVERLAPPED	*ovl;
+	/*****************
+	/////////\\\\\\\\\
+	//!\\ CODE DU PELO REINTERPRETE EN OBJ //!\\
+	/////////\\\\\\\\\
+	*****************/
+
+	IOCPServer	server;
+
+	server.init_winsock();
+	server.create_io_completion_port();
+	server.create_listening_socket();
+	server.bind_listening_socket();
+	server.start_listening();
+	server.load_accept_ex();
+	server.start_accepting();
+	for (;;)
+	{
+		DWORD length;
+		BOOL resultOk;
+		WSAOVERLAPPED* ovl_res;
+		SocketState* socketState;
+
+		resultOk = server.get_completion_status(&length, &socketState, &ovl_res);
+
+		switch (socketState->operation)
+		{
+		case OP_ACCEPT:
+			printf("* operation ACCEPT completed\n");
+			server.accept_completed(resultOk, length, socketState, ovl_res);
+			break;
+		case OP_READ:
+			printf("* operation READ completed\n");
+			server.read_completed(resultOk, length, socketState, ovl_res);
+			break;
+		case OP_WRITE:
+			printf("* operation WRITE completed\n");
+			server.write_completed(resultOk, length, socketState, ovl_res);
+			break;
+		default:
+			printf("* error, unknown operation!!!\n");
+			server.destroy_connection(socketState, ovl_res); // hope for the best!
+			break;
+		} // switch
+	}
+	/*WSAOVERLAPPED	*ovl;
 	BOOL			result;
 	DWORD			length = 0;
 	CKey			*ck = new CKey;
@@ -175,7 +220,9 @@ void	ServerApp::run()
 	delete ck;
 	LOG("Server stopping");
 	this->WSAClose();
-	return;
+	return;*/
+	
+	
 	/*****************
 	/////////\\\\\\\\\
 	//!\\ IGNORE //!\\
