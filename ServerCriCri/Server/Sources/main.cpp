@@ -20,7 +20,8 @@ public:
 private:
 	int	init()
 	{
-		return OnConfiguration(".//Server.ini");
+		//return OnConfiguration(".//Server.ini");
+		return 0;
 	}
 	void	serverRun()
 	{
@@ -34,12 +35,14 @@ private:
 
 int main()
 {
-	//Server	serv;
+	Server	serv;
 
-	//serv.run();
+	serv.run();
+	/*
 	IOCPServer server;
 
 	server.Initialize();
+	*/
 
 	system("PAUSE");
 	return 0;

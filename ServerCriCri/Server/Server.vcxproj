@@ -156,6 +156,7 @@
     <ClCompile Include="Sources\Network\Socket.cpp" />
     <ClCompile Include="Sources\Network\SubNetwork\IOCPHandler.cpp" />
     <ClCompile Include="Sources\Network\SubNetwork\IOCPServer.cpp" />
+    <ClCompile Include="Sources\Network\WIN32_API\Acceptor.cpp" />
     <ClCompile Include="Sources\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="Headers\Network\Socket.hpp" />
     <ClInclude Include="Headers\Network\SubNetwork\IOCPHandler.h" />
     <ClInclude Include="Headers\Network\SubNetwork\IOCPServer.h" />
+    <ClInclude Include="Headers\Network\WIN32_API\Acceptor.hpp" />
     <ClInclude Include="Headers\Utils\Logger.hpp" />
   </ItemGroup>
   <ItemGroup>

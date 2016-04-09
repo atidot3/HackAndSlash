@@ -123,7 +123,40 @@ int		ServerApp::OnConfiguration(const char * lpszConfigFile)
 }
 void	ServerApp::run()
 {
+	WSAOVERLAPPED	*ovl;
+	BOOL			result;
+	DWORD			length = 0;
+	CKey			*ck = new CKey;
+
+
 	this->WSAinit();
+	_isRunning = true;
+	LOG("Server starting");
+	if (!_accept.init())
+		_isRunning = false;
+
+	LOG("Server running");
+	_accept.start();
+	while (_isRunning)
+	{
+		LOG("RUNNING...");
+		ovl = NULL;
+		ck = NULL;
+		result = GetQueuedCompletionStatus(_accept.getHandle(), &length, (PULONG_PTR)&ck, &ovl, INFINITE);
+		if (ck->op == Operation::ACCEPT)
+			_accept.accept(result, length, ck, ovl);
+	}
+
+	delete ck;
+	LOG("Server stopping");
+	this->WSAClose();
+	return;
+	/*****************
+	/////////\\\\\\\\\
+	//!\\ IGNORE //!\\
+	/////////\\\\\\\\\
+	*****************/
+	/*
 	if (this->init() != 0)
 	{
 		std::cout << "Error while loading server" << std::endl;
@@ -139,7 +172,8 @@ void	ServerApp::run()
 //	_select.setTimeout(0, 50);
 	std::cout << "Start Server on: " << m_config.ExternalIP << " " << m_config.wClientAcceptPort << std::endl;
 	_isRunning = true;
-	std::thread		cio(&ServerApp::consoleIO, this);
+	
+//	std::thread		cio(&ServerApp::consoleIO, this);
 //	std::thread		srv(&ServerApp::serverRun, this);
 
 	while (_isRunning)
@@ -153,10 +187,11 @@ void	ServerApp::run()
 		std::cout << sCMANAGER.getConnectedClient() << std::endl;
 #pragma endregion
 	}
-	cio.join();
+//	cio.join();
 //	srv.join();
 	sCMANAGER.removeAllClient();
 	std::cout << "Server Closed" << std::endl;
 	_server.Close();
 	this->WSAClose();
+	*/
 }
