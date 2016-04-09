@@ -142,9 +142,34 @@ void	ServerApp::run()
 		LOG("RUNNING...");
 		ovl = NULL;
 		ck = NULL;
-		result = GetQueuedCompletionStatus(_accept.getHandle(), &length, (PULONG_PTR)&ck, &ovl, INFINITE);
-		if (ck->op == Operation::ACCEPT)
-			_accept.accept(result, length, ck, ovl);
+		result = GetQueuedCompletionStatus(_accept.getHandle(), &length, (PULONG_PTR)&ck, &ovl, INFINITE); // (controller, struct key, ???, ???, ???) bloquing funtion / gestion event
+		switch (ck->op)
+		{
+			case Operation::ACCEPT:
+			{
+				_accept.accept(result, length, ck, ovl);
+				break;
+			}
+			case Operation::READ:
+			{
+				std::cout << "ReadComplete" << std::endl;
+				_accept.read_completed(result, length, ck, ovl);
+				break;
+			}
+			case Operation::WRITE:
+			{
+				std::cout << "WriteComplete" << std::endl;
+				break;
+			}
+			case Operation::UNKNOWN:
+			{
+				printf("* error, unknown operation!!!\n");
+				break;
+			}
+			default:
+				printf("* error, unknown operation!!!\n");
+				break;
+		}
 	}
 
 	delete ck;

@@ -18,7 +18,7 @@ enum Operation
 	UNKNOWN
 };
 
-typedef struct sCompletionKey
+typedef struct sCompletionKey // 
 {
 	SOCKET		socket;
 	SOCKADDR_IN	sin;
@@ -37,7 +37,9 @@ class Acceptor
 	GUID			_guidAcceptEx;
 	LPFN_GETACCEPTEXSOCKADDRS	_lpfnGetSockaddr;
 	GUID			_guidGetSocketaddr;
-	DWORD			_dwBytes, _dwBytes2;
+	//GUID			_guidGetWsaRECV;
+	//LPFN_WSARECVMSG	_lpfnWsaRecvMsg;
+	DWORD			_dwBytes, _dwBytes2, _dwBytes3;
 	WSAOVERLAPPED	_ovl;
 
 public:
@@ -47,6 +49,8 @@ public:
 	bool	init();
 	void	start();
 	void	accept(BOOL result, int length, CKey *ck, WSAOVERLAPPED *ovl);
+	void	read(CKey *ck, WSAOVERLAPPED *ovl);
+	void	read_completed(BOOL result, int length, CKey *ck, WSAOVERLAPPED *ovl);
 
 	HANDLE	getHandle() const { return _handle; }
 private:
