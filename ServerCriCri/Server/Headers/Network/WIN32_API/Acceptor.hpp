@@ -35,7 +35,9 @@ class Acceptor
 	HANDLE			_handle;
 	LPFN_ACCEPTEX	_lpfnAcceptEx;
 	GUID			_guidAcceptEx;
-	DWORD			_dwBytes;
+	LPFN_GETACCEPTEXSOCKADDRS	_lpfnGetSockaddr;
+	GUID			_guidGetSocketaddr;
+	DWORD			_dwBytes, _dwBytes2;
 	WSAOVERLAPPED	_ovl;
 
 public:

@@ -60,6 +60,17 @@ bool	Acceptor::init()
 		return false;
 	}
 
+	_guidGetSocketaddr = WSAID_GETACCEPTEXSOCKADDRS;
+	retval = WSAIoctl(_socket, SIO_GET_EXTENSION_FUNCTION_POINTER,
+		&_guidGetSocketaddr, sizeof(_guidGetSocketaddr),
+		&_lpfnGetSockaddr, sizeof(_lpfnGetSockaddr),
+		&_dwBytes2, NULL, NULL);
+	if (retval == SOCKET_ERROR)
+	{
+		LOG("WSAIoctl2 error: " + std::to_string(WSAGetLastError()));
+		return false;
+	}
+
 	return true;
 }
 
@@ -90,23 +101,24 @@ void	Acceptor::start()
 void	Acceptor::accept(BOOL result, int length, CKey *ck, WSAOVERLAPPED *ovl)
 {
 	CKey	newCKey;
-	int		size = sizeof(newCKey.sin);
-
+	SOCKADDR_IN	*oldSin = &ck->sin, *newSin = new SOCKADDR_IN;
+	int		size = sizeof(*newSin);
+	int		oldSize = sizeof(*oldSin);
+	int		retval = 0;
+	
+	newSin = NULL;
 	if (result)
 	{
-		if (getsockname(ck->socket, (SOCKADDR*)&newCKey.sin, &size) != 0)
-		{
-			LOG("Getsockname failed error: " + std::to_string(WSAGetLastError()));
-		}
-
+		_lpfnGetSockaddr(ck->buffer, _ck.length - ((sizeof(SOCKADDR_IN) + 16) * 2), sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, (SOCKADDR**)&newSin, &size, (SOCKADDR**)&oldSin, &oldSize);
 		char		dst[INET_ADDRSTRLEN];
-		IN_ADDR		addr = newCKey.sin.sin_addr;
-		inet_ntop(newCKey.sin.sin_family, &addr, dst, INET_ADDRSTRLEN);
-		std::string	ret = dst;
+		std::string	ret;
+		IN_ADDR		addr = newSin->sin_addr;
 
-		LOG("Connection accepted from: " + ret);
+		inet_ntop(_sin.sin_family, &addr, dst, INET_ADDRSTRLEN);
+		ret = dst;
 		setsockopt(ck->socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char *)_socket, sizeof(_socket));
 		newCKey.socket = ck->socket;
+		LOG("Connection accepted from: " + ret);
 		closesocket(newCKey.socket);
 	}
 	else
