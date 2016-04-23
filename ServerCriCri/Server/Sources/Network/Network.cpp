@@ -28,8 +28,7 @@ int		Network::CreateListenSocket()
 		std::cout << "listenSocket.Create failed" << std::endl;
 		return rc;
 	}
-	listener_state.socket = 0;
-	listener_state.operation = IOMODE_ACCEPT;
+	listener_state.iomode = IOMODE_ACCEPT;
 	if (CreateIoCompletionPort((HANDLE)listenSocket.GetRawSocket(), m_hIOCP, (ULONG_PTR)&listener_state, 0) != m_hIOCP)
 	{
 		int err = WSAGetLastError();
@@ -63,7 +62,7 @@ int		Network::Listen()
 }
 int Network::CreateIOCP()
 {
-	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
+	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, 0);
 	if (NULL == m_hIOCP)
 	{
 		return GetLastError();
@@ -73,50 +72,52 @@ int Network::CreateIOCP()
 int Network::PostAccept()
 {
 	DWORD dwBytes;
-	memset(&listener_ovl, 0, sizeof(WSAOVERLAPPED));
+
+	listener_state.Reset();
+	listener_state.Clear();
+	listener_state.iomode = IOMODE_ACCEPT;
+	listener_state.wsabuf.buf = new char[1024];
+	listener_state.wsabuf.len = 0;
 	acceptSocket.Create();
 
 	int rc = listenSocket.AcceptEx(acceptSocket,
-		listener_state.buf,
+		listener_state.wsabuf.buf,
 		0,
 		sizeof(SOCKADDR_IN) + 16,
 		sizeof(SOCKADDR_IN) + 16,
 		&dwBytes,
-		&listener_ovl);
+		&listener_state);
 	if (rc != 0)
-		std::cout << "PostAccept failed" << std::endl;
+		std::cout << "PostAccept failed : "<< GetLastError() << std::endl;
 	return rc;
 }
-int Network::CompleteIO(SocketState * pIOContext, DWORD dwParam)
+Socket	*Network::CompleteAccept(DWORD dwTransferedBytes)
 {
-	switch (pIOContext->operation)
-	{
-	case IOMODE_ACCEPT:
-	{
-		std::cout << "ACCEPT PENDING" << std::endl;
-		//return CompleteAccept(dwParam);
-		return 0;
-	}
-	case IOMODE_CONNECT:
-	{
-		std::cout << "CONNECT PENDING" << std::endl;
-		//return CompleteConnect(dwParam);
-		return 0;
-	}
-	case IOMODE_RECV:
-	{
-		std::cout << "RECV PENDING" << std::endl;
-		//return CompleteRecv(dwParam);
-		return 0;
-	}
-	case IOMODE_SEND:
-	{
-		std::cout << "SEND PENDING" << std::endl;
-		//return CompleteSend(dwParam);
-		return 0;
-	}
-	default:
-		return -1;
-	}
+	UNREFERENCED_PARAMETER(dwTransferedBytes);
+
+	SOCKADDR_IN * pLocalAddr = NULL;
+	SOCKADDR_IN * pRemoteAddr = NULL;
+	int nLocalAddrLen = 0;
+	int nRemoteAddrLen = 0;
+
+	listenSocket.GetAcceptExSockaddrs(listener_state.wsabuf.buf,
+		0,
+		sizeof(SOCKADDR_IN) + 16,
+		sizeof(SOCKADDR_IN) + 16,
+		(SOCKADDR**)&pLocalAddr,
+		&nLocalAddrLen,
+		(SOCKADDR**)&pRemoteAddr,
+		&nRemoteAddrLen);
+	std::cout << "SOCKET = " << listenSocket.GetRawSocket() << " SOCKET 2 = " << acceptSocket.GetRawSocket() << std::endl;
+	//SetAddress(pLocalAddr, pRemoteAddr);
+	ZeroMemory(listener_state.wsabuf.buf, sizeof(SOCKADDR_IN) + 16 + sizeof(SOCKADDR_IN) + 16);
+	return &acceptSocket;
+}
+int Network::CompleteIO(sIOCONTEXT * pIOContext, DWORD dwParam)
+{
+	return 0;
+}
+int Network::PostRecv()
+{
 	return 0;
 }

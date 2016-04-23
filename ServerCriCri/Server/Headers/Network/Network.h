@@ -14,18 +14,20 @@ enum eIOMODE
 	IOMODE_CONNECT,
 	IOMODE_RECV,
 	IOMODE_SEND,
+	IOMODE_UNKNOW,
 
 	MAX_IOMODE
 };
 
-typedef struct _SocketState // 
+struct sIOCONTEXT : public OVERLAPPED
 {
-	eIOMODE operation;
-	SOCKET socket;
-	DWORD length;
-	char buf[MAX_BUF];
-} SocketState;
+	WSABUF				wsabuf; // 
+	eIOMODE				iomode;
+	LPCVOID				param; // session ptr
 
+	void Clear() { ZeroMemory(this, sizeof(sIOCONTEXT)); }
+	void Reset() { ZeroMemory(this, sizeof(OVERLAPPED)); }
+};
 
 class Network
 {
@@ -37,16 +39,22 @@ public:
 	int			CreateListenSocket();
 	int			Listen();
 	int			CreateIOCP();
-	int			PostAccept();
-	int			CompleteIO(SocketState * pIOContext, DWORD dwParam);
+	int			CompleteIO(sIOCONTEXT * pIOContext, DWORD dwParam);
 	HANDLE		getHandle(){ return m_hIOCP; }
 	WSAOVERLAPPED	getOverlapped(){ return listener_ovl; }
-	SocketState	getSocketState(){ return listener_state; }
+	sIOCONTEXT	getSocketState(){ return listener_state; }
+
+
+
+	int			PostAccept();
+	Socket		*CompleteAccept(DWORD dwTransferedBytes);
+	int			PostRecv();
+	int			CompleteRecv();
 private:
 	Socket		acceptSocket;
 	Socket		listenSocket;
 	SockAddr	addr;
-	SocketState listener_state;
+	sIOCONTEXT  listener_state;
 	WSAOVERLAPPED listener_ovl;
 	HANDLE		m_hIOCP;
 };

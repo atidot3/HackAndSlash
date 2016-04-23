@@ -151,6 +151,7 @@
     <ClCompile Include="Sources\Client\ClientManager.cpp" />
     <ClCompile Include="Sources\Config\IniReader.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\Network\Connection.cpp" />
     <ClCompile Include="Sources\Network\Network.cpp" />
     <ClCompile Include="Sources\Network\Select.cpp" />
     <ClCompile Include="Sources\Network\ServerApp.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Headers\Client\Client.h" />
     <ClInclude Include="Headers\Client\ClientManager.h" />
     <ClInclude Include="Headers\Config\IniReader.h" />
+    <ClInclude Include="Headers\Network\Connection.h" />
     <ClInclude Include="Headers\Network\Network.h" />
     <ClInclude Include="Headers\Network\Select.hpp" />
     <ClInclude Include="Headers\Network\ServerApp.hpp" />

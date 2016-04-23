@@ -10,11 +10,9 @@
 # define	SERVERAPP_HPP_
 
 # include	"Utils/Logger.hpp"
-# include	"Network/Socket.hpp"
-# include	"Network/Select.hpp"
+# include	"Connection.h"
 # include	"Client.h"
 # include	"ClientManager.h"
-# include	"Network.h"
 # include	<list>
 # include	<queue>
 # include	<atomic>
@@ -44,7 +42,6 @@ class ServerApp
 {
 private:
 	Socket					_server;
-	Select					_select;
 	std::list<Socket>		_list;
 	ClientManager			*cmanager;
 	bool					_isRunning;

@@ -140,22 +140,63 @@ void	ServerApp::run()
 		return;
 	while (isRunning())
 	{
-		SocketState* state = NULL;
-		WSAOVERLAPPED* ovl_res = NULL;
-
-		bResult = GetQueuedCompletionStatus(network.getHandle(), &dwBytesTransferred, (PULONG_PTR)&state, &ovl_res, INFINITE);
-		if (NULL == ovl_res)
+		sIOCONTEXT* state = NULL;
+		Connection * pSession = NULL;
+		Socket *newConnection;
+		bResult = GetQueuedCompletionStatus(network.getHandle(), &dwBytesTransferred, (ULONG_PTR*)&pSession, (LPOVERLAPPED*)&state, INFINITE);
+		if (!bResult)
+		{
+			DWORD err = GetLastError();
+			printf("* error %d getting completion port status!!!\n", err);
+			return;
+		}
+		if (NULL == state)
 		{
 			printf("NULL == network.getOverlapped()");
 			continue;
 		}
 		else
 		{
-			rc = network.CompleteIO(state, dwBytesTransferred);
-			if (0 != rc)
+			std::cout << state->iomode << std::endl;
+			switch (state->iomode)
 			{
-				
+				case IOMODE_ACCEPT:
+				{
+					std::cout << "ACCEPT PENDING" << std::endl;
+					newConnection = network.CompleteAccept(dwBytesTransferred);
+					send(newConnection->GetRawSocket(), "Salut", 5, 0);
+					newConnection->Close();
+					//delete newConnection; // CRASH WHY
+					break;
+				}
+				case IOMODE_CONNECT:
+				{
+					std::cout << "CONNECT PENDING" << std::endl;
+					//return CompleteConnect(dwParam);
+					break;
+				}
+				case IOMODE_RECV:
+				{
+					std::cout << "RECV PENDING" << std::endl;
+					//return CompleteRecv(dwParam);
+					break;
+				}
+				case IOMODE_SEND:
+				{
+					std::cout << "SEND PENDING" << std::endl;
+					//return CompleteSend(dwParam);
+					break;
+				}
+				case IOMODE_UNKNOW:
+				{
+					std::cout << "* error, unknown operation!!!\n" << std::endl;
+					break;
+				}
+				default:
+					std::cout << "* error, unknown operation!!!\n" << std::endl;
+					break;
 			}
+			network.PostAccept();
 		}
 	}
 }
