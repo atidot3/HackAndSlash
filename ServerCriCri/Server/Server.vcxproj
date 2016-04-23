@@ -93,7 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_MBCS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -105,7 +105,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_MBCS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
     </ClCompile>
@@ -120,7 +120,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_MBCS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -136,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_MBCS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(ProjectDir)Headers\Network\SubNetwork;$(ProjectDir)Headers\Client;$(ProjectDir)Headers\;$(ProjectDir)Headers\Config;$(ProjectDir)Headers\Network</AdditionalIncludeDirectories>
     </ClCompile>
@@ -151,25 +151,22 @@
     <ClCompile Include="Sources\Client\ClientManager.cpp" />
     <ClCompile Include="Sources\Config\IniReader.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\Network\Network.cpp" />
     <ClCompile Include="Sources\Network\Select.cpp" />
     <ClCompile Include="Sources\Network\ServerApp.cpp" />
     <ClCompile Include="Sources\Network\Socket.cpp" />
-    <ClCompile Include="Sources\Network\SubNetwork\IOCPHandler.cpp" />
-    <ClCompile Include="Sources\Network\SubNetwork\IOCPServer.cpp" />
-    <ClCompile Include="Sources\Network\WIN32_API\Acceptor.cpp" />
     <ClCompile Include="Sources\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Client\Client.h" />
     <ClInclude Include="Headers\Client\ClientManager.h" />
     <ClInclude Include="Headers\Config\IniReader.h" />
+    <ClInclude Include="Headers\Network\Network.h" />
     <ClInclude Include="Headers\Network\Select.hpp" />
     <ClInclude Include="Headers\Network\ServerApp.hpp" />
     <ClInclude Include="Headers\Network\ServerImp.hpp" />
+    <ClInclude Include="Headers\Network\SockAddr.h" />
     <ClInclude Include="Headers\Network\Socket.hpp" />
-    <ClInclude Include="Headers\Network\SubNetwork\IOCPHandler.h" />
-    <ClInclude Include="Headers\Network\SubNetwork\IOCPServer.h" />
-    <ClInclude Include="Headers\Network\WIN32_API\Acceptor.hpp" />
     <ClInclude Include="Headers\Utils\Logger.hpp" />
   </ItemGroup>
   <ItemGroup>

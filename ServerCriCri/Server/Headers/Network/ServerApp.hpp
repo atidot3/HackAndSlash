@@ -12,9 +12,9 @@
 # include	"Utils/Logger.hpp"
 # include	"Network/Socket.hpp"
 # include	"Network/Select.hpp"
-# include	"Network/WIN32_API/Acceptor.hpp"
 # include	"Client.h"
 # include	"ClientManager.h"
+# include	"Network.h"
 # include	<list>
 # include	<queue>
 # include	<atomic>
@@ -55,7 +55,7 @@ private:
 protected:
 	std::queue<std::string>	_wqueue;
 	sSERVERCONFIG			m_config;
-	Acceptor				_accept;
+	Network					network;
 public:
 	// Constructor
 	ServerApp();

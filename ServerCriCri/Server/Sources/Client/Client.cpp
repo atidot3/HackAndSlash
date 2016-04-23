@@ -20,7 +20,7 @@ Client::~Client()
 }
 SOCKET		Client::getSOCKET()
 {
-	return socket.getRawSocket();
+	return 0;//socket.getRawSocket();
 }
 Socket		&Client::getSocket()
 {

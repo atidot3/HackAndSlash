@@ -7,7 +7,6 @@
 */
 
 #include	"Network/ServerApp.hpp"
-#include	"IOCPServer.h"
 #include	"IniReader.h"
 #include	<thread>
 
@@ -124,146 +123,39 @@ int		ServerApp::OnConfiguration(const char * lpszConfigFile)
 }
 void	ServerApp::run()
 {
-	/*****************
-	/////////\\\\\\\\\
-	//!\\ CODE DU PELO REINTERPRETE EN OBJ //!\\
-	/////////\\\\\\\\\
-	*****************/
-
-	IOCPServer	server;
-
-	server.init_winsock();
-	server.create_io_completion_port();
-	server.create_listening_socket();
-	server.bind_listening_socket();
-	server.start_listening();
-	server.load_accept_ex();
-	server.start_accepting();
-	for (;;)
-	{
-		DWORD length;
-		BOOL resultOk;
-		WSAOVERLAPPED* ovl_res;
-		SocketState* socketState;
-
-		resultOk = server.get_completion_status(&length, &socketState, &ovl_res);
-
-		switch (socketState->operation)
-		{
-		case OP_ACCEPT:
-			printf("* operation ACCEPT completed\n");
-			server.accept_completed(resultOk, length, socketState, ovl_res);
-			break;
-		case OP_READ:
-			printf("* operation READ completed\n");
-			server.read_completed(resultOk, length, socketState, ovl_res);
-			break;
-		case OP_WRITE:
-			printf("* operation WRITE completed\n");
-			server.write_completed(resultOk, length, socketState, ovl_res);
-			break;
-		default:
-			printf("* error, unknown operation!!!\n");
-			server.destroy_connection(socketState, ovl_res); // hope for the best!
-			break;
-		} // switch
-	}
-	/*WSAOVERLAPPED	*ovl;
-	BOOL			result;
-	DWORD			length = 0;
-	CKey			*ck = new CKey;
-
-
-	this->WSAinit();
+	int rc = 0;
 	_isRunning = true;
-	LOG("Server starting");
-	if (!_accept.init())
-		_isRunning = false;
+	BOOL bResult = FALSE;
+	DWORD dwBytesTransferred = 0;
 
-	LOG("Server running");
-	_accept.start();
-	while (_isRunning)
-	{
-		LOG("RUNNING...");
-		ovl = NULL;
-		ck = NULL;
-		result = GetQueuedCompletionStatus(_accept.getHandle(), &length, (PULONG_PTR)&ck, &ovl, INFINITE); // (controller, struct key, ???, ???, ???) bloquing funtion / gestion event
-		switch (ck->op)
-		{
-			case Operation::ACCEPT:
-			{
-				_accept.accept(result, length, ck, ovl);
-				break;
-			}
-			case Operation::READ:
-			{
-				std::cout << "ReadComplete" << std::endl;
-				_accept.read_completed(result, length, ck, ovl);
-				break;
-			}
-			case Operation::WRITE:
-			{
-				std::cout << "WriteComplete" << std::endl;
-				break;
-			}
-			case Operation::UNKNOWN:
-			{
-				printf("* error, unknown operation!!!\n");
-				break;
-			}
-			default:
-				printf("* error, unknown operation!!!\n");
-				break;
-		}
-	}
-
-	delete ck;
-	LOG("Server stopping");
-	this->WSAClose();
-	return;*/
-	
-	
-	/*****************
-	/////////\\\\\\\\\
-	//!\\ IGNORE //!\\
-	/////////\\\\\\\\\
-	*****************/
-	/*
-	if (this->init() != 0)
-	{
-		std::cout << "Error while loading server" << std::endl;
+	if (network.Create() != 0)
 		return;
-	}
-	unsigned int	port = m_config.wClientAcceptPort;
-	Socket	cpy;
-
-	_server.init(port);
-	_server.Bind();
-	_server.Listen();
-	_select.setNdfs(_server);
-//	_select.setTimeout(0, 50);
-	std::cout << "Start Server on: " << m_config.ExternalIP << " " << m_config.wClientAcceptPort << std::endl;
-	_isRunning = true;
-	
-//	std::thread		cio(&ServerApp::consoleIO, this);
-//	std::thread		srv(&ServerApp::serverRun, this);
-
-	while (_isRunning)
+	if (network.CreateIOCP() != 0)
+		return;
+	if (network.CreateListenSocket() != 0)
+		return;
+	if (network.Listen() != 0)
+		return;
+	if (network.PostAccept() != 0)
+		return;
+	while (isRunning())
 	{
-#pragma region SELECT REGION
-		if (_select.UpdateLoop(_server, cpy) < 0)
+		SocketState* state = NULL;
+		WSAOVERLAPPED* ovl_res = NULL;
+
+		bResult = GetQueuedCompletionStatus(network.getHandle(), &dwBytesTransferred, (PULONG_PTR)&state, &ovl_res, INFINITE);
+		if (NULL == ovl_res)
 		{
-			std::cerr << "Select Error: " << WSAGetLastError() << std::endl;
-			_isRunning = false;
+			printf("NULL == network.getOverlapped()");
+			continue;
 		}
-		std::cout << sCMANAGER.getConnectedClient() << std::endl;
-#pragma endregion
+		else
+		{
+			rc = network.CompleteIO(state, dwBytesTransferred);
+			if (0 != rc)
+			{
+				
+			}
+		}
 	}
-//	cio.join();
-//	srv.join();
-	sCMANAGER.removeAllClient();
-	std::cout << "Server Closed" << std::endl;
-	_server.Close();
-	this->WSAClose();
-	*/
 }

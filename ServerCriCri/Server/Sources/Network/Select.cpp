@@ -22,7 +22,7 @@ Select::~Select()
 }
 int	Select::UpdateLoop(Socket &server, Socket& cpy)
 {
-	int	counter = 0;
+	/*int	counter = 0;
 	Client*	client;
 	std::string		cmd = "";
 
@@ -73,7 +73,7 @@ int	Select::UpdateLoop(Socket &server, Socket& cpy)
 			}
 			++counter;
 		}
-	}
+	}*/
 	return 0;
 }
 void Select::zero()
@@ -85,22 +85,22 @@ void Select::zero()
 
 void Select::set(Socket &sock, Type type)
 {
-	if (type == READ)
+	/*if (type == READ)
 		FD_SET(sock.getRawSocket(), &_rdfs);
 	else if (type == WRITE)
 		FD_SET(sock.getRawSocket(), &_wrfs);
 	else if (type == EXCEPT)
-		FD_SET(sock.getRawSocket(), &_exfs);
+		FD_SET(sock.getRawSocket(), &_exfs);*/
 }
 
 int Select::isset(Socket &sock, Type type)
 {
-	if (type == READ)
+	/*if (type == READ)
 		return FD_ISSET(sock.getRawSocket(), &_rdfs);
 	else if (type == WRITE)
 		return FD_ISSET(sock.getRawSocket(), &_wrfs);
 	else if (type == EXCEPT)
-		return FD_ISSET(sock.getRawSocket(), &_exfs);
+		return FD_ISSET(sock.getRawSocket(), &_exfs);*/
 	return false;
 }
 
@@ -111,7 +111,7 @@ int Select::start()
 
 void Select::setNdfs(Socket &sock)
 {
-	_nfds = sock.getRawSocket() > _nfds ? sock.getRawSocket() : _nfds;
+	//_nfds = sock.getRawSocket() > _nfds ? sock.getRawSocket() : _nfds;
 }
 
 void Select::setTimeout(long tv_sec, long tv_usec)

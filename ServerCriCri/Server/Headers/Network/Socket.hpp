@@ -10,7 +10,7 @@
 # define	SOCKET_HPP_
 
 # include	"ServerImp.hpp"
-# include	<string>
+#include	"SockAddr.h"
 
 // Base Socket Class. Handles TCP Socket Only for now
 class Socket
@@ -23,102 +23,156 @@ public:
 		CLIENT = 1, // Client Socket
 		SERVER = 2	// Server Socket
 	};
-
-	// State of the socket
-	enum STATE
+	enum
 	{
-		INACTIVE = 0,
-		ACTIVE = 1,
+		eSOCKET_TCP = 0,
+		eSOCKET_UDP,
 	};
 
 private:
 	SOCKET			_sock;
 	SOCKADDR_IN		_sin;
-	STATE			_state;
 	TYPE			_type;
 
 public:
-	Socket();
 	/*
 		Constructor for a Server socket
 		@param &port:	The port on which the server will listen to
 	*/
-	Socket(unsigned int &port);
-	/*
-		Constructor for a Client socket
-		@param *addr:	The IP address on which the client will connect
-		@param &port:	The port on which the client will connect
-	*/
-	Socket(char const *addr, unsigned int &port);
+	Socket();
 	// Destructor
-	~Socket();
+	virtual ~Socket();
 
-	/*
-		Assignment Operator for Sockets. The Socket copied is disabled
-		@param cpy:	Socket to copy
-	*/
-	Socket	&operator=(Socket &cpy);
+	static int							StartUp();
 
-	/*
-		Initialization for Server inactive socket
-		@param &port:	The port on which the server will listen to
-	*/
-	int		init(unsigned int &port);
-	/*
-		Initialization for Client inactive socket
-		@param *addr:	The IP address on which the client will connect
-		@param &port:	The port on which the client will connect
-	*/
-	int		init(unsigned int &port, char const *addr);
+	static int							CleanUp();
+protected:
+	static int							LoadExtensionAPI();
+	static int							LoadExtensionFunction(GUID functionID, LPVOID *pFunc);
+public:
+	int									Create(int nSocketType = 0);
+	int									Bind(SockAddr& rSockAddr);
+	int									Listen(int nBackLog = SOMAXCONN);
+	int									Close();
+	int									Shutdown(int how);
+	int									Connect(struct sockaddr_in * sockaddr);
+	int									SendStream(BYTE * pSendBuffer, int nSendSize, bool bSendOut);
+	int									RecvStream(BYTE * pRecvBuffer, int nRecvSize);
+	int									AcceptEx(Socket &rAcceptSocket, PVOID lpOutputBuffer, DWORD dwReceiveDataLength, DWORD dwLocalAddressLength, DWORD dwRemoteAddressLength, LPDWORD lpdwBytesReceived, LPOVERLAPPED lpOverlapped);
+	int									ConnectEx(const struct sockaddr* name, int namelen, PVOID lpSendBuffer, DWORD dwSendDataLength, LPDWORD lpdwBytesSent, LPOVERLAPPED lpOverlapped);
+	int									DisconnectEx(LPOVERLAPPED lpOverlapped, DWORD dwFlags, DWORD reserved);
+	void								GetAcceptExSockaddrs(PVOID lpOutputBuffer, DWORD dwReceiveDataLength, DWORD dwLocalAddressLength, DWORD dwRemoteAddressLength, LPSOCKADDR* LocalSockaddr, LPINT LocalSockaddrLength, LPSOCKADDR* RemoteSockaddr, LPINT RemoteSockaddrLength);
+	int									RecvEx(LPWSABUF lpBuffers, DWORD dwBufferCount, LPDWORD lpNumberOfBytesRecvd, LPDWORD lpFlags, LPWSAOVERLAPPED lpOverlapped);
+	int									SendEx(LPWSABUF lpBuffers, DWORD dwBufferCount, LPDWORD lpNumberOfBytesSent, DWORD dwFlags, LPWSAOVERLAPPED lpOverlapped);
+	void								Attach(SOCKET socket) { m_socket = socket; }
+	void								Detach() { m_socket = INVALID_SOCKET; }
+	int									GetPeerName(std::string & rAddress, WORD & rPort);
+	int									GetLocalName(std::string & rAddress, WORD & rPort);
+	int									GetPeerAddr(SockAddr & rAddr);
+	int									GetLocalAddr(SockAddr & rAddr);
+	SOCKET								GetRawSocket() { return m_socket; }
+	bool								IsCreated() { return INVALID_SOCKET != m_socket; }
+	operator SOCKET() { return *((SOCKET *)&m_socket); }
+	Socket &							operator=(const Socket & rhs);
+public:
+	int									SetOption(DWORD dwSockOption);
+	int									SetNonBlocking(BOOL bActive);
+	int									SetReuseAddr(BOOL bActive);
+	int									SetLinger(BOOL bActive, WORD wTime);
+	int									SetTCPNoDelay(BOOL bActive);
+	int									SetKeepAlive(BOOL bActive);
+	int									SetKeepAlive(DWORD dwKeepAliveTime, DWORD dwKeepAliveInterval);
+	int									SetConditionalAccept(BOOL bActive);
+	int									GetCurReadSocketBuffer();
+protected:
+	SOCKET								m_socket;
+	static LPFN_ACCEPTEX				m_lpfnAcceptEx;
+	static LPFN_CONNECTEX				m_lpfnConnectEx;
+	static LPFN_DISCONNECTEX			m_lpfnDisconnectEx;
+	static LPFN_GETACCEPTEXSOCKADDRS	m_lpfnGetAcceptExSockAddrs;
+	static LPFN_TRANSMITFILE			m_lpfnTransmitFile;
 
-	/* Bind a Server socket */
-	int		Bind();
-
-	/* Make the Server socket listen to the set port */
-	int		Listen();
-
-	/* Connect the Client socket to the server */
-	int		Connect();
-
-	/*
-		Accept a new Socket
-		@param &sock:	Socket to be accepted. Will be closed before
-	*/
-	int		Accept(Socket &sock);
-
-	/* Close a socket and set it as INACTIVE */
-	int		Close();
-
-	/*
-		Send data to a socket
-		@param &sock:	Socket to send data
-		@param &src:	Data to send
-	*/
-	int		Send(Socket &sock, std::string &src);
-	/*
-		Receive data from a socket
-		@param &sock:	Socket from which to receive data
-		@param &dest:	Received data
-	*/
-	int		Recv(Socket &sock, std::string &dest);
-
-	// Return the state of the socket
-	STATE	getState() const { return _state; }
-	// Return the raw socket of the class (Should be private or protected)
-	SOCKET	getRawSocket() const { return _sock; }
-	// Return the IP address of the Client
-	std::string	getAddr();
-
-private:
-	// Create socket from accept
-	Socket(SOCKET &sock, SOCKADDR_IN &sin);
-
-	/*
-		Set the socket state
-		@param state:	State to be set
-	*/
-	void	setState(STATE state) { _state = state; }
+	sockaddr_in m_sockAddr;	// real socket address
+	std::string	m_strAddr;
 };
 
-#endif // !SOCKET_HPP_
 
+inline int Socket::AcceptEx(Socket &rAcceptSocket, PVOID lpOutputBuffer, DWORD dwReceiveDataLength, DWORD dwLocalAddressLength, DWORD dwRemoteAddressLength, LPDWORD lpdwBytesReceived, LPOVERLAPPED lpOverlapped)
+{
+	if (!m_lpfnAcceptEx(m_socket, rAcceptSocket.GetRawSocket(), lpOutputBuffer, dwReceiveDataLength, dwLocalAddressLength, dwRemoteAddressLength, lpdwBytesReceived, lpOverlapped))
+	{
+		int rc = WSAGetLastError();
+		if (ERROR_IO_PENDING != rc)
+		{
+			return rc;
+		}
+	}
+	return 0;
+}
+
+inline int Socket::ConnectEx(const struct sockaddr* name, int namelen, PVOID lpSendBuffer, DWORD dwSendDataLength, LPDWORD lpdwBytesSent, LPOVERLAPPED lpOverlapped)
+{
+	if (!m_lpfnConnectEx(m_socket, name, namelen, lpSendBuffer, dwSendDataLength, lpdwBytesSent, lpOverlapped))
+	{
+		int rc = WSAGetLastError();
+		if (ERROR_IO_PENDING != rc)
+		{
+			return rc;
+		}
+	}
+	return 0;
+}
+
+inline int Socket::DisconnectEx(LPOVERLAPPED lpOverlapped, DWORD dwFlags, DWORD reserved)
+{
+	if (!m_lpfnDisconnectEx(m_socket, lpOverlapped, dwFlags, reserved))
+	{
+		int rc = WSAGetLastError();
+		if (ERROR_IO_PENDING != rc)
+		{
+			return rc;
+		}
+	}
+	return 0;
+}
+
+inline void Socket::GetAcceptExSockaddrs(PVOID lpOutputBuffer, DWORD dwReceiveDataLength, DWORD dwLocalAddressLength, DWORD dwRemoteAddressLength, LPSOCKADDR* LocalSockaddr, LPINT LocalSockaddrLength, LPSOCKADDR* RemoteSockaddr, LPINT RemoteSockaddrLength)
+{
+	m_lpfnGetAcceptExSockAddrs(lpOutputBuffer, dwReceiveDataLength, dwLocalAddressLength, dwRemoteAddressLength, LocalSockaddr, LocalSockaddrLength, RemoteSockaddr, RemoteSockaddrLength);
+}
+
+inline int Socket::RecvEx(LPWSABUF lpBuffers, DWORD dwBufferCount, LPDWORD lpNumberOfBytesRecvd, LPDWORD lpFlags, LPWSAOVERLAPPED lpOverlapped)
+{
+	if (0 != ::WSARecv(m_socket, lpBuffers, dwBufferCount, lpNumberOfBytesRecvd, lpFlags, lpOverlapped, NULL))
+	{
+		int rc = WSAGetLastError();
+		if (ERROR_IO_PENDING != rc)
+		{
+			return rc;
+		}
+	}
+	return 0;
+}
+
+inline int Socket::SendEx(LPWSABUF lpBuffers, DWORD dwBufferCount, LPDWORD lpNumberOfBytesSent, DWORD dwFlags, LPWSAOVERLAPPED lpOverlapped)
+{
+	if (0 != ::WSASend(m_socket, lpBuffers, dwBufferCount, lpNumberOfBytesSent, dwFlags, lpOverlapped, NULL))
+	{
+		int rc = WSAGetLastError();
+		if (ERROR_IO_PENDING != rc)
+		{
+			return rc;
+		}
+	}
+
+	return 0;
+}
+
+inline Socket & Socket::operator=(const Socket & rhs)
+{
+	m_socket = rhs.m_socket;
+	return *this;
+}
+
+
+#endif // !SOCKET_HPP_

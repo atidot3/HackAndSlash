@@ -7,7 +7,6 @@ Copyright (c) 2016 Christian Chaumery
 */
 
 #include	<Network/ServerApp.hpp>
-#include	<Network\SubNetwork\IOCPServer.h>
 #include	<list>
 #include	<iostream>
 

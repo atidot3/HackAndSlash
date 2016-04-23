@@ -39,16 +39,7 @@
     <ClCompile Include="Sources\Utils\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Network\SubNetwork\IOCPServer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Network\SubNetwork\IOCPHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Network\NetworkAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Network\WIN32_API\Acceptor.cpp">
+    <ClCompile Include="Sources\Network\Network.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,16 +68,10 @@
     <ClInclude Include="Headers\Utils\Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Network\SubNetwork\IOCPServer.h">
+    <ClInclude Include="Headers\Network\SockAddr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Network\SubNetwork\IOCPHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Network\NetworkAPI.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Network\WIN32_API\Acceptor.hpp">
+    <ClInclude Include="Headers\Network\Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
