@@ -29,6 +29,8 @@ struct sIOCONTEXT : public OVERLAPPED
 	void Reset() { ZeroMemory(this, sizeof(OVERLAPPED)); }
 };
 
+class Connection;
+
 class Network
 {
 public:
@@ -47,7 +49,7 @@ public:
 
 
 	int			PostAccept();
-	Socket		*CompleteAccept(DWORD dwTransferedBytes);
+	void		CompleteAccept(DWORD dwTransferedBytes, Connection* pSession);
 	int			PostRecv();
 	int			CompleteRecv();
 private:

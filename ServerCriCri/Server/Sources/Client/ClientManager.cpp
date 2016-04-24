@@ -21,16 +21,16 @@ ClientManager& ClientManager::Instance()
 {
 	return m_instance;
 }
-void		ClientManager::AddClient(Client* _client)
+void		ClientManager::AddClient(Connection* _client)
 {
 	mutex.lock();
 	clientList.push_back(_client);
 	mutex.unlock();
 }
-Client*		ClientManager::getClient(int index)
+Connection*		ClientManager::getClient(int index)
 {
 	mutex.lock();
-	std::list<Client*>::iterator	it;
+	std::list<Connection*>::iterator	it;
 	int i;
 
 	for (i = 0, it = clientList.begin(); i < index && it != clientList.end(); i++, it++);
@@ -47,10 +47,10 @@ Client*		ClientManager::getClient(int index)
 	mutex.unlock();
 	return NULL;
 }
-void		ClientManager::removeClient(Client* client)
+void		ClientManager::removeClient(Connection* client)
 {
 	mutex.lock();
-	std::list<Client*>::iterator	it = clientList.begin();
+	std::list<Connection*>::iterator	it = clientList.begin();
 	while (it != clientList.end())
 	{
 		if ((*it) == client)
@@ -67,7 +67,7 @@ void		ClientManager::removeClient(Client* client)
 void		ClientManager::removeAllClient()
 {
 	mutex.lock();
-	std::list<Client*>::iterator	it = clientList.begin();
+	std::list<Connection*>::iterator	it = clientList.begin();
 	while (it != clientList.end())
 	{
 		delete (*it);

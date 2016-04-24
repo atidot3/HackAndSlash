@@ -1,4 +1,5 @@
 #include "Network.h"
+#include "Connection.h"
 
 Network::Network()
 {
@@ -91,7 +92,7 @@ int Network::PostAccept()
 		std::cout << "PostAccept failed : "<< GetLastError() << std::endl;
 	return rc;
 }
-Socket	*Network::CompleteAccept(DWORD dwTransferedBytes)
+void Network::CompleteAccept(DWORD dwTransferedBytes, Connection* pSession)
 {
 	UNREFERENCED_PARAMETER(dwTransferedBytes);
 
@@ -100,7 +101,7 @@ Socket	*Network::CompleteAccept(DWORD dwTransferedBytes)
 	int nLocalAddrLen = 0;
 	int nRemoteAddrLen = 0;
 
-	listenSocket.GetAcceptExSockaddrs(listener_state.wsabuf.buf,
+	acceptSocket.GetAcceptExSockaddrs(listener_state.wsabuf.buf,
 		0,
 		sizeof(SOCKADDR_IN) + 16,
 		sizeof(SOCKADDR_IN) + 16,
@@ -108,10 +109,18 @@ Socket	*Network::CompleteAccept(DWORD dwTransferedBytes)
 		&nLocalAddrLen,
 		(SOCKADDR**)&pRemoteAddr,
 		&nRemoteAddrLen);
-	std::cout << "SOCKET = " << listenSocket.GetRawSocket() << " SOCKET 2 = " << acceptSocket.GetRawSocket() << std::endl;
-	//SetAddress(pLocalAddr, pRemoteAddr);
+	
+	setsockopt(acceptSocket.GetRawSocket(), SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char *)&listener_state, sizeof(listener_state));
+	// associates new socket with completion port
+
+	HANDLE handle = CreateIoCompletionPort((HANDLE)acceptSocket.GetRawSocket(), m_hIOCP, (ULONG_PTR)pSession, 0);
+	if (NULL == handle)
+	{
+		printf("I/O completion port couldn't be created.(NULL == handle) hSock = %d, m_hIOCP = %d, pCompletionKey = %p", acceptSocket.GetRawSocket(), m_hIOCP, pSession);
+	}
 	ZeroMemory(listener_state.wsabuf.buf, sizeof(SOCKADDR_IN) + 16 + sizeof(SOCKADDR_IN) + 16);
-	return &acceptSocket;
+	pSession->clientSock = &acceptSocket;
+	pSession->PostRecv();
 }
 int Network::CompleteIO(sIOCONTEXT * pIOContext, DWORD dwParam)
 {
@@ -119,5 +128,25 @@ int Network::CompleteIO(sIOCONTEXT * pIOContext, DWORD dwParam)
 }
 int Network::PostRecv()
 {
+	DWORD dwFlags = 0;
+	DWORD dwTransferedBytes = 0;
+
+	listener_state.Reset();
+	listener_state.iomode = IOMODE_RECV;
+	listener_state.wsabuf.buf = new char(1024);
+	listener_state.wsabuf.len = 1024;
+
+
+	int rc = acceptSocket.RecvEx(&listener_state.wsabuf,
+		1,
+		&dwTransferedBytes,
+		&dwFlags,
+		&listener_state);
+
+	if (0 != rc)
+	{
+		printf("RecvEx Function Failed (%d)", rc);
+		return rc;
+	}
 	return 0;
 }

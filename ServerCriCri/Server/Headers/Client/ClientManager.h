@@ -14,6 +14,7 @@ Copyright (c) 2016 Entringer Antony
 #include <mutex>
 
 #include "Client.h"
+#include "Connection.h"
 
 class ClientManager
 {
@@ -21,13 +22,13 @@ public:
 	static ClientManager& Instance();
 	ClientManager();
 	~ClientManager();
-	void				AddClient(Client*);
-	Client*				getClient(int); // loop client until null
-	void				removeClient(Client*);
+	void				AddClient(Connection*);
+	Connection*				getClient(int); // loop client until null
+	void				removeClient(Connection*);
 	void				removeAllClient();
 	int					getConnectedClient();
 private:
-	std::list<Client*>	clientList;
+	std::list<Connection*>	clientList;
 	std::mutex			mutex;
 	static ClientManager m_instance;
 };

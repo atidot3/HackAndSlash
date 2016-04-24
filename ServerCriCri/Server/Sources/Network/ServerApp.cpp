@@ -142,7 +142,7 @@ void	ServerApp::run()
 	{
 		sIOCONTEXT* state = NULL;
 		Connection * pSession = NULL;
-		Socket *newConnection;
+
 		bResult = GetQueuedCompletionStatus(network.getHandle(), &dwBytesTransferred, (ULONG_PTR*)&pSession, (LPOVERLAPPED*)&state, INFINITE);
 		if (!bResult)
 		{
@@ -163,10 +163,15 @@ void	ServerApp::run()
 				case IOMODE_ACCEPT:
 				{
 					std::cout << "ACCEPT PENDING" << std::endl;
-					newConnection = network.CompleteAccept(dwBytesTransferred);
-					send(newConnection->GetRawSocket(), "Salut", 5, 0);
-					newConnection->Close();
+					network.CompleteAccept(dwBytesTransferred, pSession);
 					//delete newConnection; // CRASH WHY
+					if (pSession != NULL)
+					{
+						// store it ?
+						//pSession->OnAccept();
+						//sCMANAGER.AddClient(pSession);
+						//send(pSession->clientSock->GetRawSocket(), "Salut", 5, 0);
+					}
 					break;
 				}
 				case IOMODE_CONNECT:
@@ -189,7 +194,7 @@ void	ServerApp::run()
 				}
 				case IOMODE_UNKNOW:
 				{
-					std::cout << "* error, unknown operation!!!\n" << std::endl;
+					std::cout << "* error, IOMODE_UNKNOW unknown operation!!!\n" << std::endl;
 					break;
 				}
 				default:
